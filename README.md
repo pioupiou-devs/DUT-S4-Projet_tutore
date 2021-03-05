@@ -1,3 +1,6 @@
 # DUT-S4-Projet_tutore
 
-# test
+## Equipe D : Appli mobile en temps différé
+
+## TO DO
+trucs to do

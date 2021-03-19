@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -27,7 +28,14 @@ public class MainActivity extends AppCompatActivity
                 LineChart mChart = findViewById(R.id.chart);
                 mChart.setTouchEnabled(true);
                 mChart.setPinchZoom(true);
-                
+
+                //DatabaseTools.getValues(this, 1);
+                try {
+                    DatabaseTools.openConnection("jdbc:mariadb://localhost/PT?useUnicode=yes&characterEncoding=UTF-8");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
                 ArrayList<Entry> values = new ArrayList<>();
                 values.add(new Entry(1, 50));
                 values.add(new Entry(2, 30));

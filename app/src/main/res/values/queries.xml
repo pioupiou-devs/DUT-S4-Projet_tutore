@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="get_values" type="string">SELECT value, date (ou time) FROM DATA WHERE numSensor =</item>
+</resources>

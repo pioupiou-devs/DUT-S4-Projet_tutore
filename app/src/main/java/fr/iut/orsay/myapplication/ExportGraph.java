@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.pdf.PdfDocument;
+import android.os.Environment;
 
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.data.ChartData;
@@ -20,7 +21,6 @@ import java.util.regex.Pattern;
 
 /**
  * La classe qui gère les export de données depuis un graphique
- *
  * @author Antonin FOUQUES
  */
 public class ExportGraph
@@ -40,8 +40,7 @@ public class ExportGraph
          */
         public static void exportToPNG(Chart chart, String fileName)
             {
-                //Si l'export png fail
-                if (!chart.saveToGallery(fileName))
+                if (!chart.saveToGallery(fileName,100)) //Si l'export png fail
                     System.err.println("Fail to export !"); //signale le message d'erreur
             }
         
@@ -56,9 +55,10 @@ public class ExportGraph
             {
                 exportToPNG(chart, fileName); //Créer l'image à inséré dans le fichier PDF
                 
-                String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath(); //Récupère le chemin vers le dossier de stockage
+                String baseDir = Environment.getDataDirectory().getAbsolutePath(); //Récupère le chemin vers le dossier de stockage
                 String filePath = baseDir + File.separator + "DCIM" + File.separator + fileName; //Création du chemin total
                 Bitmap bitmap = BitmapFactory.decodeFile(filePath + ".png"); //Transformation du fichier png en bitmap
+                new File(filePath + ".png").delete(); //suppression du fichier png inutile
                 PdfDocument pdfDocument = new PdfDocument(); //Création de l'outil de création de fichier pdf
                 PdfDocument.Page page = pdfDocument.startPage(new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create()); //Création d'une page du document
                 Canvas canvas = page.getCanvas(); //Création d'un canvas (l'outil de dessin) à partir de la paged du document
@@ -77,22 +77,21 @@ public class ExportGraph
          * @param fileName nom du fichier exporté
          * @throws IOException retourne une erreur si la création du fichier à posé problème
          */
-        public static void exportToCSV(Chart chart, String fileName) throws IOException
+        /*public static void exportToCSV(Chart chart, String fileName) throws IOException
             {
-                
                 
                 String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath(); //Récupère le chemin vers le dossier de stockage
                 String filePath = baseDir + File.separator + fileName; //Création du chemin total
-                File file = new File(filePath); //Création du fichier
+                File file = new File(filePath + ".csv"); //Création du fichier
                 CSVWriter writer; //Création de l'outil d'écriture du fichier CSV
                 
                 if (file.exists() && !file.isDirectory()) //Vérification que le fichier n'éxiste pas ou qu'il ne soit pas un dossier
                     {
-                        FileWriter mFileWriter = new FileWriter(filePath, false); //Création de l'outil d'écriture du fichier CSV (ici en écrasant le contenu)
+                        FileWriter mFileWriter = new FileWriter(filePath + ".csv", false); //Création de l'outil d'écriture du fichier CSV (ici en écrasant le contenu)
                         writer = new CSVWriter(mFileWriter);
                     }
                 else
-                    writer = new CSVWriter(new FileWriter(filePath));
+                    writer = new CSVWriter(new FileWriter(filePath + ".csv"));
                 
                 
                 ChartData data = chart.getData(); //Récupération des données du graphique
@@ -151,5 +150,5 @@ public class ExportGraph
                     }
                 
                 writer.close(); //Fermeture de l'outil d'écriture du fichier CSV
-            }
+            }*/
     }

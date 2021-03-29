@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -15,7 +16,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -113,15 +113,14 @@ public class MainActivity extends AppCompatActivity
                         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
                         dataSets.add(set1);
                         LineData data = new LineData(dataSets);
+                        System.out.println("data: " + data.toString());
                         mChart.setData(data);
                     }
-                try
-                    {
-                        ExportGraph.exportToCSV(mChart,"TESTDATA.csv");
-                    }
-                catch (IOException e)
-                    {
-                        e.printStackTrace();
-                    }
+                
+                Button button = findViewById(R.id.button);
+                button.setOnClickListener(v ->
+                {
+                    ExportGraph.exportToPNG(mChart, "TESTDATA");
+                });
             }
     }

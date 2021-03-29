@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -113,6 +114,14 @@ public class MainActivity extends AppCompatActivity
                         dataSets.add(set1);
                         LineData data = new LineData(dataSets);
                         mChart.setData(data);
+                    }
+                try
+                    {
+                        ExportGraph.exportToCSV(mChart,"TESTDATA.csv");
+                    }
+                catch (IOException e)
+                    {
+                        e.printStackTrace();
                     }
             }
     }

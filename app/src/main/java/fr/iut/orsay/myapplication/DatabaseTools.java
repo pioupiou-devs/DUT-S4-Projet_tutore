@@ -1,35 +1,29 @@
 package fr.iut.orsay.myapplication;
 
 import android.content.Context;
+import android.os.StrictMode;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseTools {
+    final static String LOGIN = "root", PASSWORD = null;
 
     public static Connection openConnection(String url) throws SQLException {
         Connection co = null;
-        //url = "jdbc:mariadb://localhost/PT?useUnicode=yes&characterEncoding=UTF-8";
-        try {
-            Class.forName("org.mariadb.jdbc.Driver");
-            co = DriverManager.getConnection(url);
-        } catch (ClassNotFoundException e) {
-            System.out.println("il manque le driver oracle");
-            System.exit(1);
-        } catch (SQLException e) {
-            System.out.println("impossible de se connecter a l'url : " + url);
-            System.exit(1);
-        }
-        System.out.println("coucou ! " + co.getMetaData());
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        co = DriverManager.getConnection(url);
+        //System.out.println("coucou ! " + co.getMetaData());
         return co;
     }
-
-    //"jdbc:mariadb://localhost/PT?useUnicode=yes&characterEncoding=UTF-8";
 
     public static void getValues(Context context, int numSensor){
         //executeQuery(context.getResources().getString(R.string.get_values) + numSensor);
 
-        //graph -> arraylist avec temps/date et valeur
+        //graph -> arraylist<Entry> avec temps/date et valeur
     }
 }

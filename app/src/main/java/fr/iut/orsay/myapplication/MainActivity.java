@@ -1,11 +1,14 @@
 package fr.iut.orsay.myapplication;
 
+import android.Manifest;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.StrictMode;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -27,13 +30,20 @@ public class MainActivity extends AppCompatActivity
             {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_main);
+
+
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 0);
+
+
                 LineChart mChart = findViewById(R.id.chart);
                 mChart.setTouchEnabled(true);
                 mChart.setPinchZoom(true);
 
+
+
                 //DatabaseTools.getValues(this, 1);
                 try {
-                    DatabaseTools.openConnection("jdbc:mariadb://localhost/PT?useUnicode=yes&characterEncoding=UTF-8");
+                    DatabaseTools.openConnection("jdbc:mariadb://localhost:3306/pt?user=root&password=root");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }

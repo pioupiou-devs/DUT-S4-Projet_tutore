@@ -1,14 +1,11 @@
 package fr.iut.orsay.myapplication;
 
-import android.Manifest;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.StrictMode;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -18,36 +15,46 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
     {
         
         // NOUILLES
-    
+        
         @Override protected void onCreate(Bundle savedInstanceState)
             {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_main);
-
-
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 0);
-
-
+                
+                //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 0);
+                
                 LineChart mChart = findViewById(R.id.chart);
                 mChart.setTouchEnabled(true);
                 mChart.setPinchZoom(true);
-
-
-
-                //DatabaseTools.getValues(this, 1);
-                try {
-                    DatabaseTools.openConnection("jdbc:mariadb://localhost:3306/pt?user=root&password=root");
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-
+                
+                
+                Thread t = new Thread()
+                    {
+                        @Override public void run()
+                            {
+                                try
+                                    {
+                                        Connection co = DatabaseTools.openConnection("jdbc:mariadb://localhost:3306/pt?user=root&password=root");
+                                        Statement statement;
+                                        statement = co.createStatement();
+                                        System.out.println(statement.executeQuery("SELECT * FROM pt.data_sensor"));
+                                    }
+                                catch (SQLException throwables)
+                                    {
+                                        throwables.printStackTrace();
+                                    }
+                            }
+                    };
+                
                 ArrayList<Entry> values = new ArrayList<>();
                 values.add(new Entry(1, 50));
                 values.add(new Entry(2, 30));
@@ -96,7 +103,7 @@ public class MainActivity extends AppCompatActivity
                         LineData data = new LineData(dataSets);
                         mChart.setData(data);
                     }
-               // LineDataSet set1;
+                // LineDataSet set1;
                 if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0)
                     {
                         set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);

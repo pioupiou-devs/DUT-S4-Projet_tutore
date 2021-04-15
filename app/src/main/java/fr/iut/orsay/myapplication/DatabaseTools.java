@@ -17,7 +17,7 @@ public class DatabaseTools {
         StrictMode.setThreadPolicy(policy);
 
         co = DriverManager.getConnection(url);
-        //System.out.println("coucou ! " + co.getMetaData());
+        System.out.println("coucou ! " + co.getMetaData());
         return co;
     }
 

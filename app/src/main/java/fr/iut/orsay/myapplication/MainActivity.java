@@ -4,9 +4,10 @@ import android.Manifest;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,12 +19,19 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity
     {
-    
+        private static final String DATABASE_URL = "jdbc:mariadb://localhost:3306/pt?user=root&password=root";
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override protected void onCreate(Bundle savedInstanceState)
             {
                 super.onCreate(savedInstanceState);
@@ -37,14 +45,15 @@ public class MainActivity extends AppCompatActivity
                 mChart.setTouchEnabled(true);
                 mChart.setPinchZoom(true);
 
-
-
-                //DatabaseTools.getValues(this, 1);
-                try {
-                    DatabaseTools.openConnection("jdbc:mariadb://localhost:3306/pt?user=root&password=root");
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
+                CompletableFuture<Void> databaseConnecting = CompletableFuture.runAsync(() -> {
+                    Connection co = null;
+                    try {
+                        co = DatabaseTools.openConnection(DATABASE_URL);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    System.out.println("connexion =" + co.toString());
+                });
 
                 ArrayList<Entry> values = new ArrayList<>();
                 values.add(new Entry(1, 50));

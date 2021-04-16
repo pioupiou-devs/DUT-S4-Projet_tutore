@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="get_values" type="string">SELECT value, date (ou time) FROM DATA WHERE numSensor =</item>
+    <item name="get_values" type="string">SELECT creationDate, valueData FROM DATA_SENSOR WHERE numSensor = ?</item>
+    <item name="get_values_with_specified_dates" type="string">SELECT creationDate, valueData FROM DATA_SENSOR WHERE numSensor = ? And creationDate &lt;= ? And creationDate &gt;= ?</item>
 </resources>

@@ -20,12 +20,11 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Time;
+
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity
     {
@@ -45,17 +44,29 @@ public class MainActivity extends AppCompatActivity
                 mChart.setTouchEnabled(true);
                 mChart.setPinchZoom(true);
 
+
+                //skip-bind-address on mariadb on file "my.ini" ?
                 CompletableFuture<Void> databaseConnecting = CompletableFuture.runAsync(() -> {
                     Connection co = null;
+
                     try {
                         co = DatabaseTools.openConnection(DATABASE_URL);
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
+
                     System.out.println("connexion =" + co.toString());
                 });
 
+                PreparedStatement preparedStatement = co.prepareStatement(getResources().getString(R.string.get_values));
                 ArrayList<Entry> values = new ArrayList<>();
+
+                try {
+                    values = DatabaseTools.getValues(1, preparedStatement);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
                 values.add(new Entry(1, 50));
                 values.add(new Entry(2, 30));
                 values.add(new Entry(3, 100));

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
     {
-    
         @Override protected void onCreate(Bundle savedInstanceState)
             {
                 super.onCreate(savedInstanceState);
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity
                 LineChart mChart = findViewById(R.id.chart);
                 mChart.setTouchEnabled(true);
                 mChart.setPinchZoom(true);
-                
+
                 ArrayList<Entry> values = new ArrayList<>();
                 values.add(new Entry(1, 50));
                 values.add(new Entry(2, 30));

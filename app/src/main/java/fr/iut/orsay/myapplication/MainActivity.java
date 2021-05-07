@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -50,10 +51,12 @@ public class MainActivity extends AppCompatActivity {
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
-
-            System.out.println("connexion =" + co.toString());
             return co;
         });
+
+        //https://stackoverflow.com/questions/42909979/mpandroidchart-how-can-i-best-set-the-x-axis-values-as-strings-dates
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setValueFormatter(new DateValueFormatter());
 
         ArrayList<Entry> values = new ArrayList<>();
 
@@ -64,15 +67,16 @@ public class MainActivity extends AppCompatActivity {
             throwables.printStackTrace();
         }
 
-                /*values.add(new Entry(1, 50));
-                values.add(new Entry(2, 30));
-                values.add(new Entry(3, 100));
-                values.add(new Entry(5, 12));
-                values.add(new Entry(7, 98));
-                values.add(new Entry(8, 42));
-                values.add(new Entry(6, 33));
-                values.add(new Entry(4, 66));
-                */
+        /*
+        values.add(new Entry(1, 50));
+        values.add(new Entry(2, 30));
+        values.add(new Entry(3, 100));
+        values.add(new Entry(5, 12));
+        values.add(new Entry(7, 98));
+        values.add(new Entry(8, 42));
+        values.add(new Entry(6, 33));
+        values.add(new Entry(4, 66));
+        */
         LineDataSet set1;
         if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
             set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);

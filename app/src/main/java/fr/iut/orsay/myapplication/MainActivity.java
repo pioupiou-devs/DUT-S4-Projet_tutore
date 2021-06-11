@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity
         @Override protected void onCreate(Bundle savedInstanceState)
             {
                 super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_main);
+                setContentView(R.layout.activity_curve);
                 LineChart mChart = findViewById(R.id.chart);
                 mChart.setTouchEnabled(true);
                 mChart.setPinchZoom(true);

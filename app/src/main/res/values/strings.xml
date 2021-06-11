@@ -12,4 +12,7 @@
     <string name="txtMaxValue">Maximal Value :</string>
     <string name="txtMinValueInit">0</string>
     <string name="txtMinValue">Minimal Value :</string>
+    <string name="menuList">List</string>
+    <string name="menuFilter">Filter</string>
+    <string name="menuCurve">Curve</string>
 </resources>

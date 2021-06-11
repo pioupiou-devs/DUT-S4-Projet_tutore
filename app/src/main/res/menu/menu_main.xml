@@ -6,18 +6,18 @@
             android:id="@+id/action_recents"
             android:enabled="true"
             android:icon="@drawable/list_icon"
-            android:title="List"
+            android:title="@string/menuList"
             app:showAsAction="ifRoom" />
     <item
             android:id="@+id/action_favorites"
             android:enabled="true"
             android:icon="@drawable/filter_icon"
-            android:title="Filter"
+            android:title="@string/menuFilter"
             app:showAsAction="ifRoom" />
     <item
             android:id="@+id/action_nearby"
             android:enabled="true"
             android:icon="@drawable/curve_icon"
-            android:title="Curve"
+            android:title="@string/menuCurve"
             app:showAsAction="ifRoom" />
 </menu>

@@ -15,4 +15,11 @@
     <string name="menuList">List</string>
     <string name="menuFilter">Filter</string>
     <string name="menuCurve">Curve</string>
+    <string name="btnExportPDF">Export to PDF</string>
+    <string name="btnExportPNG">Export to PNG</string>
+    <string name="btnExportCSV">Export to CSV</string>
+    <string name="btnImport">Import Data</string>
+    <string name="txtName">TextView</string>
+    <string name="btnEdit">Edit</string>
+    <string name="btnDelete">Delete</string>
 </resources>

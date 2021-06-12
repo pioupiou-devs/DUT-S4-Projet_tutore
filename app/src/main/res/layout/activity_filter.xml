@@ -19,13 +19,15 @@
             android:id="@+id/radioType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Type" />
+            android:text="Type"
+            android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:id="@+id/radioSensor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sensor" />
+            android:text="Sensor"
+            android:onClick="onRadioButtonClicked"/>
     </RadioGroup>
 
     <Spinner
@@ -36,7 +38,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="44dp"
-            android:layout_marginStart="16dp" />
+            android:layout_marginStart="16dp"
+        />
 
     <TextView
         android:id="@+id/lblDataList"

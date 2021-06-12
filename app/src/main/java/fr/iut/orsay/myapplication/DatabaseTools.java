@@ -13,16 +13,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-
 import java.time.LocalDateTime;
-
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import com.github.mikephil.charting.data.Entry;
 
 public class DatabaseTools {
     public static Connection openConnection(String url) throws SQLException, ClassNotFoundException {
-        Connection co = null;
+        Connection co;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -33,43 +33,78 @@ public class DatabaseTools {
         return co;
     }
 
-    public static ArrayList<Entry> getValues(int numSensor, int numIPSO, PreparedStatement preparedStatement) throws SQLException {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static ArrayList<Entry> getValues(int numSensor, int numIPSO, PreparedStatement preparedStatement) throws SQLException, ExecutionException, InterruptedException {
         preparedStatement.setInt(1, numSensor);
         preparedStatement.setInt(2, numIPSO);
-        ResultSet resultSet = preparedStatement.executeQuery();
+
+        CompletableFuture<ResultSet> queryExecution = CompletableFuture.supplyAsync(() -> {
+            ResultSet resultSet = null;
+            try {
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return resultSet;
+        });
+
+        ResultSet resultSet = queryExecution.get();
 
         ArrayList<Entry> values = new ArrayList<>();
         int i = 1;
         while(resultSet.next()) {
-            //values.add(new Entry(resultSet.getTimestamp(1), Float.parseFloat(resultSet.getString(2)))); //TODO : problème de compatibilité entre les Entry et les DateTime
-            values.add(new Entry(new Long(resultSet.getTimestamp(1).getTime()).floatValue(), Float.parseFloat(resultSet.getString(2)))); //TODO : problème de compatibilité entre les Entry et les DateTime
+            //values.add(new Entry(resultSet.getTimestamp(1), Float.parseFloat(resultSet.getString(2))));
+            values.add(new Entry(Long.valueOf(resultSet.getTimestamp(1).getTime()).floatValue(), Float.parseFloat(resultSet.getString(2)))); //TODO : problème de compatibilité entre les Entry et les DateTime
             i++;
         }
         return values;
     }
 
-    /*public static ArrayList<Entry> getValues(int numSensor, int numIPSO, PreparedStatement preparedStatement, LocalDateTime dateMin, LocalDateTime dateMax) throws SQLException { //surcharge pour la spécification d'une plage de dates
+    //surcharge pour la spécification d'une plage de dates
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static ArrayList<Entry> getValues(int numSensor, int numIPSO, PreparedStatement preparedStatement, LocalDateTime dateMin, LocalDateTime dateMax) throws SQLException, ExecutionException, InterruptedException {
         preparedStatement.setInt(1, numSensor);
         preparedStatement.setInt(2, numIPSO);
         preparedStatement.setTimestamp(2, Timestamp.valueOf(String.valueOf(dateMax)));
         preparedStatement.setTimestamp(3, Timestamp.valueOf(String.valueOf(dateMin)));
 
-        ResultSet resultSet = preparedStatement.executeQuery();
+        CompletableFuture<ResultSet> queryExecution = CompletableFuture.supplyAsync(() -> {
+            ResultSet resultSet = null;
+            try {
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return resultSet;
+        });
+
+        ResultSet resultSet = queryExecution.get();
 
         ArrayList<Entry> values = new ArrayList<>();
         while(resultSet.next()) {
-            values.add(new Entry(resultSet.getTimestamp(1), Float.parseFloat(resultSet.getString(2)))); //TODO : problème de compatibilité entre les Entry et les DateTime
+            //values.add(new Entry(resultSet.getTimestamp(1), Float.parseFloat(resultSet.getString(2))));
+            values.add(new Entry(Long.valueOf(resultSet.getTimestamp(1).getTime()).floatValue(), Float.parseFloat(resultSet.getString(2)))); //TODO : problème de compatibilité entre les Entry et les DateTime
         }
         return values;
-    }*/
+    }
 
     //call this method when radio button "type" is selected, it returns the list of all types
-    //https://www.tutorialspoint.com/how-can-i-add-items-to-a-spinner-in-android
-    public static ArrayList<String> getTypes(Connection co, Context context) throws SQLException {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static ArrayList<String> getTypes(Connection co, String query) throws SQLException, ExecutionException, InterruptedException {
         ArrayList<String> listTypes = new ArrayList<>();
-
         Statement statement = co.createStatement();
-        ResultSet resultSet = statement.executeQuery(context.getResources().getString(R.string.get_types));
+
+        CompletableFuture<ResultSet> queryExecution = CompletableFuture.supplyAsync(() -> {
+            ResultSet resultSet = null;
+            try {
+                resultSet = statement.executeQuery(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return resultSet;
+        });
+
+        ResultSet resultSet = queryExecution.get();
 
         while (resultSet.next()){
             listTypes.add(resultSet.getInt(1) + " - " + resultSet.getString(2) + " (" + resultSet.getString(3) + ")");
@@ -78,11 +113,22 @@ public class DatabaseTools {
     }
 
     //call this method to get types from a specified sensor
-    public static ArrayList<String> getTypes(int numSensor, PreparedStatement preparedStatement) throws SQLException {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static ArrayList<String> getTypes(int numSensor, PreparedStatement preparedStatement) throws SQLException, ExecutionException, InterruptedException {
         ArrayList<String> listTypes = new ArrayList<>();
 
         preparedStatement.setInt(1, numSensor);
-        ResultSet resultSet = preparedStatement.executeQuery();
+
+        CompletableFuture<ResultSet> queryExecution = CompletableFuture.supplyAsync(() -> {
+            ResultSet resultSet = null;
+            try {
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return resultSet;
+        });
+        ResultSet resultSet = queryExecution.get();
 
         while(resultSet.next()){
             listTypes.add(resultSet.getInt(1) + " - " + resultSet.getString(2) + " (" + resultSet.getString(3) + ")");
@@ -91,14 +137,25 @@ public class DatabaseTools {
     }
 
     //call this method when radio button "sensor" is selected, it returns the list of all sensors
-    public static ArrayList<String> getSensors(Connection co, Context context) throws SQLException{
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static ArrayList<String> getSensors(Connection co, String query) throws SQLException, ExecutionException, InterruptedException {
         ArrayList<String> listSensors = new ArrayList<>();
-
         Statement statement = co.createStatement();
-        ResultSet resultSet = statement.executeQuery(context.getResources().getString(R.string.get_sensors));
+
+        CompletableFuture<ResultSet> queryExecution = CompletableFuture.supplyAsync(() -> {
+            ResultSet resultSet = null;
+            try {
+                resultSet = statement.executeQuery(query);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return resultSet;
+        });
+
+        ResultSet resultSet = queryExecution.get();
 
         while (resultSet.next()){
-            if(resultSet.getString(2) != "") {
+            if(!resultSet.getString(2).equals("")) {
                 listSensors.add(resultSet.getInt(1) + " - " + resultSet.getString(2));
             }
             else {
@@ -109,14 +166,25 @@ public class DatabaseTools {
     }
 
     //call this method to get sensors with a specified sensor
-    public static ArrayList<String> getSensors(int numIPSO, PreparedStatement preparedStatement) throws SQLException{
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static ArrayList<String> getSensors(int numIPSO, PreparedStatement preparedStatement) throws SQLException, ExecutionException, InterruptedException {
         ArrayList<String> listSensors = new ArrayList<>();
-
         preparedStatement.setInt(1, numIPSO);
-        ResultSet resultSet = preparedStatement.executeQuery();
+
+        CompletableFuture<ResultSet> queryExecution = CompletableFuture.supplyAsync(() -> {
+            ResultSet resultSet = null;
+            try {
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return resultSet;
+        });
+
+        ResultSet resultSet = queryExecution.get();
 
         while (resultSet.next()){
-            if(resultSet.getString(2) != "") {
+            if(!resultSet.getString(2).equals("")) {
                 listSensors.add(resultSet.getInt(1) + " - " + resultSet.getString(2));
             }
             else {

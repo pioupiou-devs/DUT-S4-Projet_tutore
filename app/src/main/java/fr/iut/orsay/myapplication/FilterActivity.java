@@ -17,23 +17,29 @@ import androidx.core.app.ActivityCompat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
     private static final String DATABASE_URL = "jdbc:mariadb://78.116.137.76:3306/pt?user=usr1&password=pt1";
     private Connection connection;
+    private PreparedStatement getTypes_ps;
+    private PreparedStatement getSensor_ps;
+
     private Spinner spnSelector;
     private RadioButton radioType;
     private RadioButton radioSensor;
     private ListView dataList;
-    private PreparedStatement getTypes_ps;
-    private PreparedStatement getSensor_ps;
+    private ListView currentData_lv;
 
-    public Connection getConnection() {
-        return connection;
-    }
+    private String selectedSensor;
+    private int selectedNumSensor;
+    private String selectedType;
+    private int selectedNumIPSO;
+    private ArrayList<String> currentData;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -42,13 +48,14 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         setContentView(R.layout.activity_filter);
 
         //get widgets references
-        RadioButton radioType = (RadioButton) findViewById(R.id.radioType);
-        RadioButton radioSensor = (RadioButton) findViewById(R.id.radioSensor);
-        ListView dataList = (ListView) findViewById(R.id.lstDataList);
+        radioType = (RadioButton) findViewById(R.id.radioType);
+        radioSensor = (RadioButton) findViewById(R.id.radioSensor);
+        dataList = (ListView) findViewById(R.id.lstDataList);
+        dataList.setOnItemClickListener(this);
         spnSelector = (Spinner) findViewById(R.id.spnSelector);
-
-        getTypes_ps = null;
-        getSensor_ps = null;
+        spnSelector.setOnItemSelectedListener(this);
+        currentData_lv = (ListView) findViewById(R.id.lstCurrentData);
+        currentData = new ArrayList<>();
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 0);
 
@@ -69,6 +76,8 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
             e.printStackTrace();
         }
 
+        getTypes_ps = null;
+        getSensor_ps = null;
         try {
             getTypes_ps = connection.prepareStatement(FilterActivity.this.getString(R.string.get_types_with_specified_sensor));
             getSensor_ps = connection.prepareStatement(FilterActivity.this.getString(R.string.get_sensors_with_specified_type));
@@ -102,13 +111,13 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if(view.getId() == R.id.spnSelector){
+        if(adapterView.getId() == R.id.spnSelector){
             if(radioSensor.isChecked()){
-                String sensor = (String) adapterView.getItemAtPosition(i);
-                int numSensor = Integer.parseInt(sensor.substring(0, 1));
+                selectedSensor = (String) adapterView.getItemAtPosition(i);
+                selectedNumSensor = Integer.parseInt(selectedSensor.substring(0, 1));
                 ArrayList<String> types = null;
                 try {
-                    types = DatabaseTools.getTypes(numSensor, getTypes_ps);
+                    types = DatabaseTools.getTypes(selectedNumSensor, getTypes_ps);
                 } catch (SQLException | ExecutionException | InterruptedException throwables) {
                     throwables.printStackTrace();
                 }
@@ -116,11 +125,11 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
                 dataList.setAdapter(adapter);
             }
             else if(radioType.isChecked()){
-                String type = (String) adapterView.getItemAtPosition(i);
-                int numType = Integer.parseInt(type.substring(0, 1));
+                selectedType = (String) adapterView.getItemAtPosition(i);
+                selectedNumIPSO = Integer.parseInt(selectedType.substring(0, 1));
                 ArrayList<String> sensors = null;
                 try {
-                    sensors = DatabaseTools.getSensors(numType, getSensor_ps);
+                    sensors = DatabaseTools.getSensors(selectedNumIPSO, getSensor_ps);
                 } catch (SQLException | ExecutionException | InterruptedException throwables) {
                     throwables.printStackTrace();
                 }
@@ -129,8 +138,24 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
             }
         }
     }
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
 
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {}
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        if (adapterView.getId() == R.id.lstDataList){
+            if (radioSensor.isChecked()){
+                selectedType = (String) adapterView.getItemAtPosition(i);
+                selectedNumIPSO = Integer.parseInt(selectedType.substring(0, 1));
+            }
+            else if(radioType.isChecked()){
+                selectedSensor = (String) adapterView.getItemAtPosition(i);
+                selectedNumSensor = Integer.parseInt(selectedSensor.substring(0, 1));
+            }
+        }
+        currentData.add("sensor : " + selectedSensor + ", type : " + selectedType);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(FilterActivity.this, R.layout.support_simple_spinner_dropdown_item, currentData);
+        currentData_lv.setAdapter(adapter);
     }
 }

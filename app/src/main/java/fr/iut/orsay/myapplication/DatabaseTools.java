@@ -1,6 +1,5 @@
 package fr.iut.orsay.myapplication;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 
@@ -13,7 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -29,7 +30,6 @@ public class DatabaseTools {
 
         Class.forName("org.mariadb.jdbc.Driver");
         co = DriverManager.getConnection(url);
-        System.out.println("coucou ! " + co.getMetaData());
         return co;
     }
 

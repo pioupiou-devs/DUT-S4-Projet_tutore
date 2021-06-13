@@ -2,9 +2,9 @@ package fr.iut.orsay.myapplication;
 
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.view.View;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -12,17 +12,20 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 
+
 public class Graph implements GraphInterface {
     
     int height = 0, width = 0, initHeight = 0, initWidth = 0, compoWidth = 0, compoHeight = 0;
     String graphName;
+    private static int NUM_ID = 0;
+    private int id;
     //ArrayList<String> labels = new ArrayList<>(); ///on stock toutes les noms des courbes
     //ArrayList<ArrayList<Entry>> dataSets = new ArrayList<>(); //on stickes les valeurs?
-    ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+    ArrayList<LineDataSet> dataSets = new ArrayList<>();
     
     LineChart chart = null;
     
-    public Graph(String graphName, int compoWidth, int compoHeight, int width, int height) {
+    public Graph(String graphName, int compoWidth, int compoHeight, int width, int height, View context) {
         this.graphName = graphName;
         this.compoWidth = compoWidth;
         this.compoHeight = compoHeight;
@@ -30,13 +33,20 @@ public class Graph implements GraphInterface {
         this.height = height;
         this.initWidth = width;
         this.initHeight = height;
+        id = NUM_ID;
+        NUM_ID++;
         
         //TODO: create the graph => chart
-        chart.setPinchZoom(true);
+        this.chart= create_chart(context);
+        
+        
     }
     
+
+
+    
     //public Graph(String graphName, int compoWidth, int compoHeight, int width, int height, ArrayList<String> labels, ArrayList<ArrayList<Entry>> dataSets) {
-    public Graph(String graphName, int compoWidth, int compoHeight, int width, int height, ArrayList<ILineDataSet> dataSets) {
+    public Graph(String graphName, int compoWidth, int compoHeight, int width, int height, ArrayList<LineDataSet> dataSets, View context) {
         this.graphName = graphName;
         this.compoWidth = compoWidth;
         this.compoHeight = compoHeight;
@@ -44,21 +54,50 @@ public class Graph implements GraphInterface {
         this.height = height;
         this.initWidth = width;
         this.initHeight = height;
-        //this.labels = labels;
+        id = NUM_ID;
+        NUM_ID++;
+        
+        
         this.dataSets = dataSets;
         
         //TODO: create the graph => chart
-        this.chart=create_chart();
-        chart.setPinchZoom(true);
+        this.chart=create_chart(context);
+
     }
     
-    
-    public LineChart create_chart() {//creer le cadre et initialiser les valeur du cadre
+    public LineChart create_chart(View context) {//creer le cadre et initialiser les valeur du cadre
         //TODO : finir la fonction et regarder comment creer un linechart propre
-        LineChart new_chart = null;
+        //LineChart new_chart = new LineChart(context);
+        LineChart new_chart = (LineChart) context;
+        
+        new_chart.setDrawBorders(true); //encadre la graph
+        new_chart.setPinchZoom(true);
+        new_chart.setTouchEnabled(true);
         
         return new_chart;
     }
+    
+    
+    private LineDataSet formatting_dataset(LineDataSet set){
+        
+        
+        set.setDrawIcons(false);
+        set.setColor(Color.BLACK);
+        set.setCircleColor(Color.BLACK);
+        set.setLineWidth(1f);
+        set.setCircleRadius(3f);
+        set.setDrawCircleHole(false);
+        set.setValueTextSize(9f);
+        set.setDrawFilled(false);
+        set.setFormLineWidth(1f);
+        set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+        set.setFormSize(15.f);
+        
+        return set;
+    }
+    
+    
+
     
     @Override
     public void addDataSet(String label, ArrayList<Entry> dataSet) {//ajouter les entry dans le tableau
@@ -70,7 +109,9 @@ public class Graph implements GraphInterface {
             return;
         }
         
-        dataSets.add(new LineDataSet(dataSet, label));
+        
+        
+        dataSets.add(formatting_dataset(new LineDataSet(dataSet, label)));
         
         return;
     }
@@ -88,8 +129,26 @@ public class Graph implements GraphInterface {
         return;
     }
     
+    
+
+    
+    
+    
+    
+    
     @Override
     public void show() { // affiche toute les courbes et le graph
+    
+        ArrayList<ILineDataSet> dataSe = new ArrayList<>();
+        for (int i=0; i<dataSets.size() ;i++){
+            dataSe.add(dataSets.get(i));
+        }
+        
+    
+        LineData data = new LineData(dataSe);
+    
+        chart.setData(data);
+    
         
         
         update();
@@ -99,7 +158,17 @@ public class Graph implements GraphInterface {
     
     @Override
     public void showDataSet(String label) {//affiche une des courbes graphique et desaffiche les autres
-        
+        ArrayList<ILineDataSet> dataSe = new ArrayList<>();
+        for (int i=0; i<dataSets.size() ;i++){
+            if(dataSets.get(i).getLabel()==label){
+                dataSe.add(dataSets.get(i));
+            }
+
+        }
+    
+        LineData data = new LineData(dataSe);
+    
+        chart.setData(data);
         
         
         update();
@@ -160,8 +229,10 @@ public class Graph implements GraphInterface {
         //TODO : gerer les truc pour update les courbes
         
         
-        chart.zoomToCenter(width, height);
-        
+        //chart.zoomToCenter(width, height);
+        //chart.zoomToCenter((float) 1.5 , (float) 1.5);
+    
+    
         return;
     }
     
@@ -217,5 +288,21 @@ public class Graph implements GraphInterface {
         }
         
         return out;
+    }
+    
+    
+    public int getId()
+    {
+        return id;
+    }
+    
+    public String getName()
+    {
+        return graphName;
+    }
+    
+    public void setName(String graphName)
+    {
+        this.graphName = graphName;
     }
 }

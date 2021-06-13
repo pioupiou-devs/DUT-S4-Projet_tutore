@@ -1,4 +1,4 @@
-package fr.iut.orsay.myapplication;
+ package fr.iut.orsay.myapplication;
 
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity
             {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_main);
-                LineChart mChart = findViewById(R.id.chart);
+                /*LineChart mChart = findViewById(R.id.chart);
                 mChart.setTouchEnabled(true);
                 mChart.setPinchZoom(true);
                 
@@ -44,64 +44,11 @@ public class MainActivity extends AppCompatActivity
                 
                 
                 
+
+                    
+                
                 LineDataSet set1;
                 if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0)
-                    {
-                        set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
-                        set1.setValues(values);
-                        mChart.getData().notifyDataChanged();
-                        mChart.notifyDataSetChanged();
-                    }
-                else
-                    {
-                        set1 = new LineDataSet(values, "Sample Data");
-                        set1.setDrawIcons(false);
-                        
-                        
-                        //set1.enableDashedLine(10f, 5f, 0f);
-                        
-                        //set1.enableDashedHighlightLine(10f, 5f, 0f);
-                        
-                        /*//to make the smooth line as the graph is adrapt change so smooth curve
-                        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-                        //to enable the cubic density : if 1 then it will be sharp curve
-                        set1.setCubicIntensity(0.2f);*/
-                        
-                        
-                        set1.setColor(Color.BLACK);
-                        set1.setCircleColor(Color.BLACK);
-                        set1.setLineWidth(1f);
-                        set1.setCircleRadius(3f);
-                        set1.setDrawCircleHole(false);
-                        set1.setValueTextSize(9f);
-                        //set1.setDrawFilled(true);
-                        set1.setDrawFilled(false);
-                        set1.setFormLineWidth(1f);
-                        set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-                        set1.setFormSize(15.f);
-                        
-                        /*if (Utils.getSDKInt() >= 18)
-                            {
-                                Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_blue);
-                                set1.setFillDrawable(drawable);
-                            }
-                        else
-                            {
-                                set1.setFillColor(Color.DKGRAY);
-                            }*/
-                        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-                        dataSets.add(set1);
-                        
-                        mChart.setDrawBorders(true); //encadre la graph
-                        
-                        // don't forget to refresh the drawing
-                        //chart.invalidate();
-                        
-                        LineData data = new LineData(dataSets);
-                        mChart.setData(data);
-                    }
-               // LineDataSet set1;
-                /*if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0)
                     {
                         set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
                         set1.setValues(values);
@@ -142,11 +89,13 @@ public class MainActivity extends AppCompatActivity
                         
                         mChart.setData(data);
                     }
-                    
-                 */
+                    */
+                 
                 
                 
-                Graph test = new Graph("graph de test", 5, 5, 5, 5);
+                //Graph test = new Graph("graph de test", 50, 50, 50, 50, this);
+    
+                Graph test = new Graph("graph de test", 50, 50, 50, 50, findViewById(R.id.chart));
     
                 ArrayList<Entry> val = new ArrayList<>();
                 val.add(new Entry(1, 50));
@@ -167,12 +116,26 @@ public class MainActivity extends AppCompatActivity
                 val2.add(new Entry(6, 78));
                 val2.add(new Entry(7, 64));
                 val2.add(new Entry(8, 78));
+    
+                ArrayList<Entry> val3 = new ArrayList<>();
+                val3.add(new Entry(1, 21));
+                val3.add(new Entry(2, 56));
+                val3.add(new Entry(3, 87));
+                val3.add(new Entry(4, 89));
+                val3.add(new Entry(5, 56));
+                val3.add(new Entry(6, 87));
+                val3.add(new Entry(7, 46));
+                val3.add(new Entry(8, 87));
                 
                 String name1= "erste Kurve";
                 String name2= "zweiten Kurve";
+                String name3= "dritten Kurve";
                 
                 test.addDataSet(name1,val);
                 test.addDataSet(name2,val2);
+                test.addDataSet(name3,val3);
+                
+                //test.removeDataSet(name1);
     
                 System.out.println("####################################################################");
                 
@@ -183,6 +146,12 @@ public class MainActivity extends AppCompatActivity
                 System.out.println(test.print());
     
                 System.out.println("####################################################################");
+                
+                test.show();
+                
+                test.showDataSet(name1);
+                
+                
                 
             }
     }

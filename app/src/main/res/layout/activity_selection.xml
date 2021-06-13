@@ -6,19 +6,29 @@
         android:layout_height="match_parent">
 
 
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="?attr/actionBarTheme"
+            android:minHeight="?attr/actionBarSize"
+            android:id="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/lstCurve" />
+
     <ListView
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/tblExport"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:id="@+id/lstCurve"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             android:layout_marginTop="8dp" />
 
     <TableLayout
@@ -28,47 +38,47 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
             android:id="@+id/tblExport"
-            app:layout_constraintTop_toBottomOf="@+id/lstCurve">
+            app:layout_constraintTop_toBottomOf="@+id/lstCurve"
+            app:layout_constraintHorizontal_bias="0.5">
 
-        <TableRow
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <Button
+                    android:text="@string/btnCreate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/btnCreate" />
+
+        </LinearLayout>
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
             <Button
                     android:text="@string/btnExportPDF"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/btnExportPDF" />
 
             <Button
                     android:text="@string/btnExportPNG"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/btnExportPNG" />
-        </TableRow>
-
-        <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
             <Button
                     android:text="@string/btnExportCSV"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/btnExportCSV" />
 
-            <Button
-                    android:text="@string/btnImport"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/btnImport"
-                    tools:visibility="visible" />
-        </TableRow>
+        </LinearLayout>
     </TableLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

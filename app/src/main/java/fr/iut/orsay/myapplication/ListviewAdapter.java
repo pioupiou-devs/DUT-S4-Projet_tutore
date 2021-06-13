@@ -1,61 +1,89 @@
 package fr.iut.orsay.myapplication;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import androidx.annotation.ContentView;
 
 import java.util.ArrayList;
 
 public class ListviewAdapter extends BaseAdapter implements ListAdapter
     {
-        private ArrayList<String> list = new ArrayList<>();
+        private ArrayList<Graph> list = new ArrayList<>();
         private Context context;
-    
-        public ListviewAdapter(ArrayList<String> list, Context context)
+        
+        public ListviewAdapter(ArrayList<Graph> list, Context context)
             {
                 this.list = list;
                 this.context = context;
             }
-    
+        
         @Override public int getCount()
             {
                 return list.size();
             }
         
-        @Override public Object getItem(int pos)
+        @Override public Graph getItem(int pos)
             {
                 return list.get(pos);
             }
         
         @Override public long getItemId(int pos)
             {
-                return 0;//list.get(pos).getId();
+                return list.get(pos).getId();
             }
         
-        @Override public View getView(int pos, View view, ViewGroup viewGroup)
+        @Override public View getView(int pos, View element, ViewGroup parent)
             {
-                if (view == null) {
-                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    view = inflater.inflate(R.layout.listview_element,null);
-                }
-                TextView txtName = (TextView) view.findViewById(R.id.txtName);
-                txtName.setText(list.get(pos));
-                Button btnEdit = (Button)view.findViewById(R.id.btnEdit);
-                Button btnDelete = (Button)view.findViewById(R.id.btnDelete);
+                if (element == null)
+                    {
+                        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        element = inflater.inflate(R.layout.listview_element, parent, false);
+                    }
                 
+                TextView txtName = (TextView) element.findViewById(R.id.txtName);
+                txtName.setText(list.get(pos).getName());
+                
+                Button btnEdit = (Button) element.findViewById(R.id.btnEdit);
                 btnEdit.setOnClickListener(view1 ->
                 {
-                    //TODO : call edit
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(R.string.modalTextBoxTitle);
+                    
+                    final EditText input = (EditText) new EditText(builder.getContext());
+                    input.setInputType(InputType.TYPE_CLASS_TEXT);
+                    builder.setView(input);
+                    
+                    builder.setPositiveButton(android.R.string.ok, (dialog, which) ->
+                    {
+                        dialog.dismiss();
+                        System.out.println(this.list.get(pos));
+                        this.list.get(pos).setName(input.getText().toString());
+                        this.notifyDataSetChanged();
+                    });
+                    builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
+                    
+                    builder.show();
                 });
+                
+                Button btnDelete = (Button) element.findViewById(R.id.btnDelete);
                 btnDelete.setOnClickListener(view12 ->
                 {
+                    if (this.list.get(pos) != null)
+                        this.list.remove(pos);
                     //TODO : call delete
                 });
-                return view;
+                
+                return element;
             }
     }

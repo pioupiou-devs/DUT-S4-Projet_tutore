@@ -18,8 +18,9 @@
     <string name="btnExportPDF">Export to PDF</string>
     <string name="btnExportPNG">Export to PNG</string>
     <string name="btnExportCSV">Export to CSV</string>
-    <string name="btnImport">Import Data</string>
-    <string name="txtName">TextView</string>
+    <string name="btnCreate">Create a new graph</string>
+    <string name="txtName">Name</string>
     <string name="btnEdit">Edit</string>
     <string name="btnDelete">Delete</string>
+    <string name="modalTextBoxTitle">Choose a name :</string>
 </resources>

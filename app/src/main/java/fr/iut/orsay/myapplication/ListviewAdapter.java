@@ -10,17 +10,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.ContentView;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ListviewAdapter extends BaseAdapter implements ListAdapter
     {
         private ArrayList<Graph> list = new ArrayList<>();
-        private Context context;
+        private final Context context;
         
         public ListviewAdapter(ArrayList<Graph> list, Context context)
             {
@@ -55,7 +58,7 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                 txtName.setText(list.get(pos).getName());
                 
                 Button btnEdit = (Button) element.findViewById(R.id.btnEdit);
-                btnEdit.setOnClickListener(view1 ->
+                btnEdit.setOnClickListener(view ->
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle(R.string.modalTextBoxTitle);
@@ -77,11 +80,18 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                 });
                 
                 Button btnDelete = (Button) element.findViewById(R.id.btnDelete);
-                btnDelete.setOnClickListener(view12 ->
+                btnDelete.setOnClickListener(view ->
                 {
                     if (this.list.get(pos) != null)
                         this.list.remove(pos);
-                    //TODO : call delete
+                    this.notifyDataSetChanged();
+                });
+                
+                ImageButton ibtnSelect = (ImageButton) element.findViewById(R.id.ibtnSelect);
+                ibtnSelect.setOnClickListener(view ->
+                {
+                    //TODO : add graphical update + select the graph
+                    ((SelectionActivity) context).setToolbarTitle(this.list.get(pos).getName());
                 });
                 
                 return element;

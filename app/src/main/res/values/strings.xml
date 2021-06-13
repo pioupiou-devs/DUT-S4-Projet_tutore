@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="selected_graph">No Graph Selected</string>
     <string name="action_settings">Settings</string>
     <string name="btnZoomAdd">+</string>
     <string name="txtZoom">Zoom :</string>

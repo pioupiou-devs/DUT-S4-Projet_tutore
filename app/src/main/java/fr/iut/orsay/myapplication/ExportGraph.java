@@ -41,18 +41,10 @@ public class ExportGraph
          * @param chart    le graphique à exporter
          * @param fileName nom du fichier exporté
          */
-        public static void exportToPNG(LineChart chart, String fileName) throws IOException
+        public static void exportToPNG(Chart chart, String fileName) throws IOException
             {
-                File file = new File(Environment.getDataDirectory().getAbsolutePath() + File.separator + "DCIM" + File.separator + fileName);
-                if (file.exists())
-                    {
-                        System.out.println("already exist");
-                        return;
-                    }
-                //TODO : it's not the right path TO ANALYZE
-                System.out.println("here : " + Environment.getDataDirectory().getAbsolutePath() + File.separator + "DCIM" + File.separator + fileName);
-                System.out.println(chart.saveToGallery(fileName)); //Si l'export png fail
-                // throw new IOException("Fail to export !"); //signale le message d'erreur
+                if (chart.saveToGallery(fileName))//Si l'export png fail
+                    throw new IOException("Fail to export !"); //signale le message d'erreur
             }
         
         /**
@@ -62,14 +54,14 @@ public class ExportGraph
          * @param fileName nom du fichier exporté
          * @throws IOException retourne une erreur si l'accès à l'image généré dans la création du pdf à posé problème
          */
-        public static void exportToPDF(LineChart chart, String fileName) throws IOException //TODO: suppr l'image après intégration
+        public static void exportToPDF(Chart chart, String fileName) throws IOException
             {
                 exportToPNG(chart, fileName); //Créer l'image à inséré dans le fichier PDF
                 
-                String baseDir = Environment.getDataDirectory().getAbsolutePath(); //Récupère le chemin vers le dossier de stockage
-                String filePath = baseDir + File.separator + "DCIM" + File.separator + fileName; //Création du chemin total
+                String baseDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath(); //Récupère le chemin vers le dossier de stockage
+                String filePath = baseDir + File.separator + fileName; //Création du chemin total
                 Bitmap bitmap = BitmapFactory.decodeFile(filePath + ".png"); //Transformation du fichier png en bitmap
-                new File(filePath + ".png").delete(); //suppression du fichier png inutile
+                new File(filePath + ".png").delete();//suppression du fichier png inutile
                 PdfDocument pdfDocument = new PdfDocument(); //Création de l'outil de création de fichier pdf
                 PdfDocument.Page page = pdfDocument.startPage(new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 1).create()); //Création d'une page du document
                 Canvas canvas = page.getCanvas(); //Création d'un canvas (l'outil de dessin) à partir de la paged du document

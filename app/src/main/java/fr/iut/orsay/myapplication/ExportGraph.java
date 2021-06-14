@@ -7,6 +7,7 @@ import android.graphics.pdf.PdfDocument;
 import android.os.Environment;
 
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.opencsv.CSVWriter;
@@ -15,18 +16,20 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * La classe qui gère les export de données depuis un graphique
+ *
  * @author Antonin FOUQUES
  */
 public class ExportGraph
     {
         /**
-         * Le constructeur de la classe, ici inutile car les methodes fonctionnent en static
+         * Le constructeur de la classe, ici inutile car les methodes de la classe fonctionnent en static
          */
         public ExportGraph()
             {
@@ -38,10 +41,18 @@ public class ExportGraph
          * @param chart    le graphique à exporter
          * @param fileName nom du fichier exporté
          */
-        public static void exportToPNG(Chart chart, String fileName)
+        public static void exportToPNG(LineChart chart, String fileName) throws IOException
             {
-                if (!chart.saveToGallery(fileName,100)) //Si l'export png fail
-                    System.err.println("Fail to export !"); //signale le message d'erreur
+                File file = new File(Environment.getDataDirectory().getAbsolutePath() + File.separator + "DCIM" + File.separator + fileName);
+                if (file.exists())
+                    {
+                        System.out.println("already exist");
+                        return;
+                    }
+                //TODO : it's not the right path TO ANALYZE
+                System.out.println("here : " + Environment.getDataDirectory().getAbsolutePath() + File.separator + "DCIM" + File.separator + fileName);
+                System.out.println(chart.saveToGallery(fileName)); //Si l'export png fail
+                // throw new IOException("Fail to export !"); //signale le message d'erreur
             }
         
         /**
@@ -51,7 +62,7 @@ public class ExportGraph
          * @param fileName nom du fichier exporté
          * @throws IOException retourne une erreur si l'accès à l'image généré dans la création du pdf à posé problème
          */
-        public static void exportToPDF(Chart chart, String fileName) throws IOException //TODO: suppr l'image après intégration
+        public static void exportToPDF(LineChart chart, String fileName) throws IOException //TODO: suppr l'image après intégration
             {
                 exportToPNG(chart, fileName); //Créer l'image à inséré dans le fichier PDF
                 
@@ -77,7 +88,7 @@ public class ExportGraph
          * @param fileName nom du fichier exporté
          * @throws IOException retourne une erreur si la création du fichier à posé problème
          */
-        /*public static void exportToCSV(Chart chart, String fileName) throws IOException
+        public static void exportToCSV(Chart chart, String fileName) throws IOException
             {
                 
                 String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath(); //Récupère le chemin vers le dossier de stockage
@@ -150,5 +161,6 @@ public class ExportGraph
                     }
                 
                 writer.close(); //Fermeture de l'outil d'écriture du fichier CSV
-            }*/
+                System.out.println("csv exported at : " + filePath);
+            }
     }

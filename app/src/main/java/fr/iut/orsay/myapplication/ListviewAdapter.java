@@ -90,7 +90,7 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                 ImageButton ibtnSelect = (ImageButton) element.findViewById(R.id.ibtnSelect);
                 ibtnSelect.setOnClickListener(view ->
                 {
-                    //TODO : add graphical update + select the graph
+                    //TODO : select the graph ( with link between pages)
                     ((SelectionActivity) context).setToolbarTitle(this.list.get(pos).getName());
                 });
                 

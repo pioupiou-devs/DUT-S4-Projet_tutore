@@ -100,14 +100,14 @@ public class MainActivity extends AppCompatActivity
                 val.add(new Entry(8, 42));
                 
                 ArrayList<Entry> val2 = new ArrayList<>();
-                val2.add(new Entry(1, 0));
-                val2.add(new Entry(2, 1));
-                val2.add(new Entry(3, 0));
-                val2.add(new Entry(4, 1));
-                val2.add(new Entry(5, 0));
-                val2.add(new Entry(6, 1));
-                val2.add(new Entry(7, 0));
-                val2.add(new Entry(8, 1));
+                val2.add(new Entry(1, 26));
+                val2.add(new Entry(2, 47));
+                val2.add(new Entry(3, 49));
+                val2.add(new Entry(4, 53));
+                val2.add(new Entry(5, 45));
+                val2.add(new Entry(6, 40));
+                val2.add(new Entry(7, 34));
+                val2.add(new Entry(8, 29));
                 
                 ArrayList<Entry> val3 = new ArrayList<>();
                 val3.add(new Entry(new java.util.Date().getTime(), 21));
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity
                 String name3 = "dritten Kurve";
                 
                 test.addDataSet(name1, val);
-                //test.addDataSet(name2,val2);
+                test.addDataSet(name2,val2);
                 //test.addDataSet(name3,val3);
                 
                 //test.removeDataSet(name1);

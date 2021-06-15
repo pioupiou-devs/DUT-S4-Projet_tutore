@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher {
+public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{ //, TextWatcher {
     private static final String DATABASE_URL = "jdbc:mariadb://78.116.137.76:3306/pt?user=usr1&password=pt1";
     private Connection connection;
     private PreparedStatement getTypes_ps;
@@ -75,9 +75,9 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         currentData_lv = (ListView) findViewById(R.id.lstCurrentData);
 
         startDateEditText = (EditText) findViewById(R.id.startDate);
-        startDateEditText.addTextChangedListener(this);
+        //startDateEditText.addTextChangedListener(this);
         endDateEditText = (EditText) findViewById(R.id.endDate);
-        endDateEditText.addTextChangedListener(this);
+        //endDateEditText.addTextChangedListener(this);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 0);
 
@@ -210,7 +210,7 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
     }
 
-    @Override
+    /*@Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
     @Override
@@ -220,5 +220,5 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
     public void afterTextChanged(Editable editable) {
         //if (editable.)
         //TODO : check le format date pour les deux EditText
-    }
+    }*/
 }

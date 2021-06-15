@@ -14,8 +14,7 @@
         android:ems="10"
         android:inputType="date"
         app:layout_constraintBottom_toTopOf="@+id/bottomAppBar"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/lblEndDate"
@@ -24,8 +23,7 @@
         android:layout_marginEnd="100dp"
         android:text="End date :"
         app:layout_constraintBottom_toTopOf="@+id/endDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/endDate"
@@ -36,11 +34,11 @@
         android:ems="10"
         android:inputType="date"
         app:layout_constraintBottom_toTopOf="@+id/bottomAppBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <RadioGroup
         android:id="@+id/radioGroup"
+        android:orientation="vertical"
         android:layout_width="125dp"
         android:layout_height="99dp"
         android:layout_marginStart="35dp"
@@ -53,21 +51,21 @@
             android:id="@+id/radioType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onRadioButtonClicked"
-            android:text="Type" />
+            android:text="Type"
+            android:onClick="onRadioButtonClicked" />
 
         <RadioButton
             android:id="@+id/radioSensor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onRadioButtonClicked"
-            android:text="Sensor" />
+            android:text="Sensor"
+            android:onClick="onRadioButtonClicked" />
     </RadioGroup>
 
     <Spinner
         android:id="@+id/spnSelector"
-        android:layout_width="132dp"
-        android:layout_height="42dp"
+        android:layout_width="173dp"
+        android:layout_height="45dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,14 +83,12 @@
 
     <ListView
         android:id="@+id/lstCurrentData"
-        android:layout_width="329dp"
-        android:layout_height="142dp"
+        android:layout_width="376dp"
+        android:layout_height="229dp"
+        android:layout_marginBottom="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/lblStartDate"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="15dp"
-        tools:layout_editor_absoluteY="339dp">
-
-
-    </ListView>
+        tools:layout_editor_absoluteX="15dp"></ListView>
 
     <TextView
         android:id="@+id/lblStartDate"
@@ -101,8 +97,7 @@
         android:layout_marginStart="24dp"
         android:text="Start date :"
         app:layout_constraintBottom_toTopOf="@+id/startDate"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/lblCurrentData"

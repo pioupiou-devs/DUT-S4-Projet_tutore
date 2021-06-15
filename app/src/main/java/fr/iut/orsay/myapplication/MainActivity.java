@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity
                 val.add(new Entry(4, 66));
                 val.add(new Entry(5, 65));
                 val.add(new Entry(6, 47));
-                val.add(new Entry((float) 7.5, 54));
+                val.add(new Entry(7, 54));
                 val.add(new Entry(8, 42));
     
                 ArrayList<Entry> val2 = new ArrayList<>();

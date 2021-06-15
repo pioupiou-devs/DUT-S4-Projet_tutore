@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -75,12 +76,14 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
         
         new_chart.setNoDataText("Chart loading, please wait");
         new_chart.getDescription().setEnabled(false);
+        
+        //new_chart.getXAxis().set
     
         // Formatter to adjust epoch time to readable date
         //new_chart.getXAxis().setValueFormatter(new LineChartXAxisValueFormatter());
     
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setValueFormatter(new DateValueFormatter());
+        /*XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(new DateValueFormatter());*/
         
         
         return new_chart;
@@ -375,6 +378,11 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
         point.setDrawValues(true);
         
         dataSets.add(point);
+        
+        
+        
+        chart.getDescription().setText(String.valueOf(e.getX()));
+        chart.getDescription().setEnabled(true);
         
         show();
         

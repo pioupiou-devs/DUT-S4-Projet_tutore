@@ -3,8 +3,21 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context="fr.iut.orsay.myapplication.MainActivity">
     <item
-            android:id="@+id/action_settings"
-            android:title="@string/action_settings"
-            android:orderInCategory="100"
-            app:showAsAction="never" />
+            android:id="@+id/action_recents"
+            android:enabled="true"
+            android:icon="@drawable/list_icon"
+            android:title="@string/menuList"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/action_favorites"
+            android:enabled="true"
+            android:icon="@drawable/filter_icon"
+            android:title="@string/menuFilter"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/action_nearby"
+            android:enabled="true"
+            android:icon="@drawable/curve_icon"
+            android:title="@string/menuCurve"
+            app:showAsAction="ifRoom" />
 </menu>

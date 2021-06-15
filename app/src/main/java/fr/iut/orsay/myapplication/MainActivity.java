@@ -1,24 +1,9 @@
-package fr.iut.orsay.myapplication;
-
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.Utils;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
     {
+    
         @Override protected void onCreate(Bundle savedInstanceState)
             {
                 super.onCreate(savedInstanceState);
@@ -26,7 +11,7 @@ public class MainActivity extends AppCompatActivity
                 LineChart mChart = findViewById(R.id.chart);
                 mChart.setTouchEnabled(true);
                 mChart.setPinchZoom(true);
-
+                
                 ArrayList<Entry> values = new ArrayList<>();
                 values.add(new Entry(1, 50));
                 values.add(new Entry(2, 30));

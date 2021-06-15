@@ -1,4 +1,15 @@
 <resources>
+    <!-- activity_filter -->
+    <string name="radioType">Type</string>
+    <string name="radioSensor">Sensor</string>
+    <string name="lblDataList">Data list :</string>
+    <string name="btnAddData">Add to current data :</string>
+    <string name="btnRemoveData">Remove from current data :</string>
+    <string name="lblStartDate">Start date :</string>
+    <string name="lblEndDate">End date :</string>
+    <string name="lblCurrentData">Current data:</string>
+
+    <!-- activity_selection -->
     <string name="selected_graph">No Graph Selected</string>
     <string name="action_settings">Settings</string>
     <string name="btnZoomAdd">+</string>

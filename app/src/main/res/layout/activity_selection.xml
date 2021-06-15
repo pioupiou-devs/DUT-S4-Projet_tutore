@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="@color/prune"
             android:theme="?attr/actionBarTheme"
             android:minHeight="?attr/actionBarSize"
             android:id="@+id/toolbar"
@@ -52,31 +52,47 @@
                     android:text="@string/btnCreate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    app:backgroundTint="@color/prune"
+                    android:textColor="@color/light_gray"
                     android:id="@+id/btnCreate" />
 
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="@+id/btnCreate"
+                android:weightSum="3">
 
             <Button
                     android:text="@string/btnExportPDF"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/prune"
+                    app:backgroundTint="@color/prune"
+                    android:textColor="@color/light_gray"
                     android:id="@+id/btnExportPDF" />
 
             <Button
                     android:text="@string/btnExportPNG"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/prune"
+                    app:backgroundTint="@color/prune"
+                    android:textColor="@color/light_gray"
                     android:id="@+id/btnExportPNG" />
 
             <Button
-                    android:text="@string/btnExportCSV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnExportCSV" />
+                android:id="@+id/btnExportCSV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/prune"
+                app:backgroundTint="@color/prune"
+                android:textColor="@color/light_gray"
+                android:text="@string/btnExportCSV" />
 
         </LinearLayout>
     </TableLayout>
@@ -87,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             app:menu="@menu/menu_main"
-            app:itemBackground="@android:color/holo_purple"
+            app:itemBackground="@color/dark_gray"
             app:itemIconTint="@android:color/white"
             app:itemTextColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"

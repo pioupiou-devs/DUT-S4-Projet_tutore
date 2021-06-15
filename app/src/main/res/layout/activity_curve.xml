@@ -174,6 +174,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/btnZoomAdd"
+                        app:backgroundTint="@color/prune"
+                        android:textColor="@color/light_gray"
                         tools:layout_editor_absoluteY="167dp"
                         tools:layout_editor_absoluteX="112dp" />
 
@@ -182,6 +184,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/btnZoomLess"
+                        app:backgroundTint="@color/prune"
+                        android:textColor="@color/light_gray"
                         tools:layout_editor_absoluteY="167dp"
                         tools:layout_editor_absoluteX="112dp" />
 
@@ -197,7 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             app:menu="@menu/menu_main"
-            app:itemBackground="@android:color/holo_purple"
+            app:itemBackground="@color/dark_gray"
             app:itemIconTint="@android:color/white"
             app:itemTextColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"

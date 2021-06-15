@@ -19,13 +19,13 @@
             android:id="@+id/radioType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Type" />
+            android:text="@+string/radioType" />
 
         <RadioButton
             android:id="@+id/radioSensor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sensor" />
+            android:text="@+string/radioSensor" />
     </RadioGroup>
 
     <Spinner
@@ -45,7 +45,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="100dp"
         android:layout_marginRight="100dp"
-        android:text="Data list :"
+        android:text="@+string/lblDataList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,7 +80,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="Add to current data"
+        android:text="@+string/btnAddData"
+        android:background="@color/prune"
+        app:backgroundTint="@color/prune"
+        android:textColor="@color/light_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +94,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
-        android:text="Remove from current data"
+        android:text="@+string/btnRemoveData"
+        android:background="@color/prune"
+        app:backgroundTint="@color/prune"
+        android:textColor="@color/light_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +130,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginBottom="8dp"
-        android:text="Start date :"
+        android:text="@+string/lblStartDate"
         app:layout_constraintBottom_toTopOf="@+id/spnStartDate"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -135,7 +141,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginBottom="8dp"
-        android:text="End date :"
+        android:text="@+string/lblEndDate"
         app:layout_constraintBottom_toTopOf="@+id/spnEndDate"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -146,7 +152,7 @@
         android:layout_marginTop="76dp"
         android:layout_marginEnd="100dp"
         android:layout_marginRight="100dp"
-        android:text="Current data :"
+        android:text="@+string/lblCurrentData"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/spnStartDate"
@@ -158,7 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             app:menu="@menu/menu_main"
-            app:itemBackground="@android:color/holo_purple"
+            app:itemBackground="@color/dark_gray"
             app:itemIconTint="@android:color/white"
             app:itemTextColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"

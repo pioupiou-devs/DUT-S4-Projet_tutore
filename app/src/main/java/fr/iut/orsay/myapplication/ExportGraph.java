@@ -7,7 +7,6 @@ import android.graphics.pdf.PdfDocument;
 import android.os.Environment;
 
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.opencsv.CSVWriter;
@@ -16,7 +15,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

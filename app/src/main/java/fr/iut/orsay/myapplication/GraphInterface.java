@@ -1,6 +1,5 @@
 package fr.iut.orsay.myapplication;
 
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;

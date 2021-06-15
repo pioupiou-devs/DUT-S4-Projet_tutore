@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="125dp"
-        android:layout_height="99dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="34dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            android:id="@+id/radioGroup"
+            android:layout_width="125dp"
+            android:layout_height="99dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="34dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/radioType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@+string/radioType" />
+                android:id="@+id/radioType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@+string/radioType" />
 
         <RadioButton
-            android:id="@+id/radioSensor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@+string/radioSensor" />
+                android:id="@+id/radioSensor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@+string/radioSensor" />
     </RadioGroup>
 
     <Spinner
@@ -39,69 +38,69 @@
             android:layout_marginStart="16dp" />
 
     <TextView
-        android:id="@+id/lblDataList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
-        android:text="@+string/lblDataList"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/lblDataList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginRight="100dp"
+            android:text="@+string/lblDataList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/lstCurrentData"
-        android:layout_width="160dp"
-        android:layout_height="184dp"
-        android:layout_marginStart="58dp"
-        android:layout_marginLeft="58dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
-        android:layout_marginBottom="92dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/spnEndDate">
+            android:id="@+id/lstCurrentData"
+            android:layout_width="160dp"
+            android:layout_height="184dp"
+            android:layout_marginStart="58dp"
+            android:layout_marginLeft="58dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginRight="28dp"
+            android:layout_marginBottom="92dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/spnEndDate">
 
     </ListView>
 
     <ListView
-        android:id="@+id/lstDataList"
-        android:layout_width="173dp"
-        android:layout_height="157dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblDataList" />
+            android:id="@+id/lstDataList"
+            android:layout_width="173dp"
+            android:layout_height="157dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblDataList" />
 
     <Button
-        android:id="@+id/btnAddData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="@+string/btnAddData"
-        android:background="@color/prune"
-        app:backgroundTint="@color/prune"
-        android:textColor="@color/light_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lstDataList" />
+            android:id="@+id/btnAddData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="@+string/btnAddData"
+            android:background="@color/prune"
+            app:backgroundTint="@color/prune"
+            android:textColor="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lstDataList" />
 
     <Button
-        android:id="@+id/btnRemoveData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:text="@+string/btnRemoveData"
-        android:background="@color/prune"
-        app:backgroundTint="@color/prune"
-        android:textColor="@color/light_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddData" />
+            android:id="@+id/btnRemoveData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="@+string/btnRemoveData"
+            android:background="@color/prune"
+            app:backgroundTint="@color/prune"
+            android:textColor="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddData" />
 
     <Spinner
             android:layout_width="169dp"
@@ -124,39 +123,39 @@
             android:layout_marginTop="44dp" />
 
     <TextView
-        android:id="@+id/lblStartDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginBottom="8dp"
-        android:text="@+string/lblStartDate"
-        app:layout_constraintBottom_toTopOf="@+id/spnStartDate"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/lblStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginBottom="8dp"
+            android:text="@+string/lblStartDate"
+            app:layout_constraintBottom_toTopOf="@+id/spnStartDate"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginBottom="8dp"
-        android:text="@+string/lblEndDate"
-        app:layout_constraintBottom_toTopOf="@+id/spnEndDate"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginBottom="8dp"
+            android:text="@+string/lblEndDate"
+            app:layout_constraintBottom_toTopOf="@+id/spnEndDate"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/lblCurrentData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
-        android:text="@+string/lblCurrentData"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/spnStartDate"
-        app:layout_constraintTop_toBottomOf="@+id/btnRemoveData" />
+            android:id="@+id/lblCurrentData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="76dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginRight="100dp"
+            android:text="@+string/lblCurrentData"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/spnStartDate"
+            app:layout_constraintTop_toBottomOf="@+id/btnRemoveData" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"

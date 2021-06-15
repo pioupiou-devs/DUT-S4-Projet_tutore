@@ -21,9 +21,9 @@ public class SelectionActivity extends AppCompatActivity
                 setToolbarTitle("None");
                 
                 ArrayList<Graph> list = new ArrayList<Graph>();
-                list.add(new Graph("test"));
-                list.add(new Graph("oklm"));
-                list.add(new Graph("jules"));
+                //list.add(new Graph("test"));
+                //list.add(new Graph("oklm"));
+                //list.add(new Graph("jules"));
                 ListView listView = (ListView) findViewById(R.id.lstCurve);
                 listView.setAdapter(new ListviewAdapter(list, this));
             }

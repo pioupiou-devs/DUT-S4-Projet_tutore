@@ -2,7 +2,6 @@ package fr.iut.orsay.myapplication;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +13,12 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.ContentView;
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ListviewAdapter extends BaseAdapter implements ListAdapter
     {
-        private ArrayList<Graph> list = new ArrayList<>();
         private final Context context;
+        private ArrayList<Graph> list = new ArrayList<>();
         
         public ListviewAdapter(ArrayList<Graph> list, Context context)
             {

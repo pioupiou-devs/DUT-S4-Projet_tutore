@@ -26,7 +26,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-repositories{
+repositories {
     maven { url 'https://jitpack.io' }
 }
 
@@ -42,6 +42,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
+    implementation 'com.opencsv:opencsv:5.4'
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'
 }

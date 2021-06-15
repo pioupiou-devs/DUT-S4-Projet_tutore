@@ -104,36 +104,36 @@ public class MainActivity extends AppCompatActivity
                 val.add(new Entry(4, 66));
                 val.add(new Entry(5, 65));
                 val.add(new Entry(6, 47));
-                val.add(new Entry(7, 54));
+                val.add(new Entry((float) 7.5, 54));
                 val.add(new Entry(8, 42));
     
                 ArrayList<Entry> val2 = new ArrayList<>();
-                val2.add(new Entry(1, 12));
-                val2.add(new Entry(2, 65));
-                val2.add(new Entry(3, 78));
-                val2.add(new Entry(4, 98));
-                val2.add(new Entry(5, 65));
-                val2.add(new Entry(6, 78));
-                val2.add(new Entry(7, 64));
-                val2.add(new Entry(8, 78));
+                val2.add(new Entry(1, 0));
+                val2.add(new Entry(2, 1));
+                val2.add(new Entry(3, 0));
+                val2.add(new Entry(4, 1));
+                val2.add(new Entry(5, 0));
+                val2.add(new Entry(6, 1));
+                val2.add(new Entry(7, 0));
+                val2.add(new Entry(8, 1));
     
                 ArrayList<Entry> val3 = new ArrayList<>();
-                val3.add(new Entry(1, 21));
-                val3.add(new Entry(2, 56));
-                val3.add(new Entry(3, 87));
-                val3.add(new Entry(4, 89));
-                val3.add(new Entry(5, 56));
-                val3.add(new Entry(6, 87));
-                val3.add(new Entry(7, 46));
-                val3.add(new Entry(8, 87));
+                val3.add(new Entry(new java.util.Date().getTime(), 21));
+                val3.add(new Entry(new java.util.Date().getTime(), 56));
+                val3.add(new Entry(new java.util.Date().getTime(), 87));
+                val3.add(new Entry(new java.util.Date().getTime(), 89));
+                val3.add(new Entry(new java.util.Date().getTime(), 56));
+                val3.add(new Entry(new java.util.Date().getTime(), 87));
+                val3.add(new Entry(new java.util.Date().getTime(), 46));
+                val3.add(new Entry(new java.util.Date().getTime(), 87));
                 
                 String name1= "erste Kurve";
                 String name2= "zweiten Kurve";
                 String name3= "dritten Kurve";
                 
                 test.addDataSet(name1,val);
-                test.addDataSet(name2,val2);
-                test.addDataSet(name3,val3);
+                //test.addDataSet(name2,val2);
+                //test.addDataSet(name3,val3);
                 
                 //test.removeDataSet(name1);
     
@@ -149,9 +149,18 @@ public class MainActivity extends AppCompatActivity
                 
                 test.show();
                 
-                test.showDataSet(name1);
+                //test.showDataSet(name1);
+    
+                //test.update();
                 
                 
-                
+            }
+            
+            
+            
+            String formatter(){
+            
+            
+            return "";
             }
     }

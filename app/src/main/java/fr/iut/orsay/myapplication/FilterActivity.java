@@ -32,31 +32,27 @@ import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{ //, TextWatcher {
+public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher {
     private static final String DATABASE_URL = "jdbc:mariadb://78.116.137.76:3306/pt?user=usr1&password=pt1";
-    private Connection connection;
+
     private PreparedStatement getTypes_ps;
     private PreparedStatement getSensor_ps;
 
+    private ArrayList<String> currentSelectedSensors;
+    private ArrayList<String> currentSelectedTypes;
+
+    private GraphData graphData;
+
+    //android widget
     private Spinner spnSelector;
     private RadioButton radioType;
     private RadioButton radioSensor;
     private ListView dataList;
     private ListView currentData_lv;
-
     private ListViewFilter listViewFilterAdapterDataList;
     private ListViewFilter listViewFilterAdapterCurrentData;
-
-    private ArrayList<String> currentSelectedSensors;
-    private ArrayList<String> currentSelectedTypes;
-
-    private ArrayList<ArrayList<String>> currentData;
-
     private EditText startDateEditText;
     private EditText endDateEditText;
-
-    private Date startDate;
-    private Date endDate;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -65,19 +61,18 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         setContentView(R.layout.activity_filter);
 
         //get widgets references
-        radioType = (RadioButton) findViewById(R.id.radioType);
-        radioSensor = (RadioButton) findViewById(R.id.radioSensor);
+        radioType = findViewById(R.id.radioType);
+        radioSensor = findViewById(R.id.radioSensor);
+        dataList = findViewById(R.id.lstDataList);
+        spnSelector = findViewById(R.id.spnSelector);
+        currentData_lv = findViewById(R.id.lstCurrentData);
+        startDateEditText = findViewById(R.id.startDate);
+        endDateEditText = findViewById(R.id.endDate);
 
-        dataList = (ListView) findViewById(R.id.lstDataList);
-
-        spnSelector = (Spinner) findViewById(R.id.spnSelector);
+        //set listeners
         spnSelector.setOnItemSelectedListener(this);
-        currentData_lv = (ListView) findViewById(R.id.lstCurrentData);
-
-        startDateEditText = (EditText) findViewById(R.id.startDate);
-        //startDateEditText.addTextChangedListener(this);
-        endDateEditText = (EditText) findViewById(R.id.endDate);
-        //endDateEditText.addTextChangedListener(this);
+        startDateEditText.addTextChangedListener(this);
+        endDateEditText.addTextChangedListener(this);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 0);
 
@@ -93,20 +88,21 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         });
 
         try {
-            connection = databaseConnecting.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+            graphData = new GraphData(databaseConnecting.get(), FilterActivity.this);
+        } catch (SQLException | InterruptedException | ExecutionException throwables) {
+            throwables.printStackTrace();
         }
 
         getTypes_ps = null;
         getSensor_ps = null;
         try {
-            getTypes_ps = connection.prepareStatement(FilterActivity.this.getString(R.string.get_types_with_specified_sensor));
-            getSensor_ps = connection.prepareStatement(FilterActivity.this.getString(R.string.get_sensors_with_specified_type));
+            getTypes_ps = graphData.getConnection().prepareStatement(FilterActivity.this.getString(R.string.get_types_with_specified_sensor));
+            getSensor_ps = graphData.getConnection().prepareStatement(FilterActivity.this.getString(R.string.get_sensors_with_specified_type));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        currentData = new ArrayList<ArrayList<String>>();
+
+        graphData.setGraphsData(new ArrayList<>());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -116,14 +112,14 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         switch(view.getId()) {
             case R.id.radioSensor:
                 if (checked) {
-                    ArrayList<String> sensors = DatabaseTools.getSensors(connection, this.getString(R.string.get_sensors));
+                    ArrayList<String> sensors = DatabaseTools.getSensors(graphData.getConnection(), this.getString(R.string.get_sensors));
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(FilterActivity.this, R.layout.support_simple_spinner_dropdown_item, sensors);
                     spnSelector.setAdapter(adapter);
                 }
                 break;
             case R.id.radioType:
                 if (checked) {
-                    ArrayList<String> types = DatabaseTools.getTypes(connection, this.getString(R.string.get_types));
+                    ArrayList<String> types = DatabaseTools.getTypes(graphData.getConnection(), this.getString(R.string.get_types));
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(FilterActivity.this, R.layout.support_simple_spinner_dropdown_item, types);
                     spnSelector.setAdapter(adapter);
                 }
@@ -168,28 +164,31 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
 
     public void addToCurrentData(View view){
         ArrayList<String> valueToAdd;
-        ArrayList<String> valueToAddReversed;
         if(radioSensor.isChecked()){
             currentSelectedTypes = listViewFilterAdapterDataList.getSelectedData();
-            for(int i = 0; i < currentSelectedTypes.size(); i++){
+            for(int i = 0; i < currentSelectedTypes.size(); i++) {
                 valueToAdd = new ArrayList<>(Arrays.asList(spnSelector.getSelectedItem().toString(), currentSelectedTypes.get(i)));
-                valueToAddReversed = new ArrayList<>(Arrays.asList(currentSelectedTypes.get(i), spnSelector.getSelectedItem().toString()));
-                if (!currentData.contains(valueToAdd) && !currentData.contains(valueToAddReversed))
+                ArrayList<ArrayList<String>> currentData = graphData.getGraphsData();
+                if (!currentData.contains(valueToAdd)) {
                     currentData.add(valueToAdd);
+                    graphData.setGraphsData(currentData);
+                }
             }
         }
         else if(radioType.isChecked()){
             currentSelectedSensors = listViewFilterAdapterDataList.getSelectedData();
             for(int i = 0; i < currentSelectedSensors.size(); i++){
-                valueToAdd = new ArrayList<>(Arrays.asList(spnSelector.getSelectedItem().toString(), currentSelectedSensors.get(i)));
-                valueToAddReversed = new ArrayList<>(Arrays.asList(currentSelectedSensors.get(i), spnSelector.getSelectedItem().toString()));
-                if(!currentData.contains(valueToAdd) && !currentData.contains(valueToAddReversed))
+                valueToAdd = new ArrayList<>(Arrays.asList(currentSelectedSensors.get(i), spnSelector.getSelectedItem().toString()));
+                ArrayList<ArrayList<String>> currentData = graphData.getGraphsData();
+                if(!currentData.contains(valueToAdd)) {
                     currentData.add(valueToAdd);
+                    graphData.setGraphsData(currentData);
+                }
             }
         }
         ArrayList<String> concatenateCurrentData = new ArrayList<>();
-        for (int i = 0; i < currentData.size(); i++){
-            concatenateCurrentData.add(currentData.get(i).get(0) + ":" + currentData.get(i).get(1));
+        for (int i = 0; i < graphData.getGraphsData().size(); i++){
+            concatenateCurrentData.add(graphData.getGraphsData().get(i).get(0) + ":" + graphData.getGraphsData().get(i).get(1));
         }
         listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, concatenateCurrentData);
         currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
@@ -199,18 +198,20 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         ArrayList<String> selectedData = listViewFilterAdapterCurrentData.getSelectedData();
         for (int i = 0; i < selectedData.size(); i++) {
             String[] splitted = selectedData.get(i).split(":");
+            ArrayList<ArrayList<String>> currentData = graphData.getGraphsData();
             currentData.remove(new ArrayList<>(Arrays.asList(splitted[0], splitted[1])));
+            graphData.setGraphsData(currentData);
         }
 
         ArrayList<String> concatenateCurrentData = new ArrayList<>();
-        for (int i = 0; i < currentData.size(); i++) {
-            concatenateCurrentData.add(currentData.get(i).get(0) + ":" + currentData.get(i).get(1));
+        for (int i = 0; i < graphData.getGraphsData().size(); i++) {
+            concatenateCurrentData.add(graphData.getGraphsData().get(i).get(0) + ":" + graphData.getGraphsData().get(i).get(1));
         }
         listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, concatenateCurrentData);
         currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
     }
 
-    /*@Override
+    @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
     @Override
@@ -220,5 +221,5 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
     public void afterTextChanged(Editable editable) {
         //if (editable.)
         //TODO : check le format date pour les deux EditText
-    }*/
+    }
 }

@@ -7,8 +7,8 @@
 
     <EditText
         android:id="@+id/startDate"
-        android:layout_width="139dp"
-        android:layout_height="37dp"
+        android:layout_width="140dp"
+        android:layout_height="51dp"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
@@ -27,14 +27,14 @@
 
     <EditText
         android:id="@+id/endDate"
-        android:layout_width="139dp"
-        android:layout_height="37dp"
+        android:layout_width="140dp"
+        android:layout_height="51dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="date"
         app:layout_constraintBottom_toTopOf="@+id/bottomAppBar"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <RadioGroup
         android:id="@+id/radioGroup"

@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".MainActivity"
+                android:name=".CurveActivity"
                 android:label="@string/selected_graph"
                 android:theme="@style/Theme.MyApplication.NoActionBar">
             <intent-filter>

@@ -27,7 +27,7 @@ public class SplashscreenActivity extends AppCompatActivity
                     {
                         @Override public void run()
                             {
-                                Intent intent = new Intent(SplashscreenActivity.this, MainActivity.class);
+                                Intent intent = new Intent(SplashscreenActivity.this, CurveActivity.class);
                                 startActivity(intent);
                                 finish();
                                 

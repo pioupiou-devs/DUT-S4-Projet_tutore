@@ -1,21 +1,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context="fr.iut.orsay.myapplication.MainActivity">
+        tools:context="fr.iut.orsay.myapplication.CurveActivity">
     <item
-            android:id="@+id/action_recents"
+            android:id="@+id/itemList"
             android:enabled="true"
             android:icon="@drawable/list_icon"
             android:title="@string/menuList"
             app:showAsAction="ifRoom" />
     <item
-            android:id="@+id/action_favorites"
+            android:id="@+id/itemFilter"
             android:enabled="true"
             android:icon="@drawable/filter_icon"
             android:title="@string/menuFilter"
             app:showAsAction="ifRoom" />
     <item
-            android:id="@+id/action_nearby"
+            android:id="@+id/itemCurve"
             android:enabled="true"
             android:icon="@drawable/curve_icon"
             android:title="@string/menuCurve"

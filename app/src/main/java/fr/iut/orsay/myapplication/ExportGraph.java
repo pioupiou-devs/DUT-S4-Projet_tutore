@@ -38,11 +38,13 @@ public class ExportGraph
          *
          * @param chart    le graphique à exporter
          * @param fileName nom du fichier exporté
+         * @return chemin où à été exporté le fichier PNG
          */
-        public static void exportToPNG(Chart chart, String fileName) throws IOException
+        public static String exportToPNG(Chart chart, String fileName) throws IOException
             {
                 if (chart.saveToGallery(fileName))//Si l'export png fail
                     throw new IOException("Fail to export !"); //signale le message d'erreur
+                return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
             }
         
         /**
@@ -50,9 +52,10 @@ public class ExportGraph
          *
          * @param chart    le graphique à exporter
          * @param fileName nom du fichier exporté
+         * @return chemin où à été exporté le fichier PDF
          * @throws IOException retourne une erreur si l'accès à l'image généré dans la création du pdf à posé problème
          */
-        public static void exportToPDF(Chart chart, String fileName) throws IOException
+        public static String exportToPDF(Chart chart, String fileName) throws IOException
             {
                 exportToPNG(chart, fileName); //Créer l'image à inséré dans le fichier PDF
                 
@@ -69,6 +72,8 @@ public class ExportGraph
                 pdfDocument.finishPage(page); //Intégration de la page dans le document
                 pdfDocument.writeTo(new FileOutputStream(filePath + ".pdf")); //Exportation du document
                 pdfDocument.close(); //Fermeture de l'outil de création de fichier pdf
+                
+                return filePath + ".pdf";
             }
         
         /**
@@ -76,9 +81,10 @@ public class ExportGraph
          *
          * @param chart    le graphique à exporter
          * @param fileName nom du fichier exporté
+         * @return chemin où à été exporté le fichier CSV
          * @throws IOException retourne une erreur si la création du fichier à posé problème
          */
-        public static void exportToCSV(Chart chart, String fileName) throws IOException
+        public static String exportToCSV(Chart chart, String fileName) throws Exception
             {
                 
                 String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath(); //Récupère le chemin vers le dossier de stockage
@@ -98,10 +104,7 @@ public class ExportGraph
                 ChartData data = chart.getData(); //Récupération des données du graphique
                 
                 if (data.getDataSetCount() <= 0) //Vérification qu'il y ait des données dans le graphique
-                    {
-                        System.err.println("No dataset to export !");
-                        return;
-                    }
+                    throw new Exception("No dataset to export !");
                 
                 ArrayList<String[]> datasets = new ArrayList<>();
                 for (int i = 0; i < data.getDataSetCount(); i++) //pour chaque datasets
@@ -151,6 +154,7 @@ public class ExportGraph
                     }
                 
                 writer.close(); //Fermeture de l'outil d'écriture du fichier CSV
-                System.out.println("csv exported at : " + filePath);
+                
+                return filePath + ".csv";
             }
     }

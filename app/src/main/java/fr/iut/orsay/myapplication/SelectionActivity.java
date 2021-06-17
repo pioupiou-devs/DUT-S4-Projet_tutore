@@ -4,15 +4,13 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
@@ -31,7 +29,7 @@ public class SelectionActivity extends AppCompatActivity
                 setSupportActionBar(toolbar);
                 setToolbarTitle("None");
                 
-                ArrayList<Graph> list = new ArrayList<Graph>();
+                ArrayList<Graph> list = new ArrayList<>();
                 list.add(new Graph("test"));
                 list.add(new Graph("oklm"));
                 list.add(new Graph("jules"));
@@ -66,11 +64,14 @@ public class SelectionActivity extends AppCompatActivity
                 {
                     System.out.println(selectedGraph);
                     if (selectedGraph == null)
-                        return;
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                     try
                         {
-                            //TODO : add little popup to tell the user that's work + path
-                            ExportGraph.exportToPDF(selectedGraph.getChart(), "graph");
+                            String path = ExportGraph.exportToPDF(selectedGraph.getChart(), "graph");
+                            Toast.makeText(this, "File exported at " + path, Toast.LENGTH_SHORT).show();
                         }
                     catch (IOException e)
                         {
@@ -82,11 +83,14 @@ public class SelectionActivity extends AppCompatActivity
                 btnExportPNG.setOnClickListener(view ->
                 {
                     if (selectedGraph == null)
-                        return;
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                     try
                         {
-                            //TODO : add little popup to tell the user that's work + path
-                            ExportGraph.exportToPNG(selectedGraph.getChart(), "graph");
+                            String path = ExportGraph.exportToPNG(selectedGraph.getChart(), "graph");
+                            Toast.makeText(this, "File exported at " + path, Toast.LENGTH_SHORT).show();
                         }
                     catch (IOException e)
                         {
@@ -99,13 +103,16 @@ public class SelectionActivity extends AppCompatActivity
                 btnExportCSV.setOnClickListener(view ->
                 {
                     if (selectedGraph == null)
-                        return;
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                     try
                         {
-                            //TODO : add little popup to tell the user that's work + path
-                            ExportGraph.exportToCSV(selectedGraph.getChart(), "graph");
+                            String path = ExportGraph.exportToCSV(selectedGraph.getChart(), "graph");
+                            Toast.makeText(this, "File exported at " + path, Toast.LENGTH_SHORT).show();
                         }
-                    catch (IOException e)
+                    catch (Exception e)
                         {
                             e.printStackTrace();
                         }
@@ -117,29 +124,24 @@ public class SelectionActivity extends AppCompatActivity
             }
         
         
-        private final BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener()
-            {
-                
-                @Override public boolean onNavigationItemSelected(@NonNull MenuItem item)
-                    {
-                        System.out.println(item);
-                        if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
-                            {
-                                Intent intent = new Intent(SelectionActivity.this, SelectionActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
-                            {
-                                Intent intent = new Intent(SelectionActivity.this, CurveActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        else
-                            return false;
-                        return true;
-                    }
-            };
+        private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
+        {
+            if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
+                {
+                    Intent intent = new Intent(SelectionActivity.this, SelectionActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
+                {
+                    Intent intent = new Intent(SelectionActivity.this, CurveActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            else
+                return false;
+            return true;
+        };
         
         public void setToolbarTitle(String title)
             {

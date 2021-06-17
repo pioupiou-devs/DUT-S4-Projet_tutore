@@ -1,6 +1,7 @@
 package fr.iut.orsay.myapplication;
 
 import android.Manifest;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.ColorDrawable;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.SparseBooleanArray;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,9 +20,12 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,6 +34,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -103,8 +109,37 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         }
 
         graphData.setGraphsData(new ArrayList<>());
+    
+        BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+    
     }
-
+    
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener()
+        {
+            
+            @Override public boolean onNavigationItemSelected(@NonNull MenuItem item)
+                {
+                    System.out.println(item);
+                    if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
+                        {
+                            Intent intent = new Intent(FilterActivity.this, FilterActivity.class); //TODO : replace with correct class
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                    else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
+                        {
+                            Intent intent = new Intent(FilterActivity.this, FilterActivity.class); //TODO : replace with correct class
+                            intent.putExtra("GraphData",new HashMap<>()); //TODO : replace the empty hasmap with data export from the request
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                    else
+                        return false;
+                    return true;
+                }
+        };
+    
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onRadioButtonClicked(View view) throws SQLException, ExecutionException, InterruptedException {
         boolean checked = ((RadioButton) view).isChecked();

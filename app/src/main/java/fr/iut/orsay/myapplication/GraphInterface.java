@@ -28,8 +28,6 @@ public interface GraphInterface
         
         void rename(String newLabel);
         
-        void update();
-        
         String print();
         
         String printDataSet(String label);

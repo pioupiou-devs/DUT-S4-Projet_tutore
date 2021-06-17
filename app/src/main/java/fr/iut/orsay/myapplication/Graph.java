@@ -95,7 +95,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     }
     
     /**
-     * choos
+     * is use to set a color for each curve
      *
      * @param set Linedatadet to be modified
      * @param i   his index in the chart
@@ -129,13 +129,18 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     }
     
     
+    /**
+     * function used to set the graphical representation of the curve
+     *
+     * @param set the curve to be formated
+     * @return the curve, correctly formated
+     */
     private LineDataSet formatting_dataset(LineDataSet set) {
         
         set.setDrawIcons(false);
         set.setLineWidth(1f);
         set.setCircleRadius(3f);
         set.setDrawCircleHole(false);
-        //set.setValueTextSize(9f);
         set.setDrawFilled(false);
         set.setFormLineWidth(1f);
         set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
@@ -147,8 +152,11 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     
     
     @Override
-    public void addDataSet(String label, ArrayList<Entry> dataSet) {//ajouter les entry dans le tableau
-        if (dataSets.size() == max_curve) { //on ne veux pas plus de 4 courbes dans notre appli
+    /**
+     * is used to add dataset (curve) to chart
+     */
+    public void addDataSet(String label, ArrayList<Entry> dataSet) {
+        if (dataSets.size() >= max_curve) { //we put a limit to the curve
             System.out.println("max number of data set for " + graphName + " (max is 4)");
             return;
         }
@@ -160,9 +168,12 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     }
     
     @Override
-    public void removeDataSet(String label) { //clear le tablea I gess, de une seule courbe
+    /**
+     * is used to remove dataset (curve) from the chart
+     */
+    public void removeDataSet(String label) {
         
-        for (int i = 0; i < dataSets.size(); i++) { //pas de recherche avencer car on aurais au max 4 courbes
+        for (int i = 0; i < dataSets.size(); i++) {
             if (dataSets.get(i).getLabel() == label) { //on cherche par rapport au label
                 dataSets.remove(i);
                 return;
@@ -172,6 +183,13 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
         return;
     }
     
+    
+    /**
+     * is used to get a dataset from the curve name
+     *
+     * @param label the name of the curve you want
+     * @return
+     */
     public LineDataSet getDataSet(String label){
         for (int i = 0; i < dataSets.size(); i++) { //pas de recherche avencer car on aurais au max 4 courbes
             if (dataSets.get(i).getLabel() == label) { //on cherche par rapport au label
@@ -185,7 +203,10 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     
     
     @Override
-    public void show() { // affiche toute les courbes et le graph
+    /**
+     * display the cahet with every curve in it
+     */
+    public void show() {
         
         if (dataSets.size() == 0) {
             return;
@@ -211,7 +232,10 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     }
     
     @Override
-    public void showDataSet(String label) {//affiche une des courbes graphique et desaffiche les autres
+    /**
+     * diplay only one chart
+     */
+    public void showDataSet(String label) {
         ArrayList<ILineDataSet> dataSe = new ArrayList<>();
         for (int i = 0; i < dataSets.size(); i++) {
             if (dataSets.get(i).getLabel() == label) {
@@ -229,6 +253,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     }
     
     @Override
+    /**
+     * used to zoom in the chart
+     */
     public void zoomIn() {
         width -= (initWidth * 10) / 100;
         height -= (initHeight * 10) / 100;
@@ -236,6 +263,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     }
     
     @Override
+    /**
+     * used to zoom in the chart
+     */
     public void zoomIn(int scale) {
         width -= (initWidth * scale) / 100;
         height -= (initHeight * scale) / 100;
@@ -243,6 +273,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     }
     
     @Override
+    /**
+     * used to zoom in the chart
+     */
     public void zoomIn(int scaleW, int scaleH) {
         width -= (initWidth * scaleW) / 100;
         height -= (initHeight * scaleH) / 100;
@@ -250,6 +283,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     }
     
     @Override
+    /**
+     * used to zoom in the chart
+     */
     public void zoomOut() {
         width += (initWidth * 10) / 100;
         height += (initHeight * 10) / 100;
@@ -257,6 +293,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     }
     
     @Override
+    /**
+     * used to zoom in the chart
+     */
     public void zoomOut(int scale) {
         width += (initWidth * scale) / 100;
         height += (initHeight * scale) / 100;
@@ -264,6 +303,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     }
     
     @Override
+    /**
+     * used to zoom in the chart
+     */
     public void zoomOut(int scaleW, int scaleH) {
         width += (initWidth * scaleW) / 100;
         height += (initHeight * scaleH) / 100;
@@ -271,29 +313,20 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     }
     
     @Override
-    public void rename(String newLabel) { //renomer dans la listes des grphique??
+    /**
+     * used to rename the chart
+     */
+    public void rename(String newLabel) {
         this.graphName = newLabel;
         return;
     }
     
-    @Override
-    public void update() { //Deprecated
-        
-        
-        
-        System.out.println(chart.getWidth());
-        System.out.println(chart.getHeight());
-        
-        
-        //chart.zoomToCenter(width, height);
-        //chart.zoomToCenter((float) 1.5 , (float) 1.5);
-        
-        
-        return;
-    }
     
     @Override
-    public String print() { // affiche dans la console, toute les courbes
+    /**
+     * used to print the value of the chart in the consol (debug)
+     */
+    public String print() {
         String out = "";
         
         out += ("Data form graph " + graphName + "\n");
@@ -310,7 +343,10 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     
     
     @Override
-    public String printDataSet(String label) { //affiche une seule courbe
+    /**
+     * used to print the value of one curve in the consol from it's name (debug)
+     */
+    public String printDataSet(String label) {
         String out = "";
         boolean found = false;
         
@@ -329,7 +365,12 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
         return out;
     }
     
-    //sert a mettre en forme les coubres
+    /**
+     * format the data to a string
+     *
+     * @param data
+     * @return
+     */
     private String printer(ILineDataSet data) {
         String out = "";
         
@@ -348,6 +389,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     //OnChartValueSelectedListener
     
     @Override
+    /**
+     * listener for the popop
+     */
     public void onValueSelected(Entry e, Highlight h) {
         float f = e.getY();
         System.out.println(f);
@@ -365,6 +409,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     }
     
     @Override
+    /**
+     * used to clear the popup
+     */
     public void onNothingSelected() {
         removepopval();
         

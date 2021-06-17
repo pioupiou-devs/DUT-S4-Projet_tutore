@@ -7,24 +7,32 @@
 
     <ImageView
             android:id="@+id/logo_splashscreen"
-            android:layout_width="319dp"
-            android:layout_height="279dp"
-            android:layout_marginTop="136dp"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/logo"
-            android:contentDescription="@string/logo" />
+            android:contentDescription="@string/logo"
+            app:layout_constraintBottom_toTopOf="@+id/progressBar_splashcreen"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp" />
 
     <ProgressBar
             android:id="@+id/progressBar_splashcreen"
             style="?android:attr/progressBarStyleLarge"
-            android:layout_width="115dp"
-            android:layout_height="115dp"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="156dp"
+            android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/logo_splashscreen"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

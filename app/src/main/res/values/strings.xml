@@ -34,4 +34,9 @@
     <string name="btnEdit">Edit</string>
     <string name="btnDelete">Delete</string>
     <string name="modalTextBoxTitle">Choose a name :</string>
+    <string name="appName">Mobile Différe</string>
+    <string name="logo">Main Logo</string>
+    <string name="splashscreen">SplashScreen</string>
+    <string name="SelectionActivity">Selection Page</string>
+    <string name="CurveActivity">Curve Page</string>
 </resources>

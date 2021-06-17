@@ -14,11 +14,13 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ListviewAdapter extends BaseAdapter implements ListAdapter
     {
         private final Context context;
-        private ArrayList<Graph> list = new ArrayList<>();
+        private ArrayList<Graph> list;
+        private Graph selectedGraph;
         
         public ListviewAdapter(ArrayList<Graph> list, Context context)
             {
@@ -65,9 +67,8 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                     builder.setPositiveButton(android.R.string.ok, (dialog, which) ->
                     {
                         dialog.dismiss();
-                        System.out.println(this.list.get(pos));
                         this.list.get(pos).setName(input.getText().toString());
-                        this.notifyDataSetChanged();
+                        notifyDataSetChanged();
                     });
                     builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
                     
@@ -79,16 +80,27 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                 {
                     if (this.list.get(pos) != null)
                         this.list.remove(pos);
-                    this.notifyDataSetChanged();
+                    notifyDataSetChanged();
                 });
                 
                 ImageButton ibtnSelect = (ImageButton) element.findViewById(R.id.ibtnSelect);
                 ibtnSelect.setOnClickListener(view ->
                 {
-                    //TODO : select the graph ( with link between pages)
+                    this.selectedGraph = this.list.get(pos);
                     ((SelectionActivity) context).setToolbarTitle(this.list.get(pos).getName());
                 });
                 
                 return element;
+            }
+        
+        public Graph getSelectedGraph()
+            {
+                return selectedGraph;
+            }
+        
+        public void addGraph(Graph... graphs)
+            {
+                this.list.addAll(Arrays.asList(graphs));
+                notifyDataSetChanged();
             }
     }

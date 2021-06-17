@@ -29,7 +29,7 @@ public class CurveActivity extends AppCompatActivity
                 
                 //Graph test = new Graph("graph de test", 50, 50, 50, 50, this);
                 
-                Graph test = new Graph("graph de test", 50, 50, 50, 50);
+                Graph test = new Graph("graph de test");
                 test.create_chart(findViewById(R.id.chart));
                 
                 ArrayList<Entry> val = new ArrayList<>();
@@ -87,30 +87,25 @@ public class CurveActivity extends AppCompatActivity
                 //test.showDataSet(name1);
                 
                 //test.update();
-                
-                BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-                bottomNav.setOnNavigationItemSelectedListener(navListener);
-                
-                
+    
+    
                 Button btnZoomAdd = (Button) findViewById(R.id.btnZoomAdd);
-                btnZoomAdd.setOnClickListener(view -> {
+                btnZoomAdd.setOnClickListener(view ->
+                {
                     System.out.println("Zoom IN");
                     test.zoomIn();
                 });
-    
                 Button btnZoomLess = (Button) findViewById(R.id.btnZoomLess);
-                btnZoomLess.setOnClickListener(view -> {
+                btnZoomLess.setOnClickListener(view ->
+                {
                     System.out.println("Zoom OUT");
                     test.zoomOut();
                 });
                 
+                BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+                bottomNav.setOnNavigationItemSelectedListener(navListener);
+                
             }
-    
-    
-    
-        
-            
-            
         
         private final BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener()
             {

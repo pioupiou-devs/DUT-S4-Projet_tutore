@@ -5,42 +5,40 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/selected_graph"
-            android:roundIcon="@mipmap/ic_launcher_round"
+            android:icon="@drawable/logo"
+            android:label="@string/appName"
+            android:roundIcon="@drawable/logo"
             android:supportsRtl="true"
             android:theme="@style/Theme.MyApplication">
         <activity
-                android:name=".SelectionActivity"
-                android:label="@string/selected_graph"
+                android:name=".SplashscreenActivity"
+                android:label="@string/appName"
                 android:theme="@style/Theme.MyApplication.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+                android:name=".SelectionActivity"
+                android:label="@string/SelectionActivity"
+                android:theme="@style/Theme.MyApplication.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
                 android:name=".CurveActivity"
-                android:label="@string/selected_graph"
+                android:label="@string/CurveActivity"
                 android:theme="@style/Theme.MyApplication.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-                android:name=".SplashscreenActivity"
-                android:label="@string/selected_graph"
-                android:theme="@style/Theme.MyApplication.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

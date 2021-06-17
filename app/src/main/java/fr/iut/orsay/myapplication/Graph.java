@@ -15,78 +15,70 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 //OnChartGestureListener
-public class Graph implements GraphInterface, OnChartValueSelectedListener {
-    
-    private static int NUM_ID = 0;
-    private final int max_curve = 5;
-    int height = 0, width = 0, initHeight = 0, initWidth = 0, compoWidth = 0, compoHeight = 0;
-    String graphName;
-    ArrayList<LineDataSet> dataSets = new ArrayList<>();
-    LineChart chart = null;
-    private int id;
-    
-    private final String popval = "Point";
-    
-    
-    public Graph(String graphName, int compoWidth, int compoHeight, int width, int height) {
-        this.graphName = graphName;
-        this.compoWidth = compoWidth;
-        this.compoHeight = compoHeight;
-        this.width = width;
-        this.height = height;
-        this.initWidth = width;
-        this.initHeight = height;
-        id = NUM_ID;
-        NUM_ID++;
+public class Graph implements GraphInterface, OnChartValueSelectedListener, Serializable
+    {
         
-        this.chart = null;
-    }
-    
-    
-    public Graph(String graphName, int compoWidth, int compoHeight, int width, int height, ArrayList<LineDataSet> dataSets) {
-        this.graphName = graphName;
-        this.compoWidth = compoWidth;
-        this.compoHeight = compoHeight;
-        this.width = width;
-        this.height = height;
-        this.initWidth = width;
-        this.initHeight = height;
-        id = NUM_ID;
-        NUM_ID++;
+        private static int NUM_ID = 0;
+        private final int max_curve = 5;
+        int height = 0, width = 0, initHeight = 0, initWidth = 0;
+        String graphName;
+        ArrayList<LineDataSet> dataSets = new ArrayList<>();
+        LineChart chart = null;
+        private int id;
+        
+        private final String popval = "Point";
         
         
-        this.dataSets = dataSets;
+        public Graph(String graphName)
+            {
+                this.graphName = graphName;
+                this.initWidth = width;
+                this.initHeight = height;
+                id = NUM_ID;
+                NUM_ID++;
+            }
         
-        this.chart = null;
         
-    }
-    
-    public void create_chart(View context) {//creer le cadre et initialiser les valeur du cadre
-        LineChart new_chart = (LineChart) context;
+        public Graph(String graphName, ArrayList<LineDataSet> dataSets)
+            {
+                this.graphName = graphName;
+                this.initWidth = width;
+                this.initHeight = height;
+                id = NUM_ID;
+                NUM_ID++;
+                
+                
+                this.dataSets = dataSets;
+                
+                this.chart = null;
+                
+            }
         
-        new_chart.setDrawBorders(true); //encadre la graph
-        new_chart.setPinchZoom(true);
-        new_chart.setTouchEnabled(true);
-        
-        new_chart.setNoDataText("Chart loading, please wait");
-        //new_chart.getDescription().setEnabled(false);
-        
-        new_chart.getXAxis().setDrawLabels(false);
-    
-        new_chart.getDescription().setText("");
-        new_chart.getDescription().setTextSize(15f);
-        
-        // Formatter to adjust epoch time to readable date
-        //new_chart.getXAxis().setValueFormatter(new LineChartXAxisValueFormatter());
-    
-        /*XAxis xAxis = chart.getXAxis();
-        xAxis.setValueFormatter(new DateValueFormatter());*/
-    
+        public void create_chart(View view)
+            {//creer le cadre et initialiser les valeur du cadre
+                LineChart new_chart = (LineChart) view;
+                
+                new_chart.setDrawBorders(true); //encadre la graph
+                new_chart.setPinchZoom(true);
+                new_chart.setTouchEnabled(true);
+                
+                new_chart.setNoDataText("Chart loading, please wait");
+                //new_chart.getDescription().setEnabled(false);
+                
+                new_chart.getXAxis().setDrawLabels(false);
+                
+                new_chart.getDescription().setText("");
+                new_chart.getDescription().setTextSize(15f);
+                
+                // Formatter to adjust epoch time to readable date
+                //new_chart.getXAxis().setValueFormatter(new LineChartXAxisValueFormatter());
+
         //TODO orienter les legendes
         //new_chart.getLegend().setOrientation(45);
     
@@ -495,4 +487,8 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
         this.graphName = graphName;
     }
     
-}
+        public LineChart getChart()
+            {
+                return chart;
+            }
+    }

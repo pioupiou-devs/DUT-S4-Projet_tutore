@@ -33,7 +33,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     private final String popval = "Point";
     
     
-    public Graph(String graphName, int compoWidth, int compoHeight, int width, int height, View context) {
+    public Graph(String graphName, int compoWidth, int compoHeight, int width, int height) {
         this.graphName = graphName;
         this.compoWidth = compoWidth;
         this.compoHeight = compoHeight;
@@ -44,11 +44,11 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
         id = NUM_ID;
         NUM_ID++;
         
-        this.chart = create_chart(context);
+        this.chart = null;
     }
     
     
-    public Graph(String graphName, int compoWidth, int compoHeight, int width, int height, ArrayList<LineDataSet> dataSets, View context) {
+    public Graph(String graphName, int compoWidth, int compoHeight, int width, int height, ArrayList<LineDataSet> dataSets) {
         this.graphName = graphName;
         this.compoWidth = compoWidth;
         this.compoHeight = compoHeight;
@@ -62,11 +62,11 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
         
         this.dataSets = dataSets;
         
-        this.chart = create_chart(context);
+        this.chart = null;
         
     }
     
-    public LineChart create_chart(View context) {//creer le cadre et initialiser les valeur du cadre
+    public void create_chart(View context) {//creer le cadre et initialiser les valeur du cadre
         LineChart new_chart = (LineChart) context;
         
         new_chart.setDrawBorders(true); //encadre la graph
@@ -89,9 +89,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     
         //TODO orienter les legendes
         //new_chart.getLegend().setOrientation(45);
-        
-        
-        return new_chart;
+    
+        this.chart = new_chart;
+        return;
     }
     
     /**
@@ -259,6 +259,8 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     public void zoomIn() {
         width -= (initWidth * 10) / 100;
         height -= (initHeight * 10) / 100;
+    
+        show();
         
     }
     
@@ -289,6 +291,8 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener {
     public void zoomOut() {
         width += (initWidth * 10) / 100;
         height += (initHeight * 10) / 100;
+        
+        show();
         
     }
     

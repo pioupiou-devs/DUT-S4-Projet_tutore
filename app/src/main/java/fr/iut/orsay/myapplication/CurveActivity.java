@@ -3,6 +3,8 @@ package fr.iut.orsay.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +29,8 @@ public class CurveActivity extends AppCompatActivity
                 
                 //Graph test = new Graph("graph de test", 50, 50, 50, 50, this);
                 
-                Graph test = new Graph("graph de test", 50, 50, 50, 50, findViewById(R.id.chart));
+                Graph test = new Graph("graph de test", 50, 50, 50, 50);
+                test.create_chart(findViewById(R.id.chart));
                 
                 ArrayList<Entry> val = new ArrayList<>();
                 val.add(new Entry(1, 50));
@@ -89,7 +92,25 @@ public class CurveActivity extends AppCompatActivity
                 bottomNav.setOnNavigationItemSelectedListener(navListener);
                 
                 
+                Button btnZoomAdd = (Button) findViewById(R.id.btnZoomAdd);
+                btnZoomAdd.setOnClickListener(view -> {
+                    System.out.println("Zoom IN");
+                    test.zoomIn();
+                });
+    
+                Button btnZoomLess = (Button) findViewById(R.id.btnZoomLess);
+                btnZoomLess.setOnClickListener(view -> {
+                    System.out.println("Zoom OUT");
+                    test.zoomOut();
+                });
+                
             }
+    
+    
+    
+        
+            
+            
         
         private final BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener()
             {

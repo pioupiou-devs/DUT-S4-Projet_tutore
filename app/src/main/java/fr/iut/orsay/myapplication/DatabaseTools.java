@@ -13,9 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 
-import java.time.LocalDateTime;
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -51,22 +50,20 @@ public class DatabaseTools {
         ResultSet resultSet = queryExecution.get();
 
         ArrayList<Entry> values = new ArrayList<>();
-        int i = 1;
         while(resultSet.next()) {
             //values.add(new Entry(resultSet.getTimestamp(1), Float.parseFloat(resultSet.getString(2))));
             values.add(new Entry(Long.valueOf(resultSet.getTimestamp(1).getTime()).floatValue(), Float.parseFloat(resultSet.getString(2)))); //TODO : problème de compatibilité entre les Entry et les DateTime
-            i++;
         }
         return values;
     }
 
     //surcharge pour la spécification d'une plage de dates
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static ArrayList<Entry> getValues(int numSensor, int numIPSO, PreparedStatement preparedStatement, LocalDateTime dateMin, LocalDateTime dateMax) throws SQLException, ExecutionException, InterruptedException {
+    public static ArrayList<Entry> getValues(int numSensor, int numIPSO, PreparedStatement preparedStatement, Date dateMin, Date dateMax) throws SQLException, ExecutionException, InterruptedException {
         preparedStatement.setInt(1, numSensor);
         preparedStatement.setInt(2, numIPSO);
-        preparedStatement.setTimestamp(2, Timestamp.valueOf(String.valueOf(dateMax)));
-        preparedStatement.setTimestamp(3, Timestamp.valueOf(String.valueOf(dateMin)));
+        preparedStatement.setTimestamp(3, new Timestamp(dateMax.getTime()));
+        preparedStatement.setTimestamp(4, new Timestamp(dateMin.getTime()));
 
         CompletableFuture<ResultSet> queryExecution = CompletableFuture.supplyAsync(() -> {
             ResultSet resultSet = null;

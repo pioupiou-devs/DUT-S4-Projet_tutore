@@ -1,26 +1,24 @@
 package fr.iut.orsay.myapplication;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.ColorDrawable;
+
 import android.os.Build;
 import android.os.Bundle;
+
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.SparseBooleanArray;
-import android.view.MenuItem;
+
 import android.view.View;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -31,21 +29,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.Locale;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher {
     private static final String DATABASE_URL = "jdbc:mariadb://78.116.137.76:3306/pt?user=usr1&password=pt1";
 
     private PreparedStatement getTypes_ps;
     private PreparedStatement getSensor_ps;
-
-    private ArrayList<String> currentSelectedSensors;
-    private ArrayList<String> currentSelectedTypes;
 
     private GraphData graphData;
 
@@ -110,36 +109,36 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
 
         graphData.setGraphsData(new ArrayList<>());
     
-        BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
     
     }
     
-    private final BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener()
-        {
-            
-            @Override public boolean onNavigationItemSelected(@NonNull MenuItem item)
-                {
-                    System.out.println(item);
-                    if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
-                        {
-                            Intent intent = new Intent(FilterActivity.this, FilterActivity.class); //TODO : replace with correct class
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                        }
-                    else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
-                        {
-                            Intent intent = new Intent(FilterActivity.this, FilterActivity.class); //TODO : replace with correct class
-                            intent.putExtra("GraphData",new HashMap<>()); //TODO : replace the empty hasmap with data export from the request
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                        }
-                    else
-                        return false;
-                    return true;
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
+        System.out.println(item);
+        if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
+            {
+                Intent intent = new Intent(FilterActivity.this, FilterActivity.class); //TODO : replace with correct class
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
+            {
+                Intent intent = new Intent(FilterActivity.this, FilterActivity.class); //TODO : replace with correct class
+                try {
+                    intent.putExtra("GraphData", graphData.getData());
+                } catch (SQLException | ExecutionException | InterruptedException throwables) {
+                    throwables.printStackTrace();
                 }
-        };
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        else
+            return false;
+        return true;
+    };
     
+    @SuppressLint("NonConstantResourceId")
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onRadioButtonClicked(View view) throws SQLException, ExecutionException, InterruptedException {
         boolean checked = ((RadioButton) view).isChecked();
@@ -175,8 +174,6 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
                 } catch (SQLException | ExecutionException | InterruptedException throwables) {
                     throwables.printStackTrace();
                 }
-                //ArrayAdapter<String> adapter = new ArrayAdapter<>(FilterActivity.this, R.layout.support_simple_spinner_dropdown_item, types);
-                //dataList.setAdapter(adapter);
                 listViewFilterAdapterDataList = new ListViewFilter(FilterActivity.this, types);
             }
             else if(radioType.isChecked()){
@@ -200,7 +197,7 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
     public void addToCurrentData(View view){
         ArrayList<String> valueToAdd;
         if(radioSensor.isChecked()){
-            currentSelectedTypes = listViewFilterAdapterDataList.getSelectedData();
+            ArrayList<String> currentSelectedTypes = listViewFilterAdapterDataList.getSelectedData();
             for(int i = 0; i < currentSelectedTypes.size(); i++) {
                 valueToAdd = new ArrayList<>(Arrays.asList(spnSelector.getSelectedItem().toString(), currentSelectedTypes.get(i)));
                 ArrayList<ArrayList<String>> currentData = graphData.getGraphsData();
@@ -211,7 +208,7 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
             }
         }
         else if(radioType.isChecked()){
-            currentSelectedSensors = listViewFilterAdapterDataList.getSelectedData();
+            ArrayList<String> currentSelectedSensors = listViewFilterAdapterDataList.getSelectedData();
             for(int i = 0; i < currentSelectedSensors.size(); i++){
                 valueToAdd = new ArrayList<>(Arrays.asList(currentSelectedSensors.get(i), spnSelector.getSelectedItem().toString()));
                 ArrayList<ArrayList<String>> currentData = graphData.getGraphsData();
@@ -252,9 +249,35 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void afterTextChanged(Editable editable) {
-        //if (editable.)
-        //TODO : check le format date pour les deux EditText
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+
+        if (startDateEditText.getText() == editable && isValidDate(editable.toString())) {
+            try {
+                graphData.setStartDate(dateFormat.parse(editable.toString()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (endDateEditText.getText() == editable && isValidDate(editable.toString())){
+            try {
+                graphData.setEndDate(dateFormat.parse(editable.toString()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static boolean isValidDate(String date) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(date.trim());
+        } catch (ParseException e) {
+            return false;
+        }
+        return true;
     }
 }

@@ -218,11 +218,7 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
                 }
             }
         }
-        ArrayList<String> concatenateCurrentData = new ArrayList<>();
-        for (int i = 0; i < graphData.getGraphsData().size(); i++){
-            concatenateCurrentData.add(graphData.getGraphsData().get(i).get(0) + ":" + graphData.getGraphsData().get(i).get(1));
-        }
-        listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, concatenateCurrentData);
+        listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, graphData.getConcatenatedCurrentData());
         currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
     }
 
@@ -234,12 +230,7 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
             currentData.remove(new ArrayList<>(Arrays.asList(splitted[0], splitted[1])));
             graphData.setGraphsData(currentData);
         }
-
-        ArrayList<String> concatenateCurrentData = new ArrayList<>();
-        for (int i = 0; i < graphData.getGraphsData().size(); i++) {
-            concatenateCurrentData.add(graphData.getGraphsData().get(i).get(0) + ":" + graphData.getGraphsData().get(i).get(1));
-        }
-        listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, concatenateCurrentData);
+        listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, graphData.getConcatenatedCurrentData());
         currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
     }
 

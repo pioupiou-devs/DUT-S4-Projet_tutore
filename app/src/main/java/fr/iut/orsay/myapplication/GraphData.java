@@ -73,4 +73,12 @@ public class GraphData {
         }
         return data;
     }
+
+    public ArrayList<String> getConcatenatedCurrentData() {
+        ArrayList<String> concatenatedCurrentData = new ArrayList<>();
+        for (int i = 0; i < graphsData.size(); i++){
+            concatenatedCurrentData.add(graphsData.get(i).get(0) + ":" + graphsData.get(i).get(1));
+        }
+        return concatenatedCurrentData;
+    }
 }

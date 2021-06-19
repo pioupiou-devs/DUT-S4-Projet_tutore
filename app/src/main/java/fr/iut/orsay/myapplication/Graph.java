@@ -122,10 +122,10 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     
     /**
-     * function used to set the graphical representation of the curve
+     * methode pour la representation graphique de la courbe
      *
-     * @param set the curve to be formated
-     * @return the curve, correctly formated
+     * @param set la courbe a formatter
+     * @return la courbe correctement formatter
      */
     private LineDataSet formatting_dataset(LineDataSet set) {
         
@@ -145,10 +145,10 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * is used to add dataset (curve) to chart
+     * utiliser pour ajouter la courbe au graph
      */
     public void addDataSet(String label, ArrayList<Entry> dataSet) {
-        if (dataSets.size() >= max_curve) { //we put a limit to the curve
+        if (dataSets.size() >= max_curve) { //on a limiter la courbe
             System.out.println("max number of data set for " + graphName + " (max is 4)");
             return;
         }
@@ -161,7 +161,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * is used to remove dataset (curve) from the chart
+     * utiliser pour retirer la courbe du graph
      */
     public void removeDataSet(String label) {
         
@@ -177,9 +177,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     
     /**
-     * is used to get a dataset from the curve name
+     * pour recuperer la courbe a partir du nom
      *
-     * @param label the name of the curve you want
+     * @param label le nom de la courbe
      * @return
      */
     public LineDataSet getDataSet(String label){
@@ -196,7 +196,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * display the cahet with every curve in it
+     * affiche la courbe avec chaque courbe
      */
     public void show() {
         
@@ -225,7 +225,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * diplay only one chart
+     * affiche une unique courbe
      */
     public void showDataSet(String label) {
         ArrayList<ILineDataSet> dataSe = new ArrayList<>();
@@ -246,11 +246,13 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * used to zoom in the chart
+     * zoomer dans le graph
      */
     public void zoomIn() {
         width -= (initWidth * 10) / 100;
         height -= (initHeight * 10) / 100;
+    
+        chart.getViewPortHandler().setZoom( (float).5, (float).5,4,40 );
     
         show();
         
@@ -258,7 +260,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * used to zoom in the chart
+     *  zoomer dans le graph
      */
     public void zoomIn(int scale) {
         width -= (initWidth * scale) / 100;
@@ -268,7 +270,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * used to zoom in the chart
+     *  zoomer dans le graph
      */
     public void zoomIn(int scaleW, int scaleH) {
         width -= (initWidth * scaleW) / 100;
@@ -278,7 +280,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * used to zoom in the chart
+     *  zoomer dans le graph
      */
     public void zoomOut() {
         width += (initWidth * 10) / 100;
@@ -290,7 +292,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * used to zoom in the chart
+     *  zoomer dans le graph
      */
     public void zoomOut(int scale) {
         width += (initWidth * scale) / 100;
@@ -300,7 +302,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * used to zoom in the chart
+     *  zoomer dans le graph
      */
     public void zoomOut(int scaleW, int scaleH) {
         width += (initWidth * scaleW) / 100;
@@ -310,7 +312,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * used to rename the chart
+     *  zoomer dans le graph
      */
     public void rename(String newLabel) {
         this.graphName = newLabel;
@@ -320,7 +322,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * used to print the value of the chart in the consol (debug)
+     * affiche les donner du graph dans la console (debug)
      */
     public String print() {
         String out = "";
@@ -340,7 +342,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * used to print the value of one curve in the consol from it's name (debug)
+     * affiche les valeure d'une courbe, en fonction du nom, dans la console  (debug)
      */
     public String printDataSet(String label) {
         String out = "";
@@ -362,9 +364,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     }
     
     /**
-     * format the data to a string
+     * transform les donnees en string
      *
-     * @param data
+     * @param data les donnée a transformer
      * @return
      */
     private String printer(ILineDataSet data) {
@@ -386,7 +388,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * listener for the popop
+     * ecouter pour la popup
      */
     public void onValueSelected(Entry e, Highlight h) {
         float f = e.getY();
@@ -406,7 +408,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     @Override
     /**
-     * used to clear the popup
+     * ecouteur, en cas de reclick sur le meme point
      */
     public void onNothingSelected() {
         removepopval();
@@ -487,8 +489,31 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         this.graphName = graphName;
     }
     
-        public LineChart getChart()
-            {
-                return chart;
-            }
+    public LineChart getChart()
+    {
+        return chart;
     }
+    
+    public float get_startdate(){
+            return (float)0.0;
+    }
+    
+    public float get_enddate(){
+        return (float)0.0;
+    }
+    
+    public ArrayList<String> get_curvelbl(){
+        ArrayList<String> labels = new ArrayList<>();
+        
+        for (int i =0; i< dataSets.size();i++){
+            labels.add(dataSets.get(i).getLabel());
+        }
+        return labels;
+    }
+    
+    
+    }
+    
+    
+   
+    

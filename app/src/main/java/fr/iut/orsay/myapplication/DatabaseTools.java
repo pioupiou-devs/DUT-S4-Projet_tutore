@@ -104,7 +104,7 @@ public class DatabaseTools {
         ResultSet resultSet = queryExecution.get();
 
         while (resultSet.next()){
-            listTypes.add(resultSet.getInt(1) + " - " + resultSet.getString(2) + " (" + resultSet.getString(3) + ")");
+            listTypes.add(resultSet.getInt(1) + "-" + resultSet.getString(2));
         }
         return listTypes;
     }
@@ -128,7 +128,7 @@ public class DatabaseTools {
         ResultSet resultSet = queryExecution.get();
 
         while(resultSet.next()){
-            listTypes.add(resultSet.getInt(1) + " - " + resultSet.getString(2) + " (" + resultSet.getString(3) + ")");
+            listTypes.add(resultSet.getInt(1) + "-" + resultSet.getString(2));
         }
         return listTypes;
     }
@@ -153,7 +153,7 @@ public class DatabaseTools {
 
         while (resultSet.next()){
             if(!resultSet.getString(2).equals("")) {
-                listSensors.add(resultSet.getInt(1) + " - " + resultSet.getString(2));
+                listSensors.add(resultSet.getInt(1) + "-" + resultSet.getString(2));
             }
             else {
                 listSensors.add(String.valueOf(resultSet.getInt(1)));
@@ -182,7 +182,7 @@ public class DatabaseTools {
 
         while (resultSet.next()){
             if(!resultSet.getString(2).equals("")) {
-                listSensors.add(resultSet.getInt(1) + " - " + resultSet.getString(2));
+                listSensors.add(resultSet.getInt(1) + "-" + resultSet.getString(2));
             }
             else {
                 listSensors.add(String.valueOf(resultSet.getInt(1)));

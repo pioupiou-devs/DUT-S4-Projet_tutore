@@ -2,8 +2,8 @@
 <resources>
     <item name="get_values" type="string">SELECT creationDate, valueData FROM DATA_SENSOR WHERE numSensor = ? AND numIPSO = ? ORDER BY creationDate</item>
     <item name="get_values_with_specified_dates" type="string">SELECT creationDate, valueData FROM DATA_SENSOR WHERE numSensor = ? AND numIPSO = ? AND creationDate &lt;= ? AND creationDate &gt;= ? ORDER BY creationDate</item>
-    <item name="get_types" type="string">SELECT numIPSO, description, formatIPSO FROM TYPE_IPSO NATURAL JOIN DATA_SENSOR GROUP BY numIPSO HAVING COUNT(*) &gt; 0</item>
+    <item name="get_types" type="string">SELECT numIPSO, description FROM TYPE_IPSO NATURAL JOIN DATA_SENSOR GROUP BY numIPSO HAVING COUNT(*) &gt; 0</item>
     <item name="get_sensors" type="string">SELECT numSensor, location FROM SENSOR NATURAL JOIN DATA_SENSOR GROUP BY numSensor HAVING COUNT(*) &gt; 0</item>
-    <item name="get_types_with_specified_sensor" type="string">SELECT numIPSO, description, formatIPSO FROM TYPE_IPSO NATURAL JOIN DATA_SENSOR WHERE numSensor = ? GROUP BY numIPSO HAVING COUNT(*) &gt; 0</item>
+    <item name="get_types_with_specified_sensor" type="string">SELECT numIPSO, description FROM TYPE_IPSO NATURAL JOIN DATA_SENSOR WHERE numSensor = ? GROUP BY numIPSO HAVING COUNT(*) &gt; 0</item>
     <item name="get_sensors_with_specified_type" type="string">SELECT numSensor, location FROM SENSOR NATURAL JOIN DATA_SENSOR WHERE numIPSO = ? GROUP BY numSensor HAVING COUNT(*) &gt; 0</item>
 </resources>

@@ -108,12 +108,30 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         }
 
         graphData.setGraphsData(new ArrayList<>());
-    
+
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-    
     }
-    
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        /* //TODO : décommenter lors du merge
+        Graph graph = getIntent().getSerializableExtra(selectedGraph);
+        ArrayList<String> currentData = graph.get_curvelbl();
+        ArrayList<ArrayList<String>> splittedCurrentData = new ArrayList<>();
+        for (int i = 0; i < currentData.size(); i++){
+            String[] line = currentData.get(i).split(":");
+            splittedCurrentData.add(new ArrayList<>(Arrays.asList(line[0], line[1])));
+        }
+        graphData.setGraphsData(splittedCurrentData);
+        */
+        graphData.setEndDate(null);
+        graphData.setStartDate(null);
+        listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, graphData.getConcatenatedCurrentData());
+        currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
+    }
+
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
         System.out.println(item);
         if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
@@ -137,7 +155,7 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
             return false;
         return true;
     };
-    
+
     @SuppressLint("NonConstantResourceId")
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onRadioButtonClicked(View view) throws SQLException, ExecutionException, InterruptedException {

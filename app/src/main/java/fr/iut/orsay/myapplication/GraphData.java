@@ -28,6 +28,8 @@ public class GraphData {
         this.connection = connection;
         getValuesWithDate_ps = connection.prepareStatement(context.getString(R.string.get_values_with_specified_dates));
         getValues_ps = connection.prepareStatement(context.getString(R.string.get_values));
+        startDate = null;
+        endDate = null;
     }
 
     public Connection getConnection() {
@@ -60,7 +62,7 @@ public class GraphData {
                         getValuesWithDate_ps,
                         startDate,
                         endDate);
-                data.put(graphsData.get(i).get(0).substring(4) + ":" + graphsData.get(i).get(1).substring(4), values);
+                data.put(graphsData.get(i).get(0) + ":" + graphsData.get(i).get(1), values);
             }
         }
         else{
@@ -68,7 +70,7 @@ public class GraphData {
                 ArrayList<Entry> values = DatabaseTools.getValues(Integer.parseInt(graphsData.get(i).get(0).substring(0, 1)),
                         Integer.parseInt(graphsData.get(i).get(1).substring(0, 1)),
                         getValues_ps);
-                data.put(graphsData.get(i).get(0).substring(4) + ":" + graphsData.get(i).get(1).substring(4), values);
+                data.put(graphsData.get(i).get(0) + ":" + graphsData.get(i).get(1), values);
             }
         }
         return data;

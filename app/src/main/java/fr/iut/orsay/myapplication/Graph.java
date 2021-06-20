@@ -18,86 +18,90 @@ import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 //OnChartGestureListener
-public class Graph implements GraphInterface, OnChartValueSelectedListener, Serializable
-    {
-        
-        private static int NUM_ID = 0;
-        private final int max_curve = 5;
-        int height = 0, width = 0, initHeight = 0, initWidth = 0;
-        String graphName;
-        ArrayList<LineDataSet> dataSets = new ArrayList<>();
-        LineChart chart = null;
-        private int id;
-        private Context context;
-        private View view;
-        
-        
-        private final String popval = "Point";
-        
-        
-        public Graph(String graphName)
-            {
-                this.graphName = graphName;
-                this.initWidth = width;
-                this.initHeight = height;
-                id = NUM_ID;
-                NUM_ID++;
-            }
-        
-        
-        public Graph(String graphName, ArrayList<LineDataSet> dataSets)
-            {
-                this.graphName = graphName;
-                this.initWidth = width;
-                this.initHeight = height;
-                id = NUM_ID;
-                NUM_ID++;
-                
-                
-                this.dataSets = dataSets;
-                
-                this.chart = null;
-                
-            }
-        
-        public void create_chart(View view, Context context)
-            {//creer le cadre et initialiser les valeur du cadre
-                
-                this.context=context;
-                this.view = view;
-                
-                LineChart new_chart = (LineChart) view;
-                
-                new_chart.setDrawBorders(true); //encadre la graph
-                new_chart.setPinchZoom(true);
-                new_chart.setTouchEnabled(true);
-                
-                new_chart.setNoDataText("Chart loading, please wait");
-                //new_chart.getDescription().setEnabled(false);
-                
-                new_chart.getXAxis().setDrawLabels(false);
-                
-                new_chart.getDescription().setText("");
-                new_chart.getDescription().setTextSize(15f);
-                
-                
-                new_chart.setDragDecelerationEnabled(false);
-                
-                // Formatter to adjust epoch time to readable date
-                //new_chart.getXAxis().setValueFormatter(new LineChartXAxisValueFormatter());
+public class Graph implements GraphInterface, OnChartValueSelectedListener, Serializable {
     
-                /*XAxis xAxis = chart.getXAxis();
-                xAxis.setValueFormatter(new DateValueFormatter());*/
+    private static int NUM_ID = 0;
+    private final int max_curve = 5;
+    int height = 0, width = 0, initHeight = 0, initWidth = 0;
+    String graphName;
+    ArrayList<LineDataSet> dataSets = new ArrayList<>();
+    LineChart chart = null;
+    private int id;
+    private Context context;
+    private View view;
+    
+    
+    private final String popval = "Point";
+    
+    
+    public Graph(String graphName) {
+        this.graphName = graphName;
+        this.initWidth = width;
+        this.initHeight = height;
+        id = NUM_ID;
+        NUM_ID++;
+    }
+    
+    
+    public Graph(String graphName, ArrayList<LineDataSet> dataSets) {
+        this.graphName = graphName;
+        this.initWidth = width;
+        this.initHeight = height;
+        id = NUM_ID;
+        NUM_ID++;
+        
+        
+        this.dataSets = dataSets;
+        
+        this.chart = null;
+        
+    }
+    
+    public void create_chart(View view, Context context) {//creer le cadre et initialiser les valeur du cadre
+        
+        this.context = context;
+        this.view = view;
+        
+        LineChart new_chart = (LineChart) view;
+        
+        new_chart.setDrawBorders(true); //encadre la graph
+        new_chart.setPinchZoom(true);
+        new_chart.setTouchEnabled(true);
+        
+        new_chart.setNoDataText("Chart loading, please wait");
+        //new_chart.getDescription().setEnabled(false);
+        
+        new_chart.getXAxis().setDrawLabels(false);
+        
+        new_chart.getDescription().setText("");
+        new_chart.getDescription().setTextSize(15f);
+        
+        
+        new_chart.setDragDecelerationEnabled(false);
+        
+        // Formatter to adjust epoch time to readable date
+        //new_chart.getXAxis().setValueFormatter(new LineChartXAxisValueFormatter());
+    
+        
+        XAxis xAxis = new_chart.getXAxis();
+        xAxis.setValueFormatter(new DateValueFormatter());
 
-
+        
+        
         //new_chart.getLegend().setOrientation(45);
-    
+        
         this.chart = new_chart;
         return;
     }
@@ -198,13 +202,13 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
      * @param label le nom de la courbe
      * @return
      */
-    public LineDataSet getDataSet(String label){
+    public LineDataSet getDataSet(String label) {
         for (int i = 0; i < dataSets.size(); i++) { //pas de recherche avencer car on aurais au max 4 courbes
             if (dataSets.get(i).getLabel() == label) { //on cherche par rapport au label
                 return dataSets.get(i);
             }
         }
-    
+        
         return null;
         
     }
@@ -268,7 +272,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
         
-        chart.zoom((float)1.2,(float)1.2,xValue,yValue);
+        chart.zoom((float) 1.2, (float) 1.2, xValue, yValue);
     }
     
     @Override
@@ -278,7 +282,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomIn(int scale) {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        chart.zoom((float) 1+ Math.abs(scale),(float)1+ Math.abs(scale),xValue,yValue);
+        chart.zoom((float) 1 + Math.abs(scale), (float) 1 + Math.abs(scale), xValue, yValue);
     }
     
     @Override
@@ -288,7 +292,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomIn(int scaleW, int scaleH) {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        chart.zoom((float) 1+ Math.abs(scaleW),(float)1+ Math.abs(scaleH),xValue,yValue);
+        chart.zoom((float) 1 + Math.abs(scaleW), (float) 1 + Math.abs(scaleH), xValue, yValue);
         
     }
     
@@ -299,8 +303,8 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomOut() {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        chart.zoom((float).8,(float).8,xValue,yValue);
-
+        chart.zoom((float) .8, (float) .8, xValue, yValue);
+        
         
     }
     
@@ -311,7 +315,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomOut(int scale) {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        chart.zoom((float) 1- Math.abs(scale),(float)1- Math.abs(scale),xValue,yValue);
+        chart.zoom((float) 1 - Math.abs(scale), (float) 1 - Math.abs(scale), xValue, yValue);
         
     }
     
@@ -322,7 +326,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomOut(int scaleW, int scaleH) {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        chart.zoom((float) 1- Math.abs(scaleW),(float)1- Math.abs(scaleH),xValue,yValue);
+        chart.zoom((float) 1 - Math.abs(scaleW), (float) 1 - Math.abs(scaleH), xValue, yValue);
         
     }
     
@@ -449,7 +453,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     private void popup(Entry e, LineDataSet h) {
         
- 
+        
         removeDataSet(popval);
         
         ArrayList<Entry> val = new ArrayList<>();
@@ -471,9 +475,12 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         
         
         dataSets.add(point);
+    
+        DateValueFormatter format = new DateValueFormatter();
         
-        chart.getDescription().setText(String.valueOf(e.getX()));
         
+        //chart.getDescription().setText(String.valueOf(e.getX()));
+        chart.getDescription().setText(format.getFormattedValue(e.getX()));
         show();
         
         return;
@@ -481,7 +488,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     }
     
     
-    private void generate_legend(){
+    private void generate_legend() {
         ArrayList<LegendEntry> legend = new ArrayList<>();
         
         for (int i = 0; i < dataSets.size(); i++) {
@@ -490,7 +497,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
                 legend.add(new LegendEntry(dataSets.get(i).getLabel(), Legend.LegendForm.DEFAULT, Float.NaN, Float.NaN, null, dataSets.get(i).getColor()));
             }
         }
-    
+        
         chart.getLegend().setCustom(legend);
         
     }
@@ -508,36 +515,31 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         this.graphName = graphName;
     }
     
-    public LineChart getChart()
-    {
+    public LineChart getChart() {
         return chart;
     }
     
     
-    
-    
-    public float get_startdate(){
-            return (float) chart.getXChartMin();
+    public float get_startdate() {
+        return (float) chart.getXChartMin();
     }
     
-    public float get_enddate(){
+    public float get_enddate() {
         return (float) chart.getXChartMax();
     }
     
     
-    
-    
-    public ArrayList<String> get_curvelbl(){
+    public ArrayList<String> get_curvelbl() {
         ArrayList<String> labels = new ArrayList<>();
         
-        for (int i =0; i< dataSets.size();i++){
+        for (int i = 0; i < dataSets.size(); i++) {
             labels.add(dataSets.get(i).getLabel());
         }
         return labels;
     }
     
     
-    }
+}
     
     
    

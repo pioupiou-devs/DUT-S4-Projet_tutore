@@ -13,6 +13,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class CurveActivity extends AppCompatActivity {
@@ -32,14 +33,14 @@ public class CurveActivity extends AppCompatActivity {
         test.create_chart(findViewById(R.id.chart),this);
         
         ArrayList<Entry> val = new ArrayList<>();
-        val.add(new Entry(1, 50));
-        val.add(new Entry(2, 30));
-        val.add(new Entry(3, 35));
-        val.add(new Entry(4, 66));
-        val.add(new Entry(5, 65));
-        val.add(new Entry(6, 47));
-        val.add(new Entry(7, 54));
-        val.add(new Entry(8, 42));
+        val.add(new Entry(100000000, 50));
+        val.add(new Entry(200000000, 30));
+        val.add(new Entry(300000000, 35));
+        val.add(new Entry(400000000, 66));
+        val.add(new Entry(500000000, 65));
+        val.add(new Entry(600000000, 47));
+        val.add(new Entry(700000000, 54));
+        val.add(new Entry(800000000, 42));
         
         ArrayList<Entry> val2 = new ArrayList<>();
         val2.add(new Entry(1, 26));
@@ -66,7 +67,7 @@ public class CurveActivity extends AppCompatActivity {
         String name3 = "dritten Kurve";
         
         test.addDataSet(name1, val);
-        test.addDataSet(name2, val2);
+        //test.addDataSet(name2, val2);
         //test.addDataSet(name3,val3);
         
         //test.removeDataSet(name1);

@@ -504,11 +504,11 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     
     
     public float get_startdate(){
-            return (float)0.0;
+            return (float) chart.getXChartMin();
     }
     
     public float get_enddate(){
-        return (float)0.0;
+        return (float) chart.getXChartMax();
     }
     
     

@@ -12,6 +12,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -76,10 +77,13 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
                 new_chart.getDescription().setText("");
                 new_chart.getDescription().setTextSize(15f);
                 
+                
+                new_chart.setDragDecelerationEnabled(false);
+                
                 // Formatter to adjust epoch time to readable date
                 //new_chart.getXAxis().setValueFormatter(new LineChartXAxisValueFormatter());
 
-        //TODO orienter les legendes
+
         //new_chart.getLegend().setOrientation(45);
     
         this.chart = new_chart;
@@ -93,7 +97,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
      * @param i   his index in the chart
      * @return the Linedataset with the correct color
      */
-    private LineDataSet get_color(LineDataSet set, int i) {
+    private LineDataSet set_curve_color(LineDataSet set, int i) {
         switch (i) {
             case 0:
                 set.setCircleColor(Color.BLUE);
@@ -207,7 +211,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         ArrayList<ILineDataSet> dataSe = new ArrayList<>();
         for (int i = 0; i < dataSets.size(); i++) {
             if (dataSets.get(i).getLabel() != "Point") {
-                dataSets.set(i, get_color(dataSets.get(i), i));
+                dataSets.set(i, set_curve_color(dataSets.get(i), i));
             }
             
             dataSe.add(dataSets.get(i));
@@ -249,13 +253,10 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
      * zoomer dans le graph
      */
     public void zoomIn() {
-        width -= (initWidth * 10) / 100;
-        height -= (initHeight * 10) / 100;
-    
-        chart.getViewPortHandler().setZoom( (float).5, (float).5,4,40 );
-    
-        show();
+        float xValue = chart.getViewPortHandler().getContentCenter().x;
+        float yValue = chart.getViewPortHandler().getContentCenter().y;
         
+        chart.zoom((float)1.1,(float)1.1,xValue,yValue);
     }
     
     @Override
@@ -263,9 +264,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
      *  zoomer dans le graph
      */
     public void zoomIn(int scale) {
-        width -= (initWidth * scale) / 100;
-        height -= (initHeight * scale) / 100;
-        
+        float xValue = chart.getViewPortHandler().getContentCenter().x;
+        float yValue = chart.getViewPortHandler().getContentCenter().y;
+        chart.zoom((float) 1+ Math.abs(scale),(float)1+ Math.abs(scale),xValue,yValue);
     }
     
     @Override
@@ -273,8 +274,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
      *  zoomer dans le graph
      */
     public void zoomIn(int scaleW, int scaleH) {
-        width -= (initWidth * scaleW) / 100;
-        height -= (initHeight * scaleH) / 100;
+        float xValue = chart.getViewPortHandler().getContentCenter().x;
+        float yValue = chart.getViewPortHandler().getContentCenter().y;
+        chart.zoom((float) 1+ Math.abs(scaleW),(float)1+ Math.abs(scaleH),xValue,yValue);
         
     }
     
@@ -283,10 +285,10 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
      *  zoomer dans le graph
      */
     public void zoomOut() {
-        width += (initWidth * 10) / 100;
-        height += (initHeight * 10) / 100;
-        
-        show();
+        float xValue = chart.getViewPortHandler().getContentCenter().x;
+        float yValue = chart.getViewPortHandler().getContentCenter().y;
+        chart.zoom((float).9,(float).9,xValue,yValue);
+
         
     }
     
@@ -295,8 +297,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
      *  zoomer dans le graph
      */
     public void zoomOut(int scale) {
-        width += (initWidth * scale) / 100;
-        height += (initHeight * scale) / 100;
+        float xValue = chart.getViewPortHandler().getContentCenter().x;
+        float yValue = chart.getViewPortHandler().getContentCenter().y;
+        chart.zoom((float) 1- Math.abs(scale),(float)1- Math.abs(scale),xValue,yValue);
         
     }
     
@@ -305,8 +308,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
      *  zoomer dans le graph
      */
     public void zoomOut(int scaleW, int scaleH) {
-        width += (initWidth * scaleW) / 100;
-        height += (initHeight * scaleH) / 100;
+        float xValue = chart.getViewPortHandler().getContentCenter().x;
+        float yValue = chart.getViewPortHandler().getContentCenter().y;
+        chart.zoom((float) 1- Math.abs(scaleW),(float)1- Math.abs(scaleH),xValue,yValue);
         
     }
     
@@ -399,6 +403,8 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
             if (i == h.getDataSetIndex()) {
                 LineDataSet sel = dataSets.get(i);
                 popup(e, sel);
+                
+                
                 
             }
         }
@@ -494,6 +500,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         return chart;
     }
     
+    
+    
+    
     public float get_startdate(){
             return (float)0.0;
     }
@@ -501,6 +510,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public float get_enddate(){
         return (float)0.0;
     }
+    
+    
+    
     
     public ArrayList<String> get_curvelbl(){
         ArrayList<String> labels = new ArrayList<>();

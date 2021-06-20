@@ -1,5 +1,6 @@
 package fr.iut.orsay.myapplication;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.View;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -32,6 +34,8 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         ArrayList<LineDataSet> dataSets = new ArrayList<>();
         LineChart chart = null;
         private int id;
+        private Context context;
+        
         
         private final String popval = "Point";
         
@@ -61,8 +65,11 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
                 
             }
         
-        public void create_chart(View view)
+        public void create_chart(View view, Context context)
             {//creer le cadre et initialiser les valeur du cadre
+                
+                this.context=context;
+                
                 LineChart new_chart = (LineChart) view;
                 
                 new_chart.setDrawBorders(true); //encadre la graph
@@ -82,6 +89,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
                 
                 // Formatter to adjust epoch time to readable date
                 //new_chart.getXAxis().setValueFormatter(new LineChartXAxisValueFormatter());
+    
+                /*XAxis xAxis = chart.getXAxis();
+                xAxis.setValueFormatter(new DateValueFormatter());*/
 
 
         //new_chart.getLegend().setOrientation(45);
@@ -256,7 +266,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
         
-        chart.zoom((float)1.1,(float)1.1,xValue,yValue);
+        chart.zoom((float)1.2,(float)1.2,xValue,yValue);
     }
     
     @Override
@@ -287,7 +297,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomOut() {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        chart.zoom((float).9,(float).9,xValue,yValue);
+        chart.zoom((float).8,(float).8,xValue,yValue);
 
         
     }
@@ -404,8 +414,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
                 LineDataSet sel = dataSets.get(i);
                 popup(e, sel);
                 
+                //call stat(sel)
                 
-                
+                return;
             }
         }
         

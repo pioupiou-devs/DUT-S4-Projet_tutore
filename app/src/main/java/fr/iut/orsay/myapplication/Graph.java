@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -17,12 +18,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -98,10 +93,8 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         XAxis xAxis = new_chart.getXAxis();
         xAxis.setValueFormatter(new DateValueFormatter());
 
-        
-        
         //new_chart.getLegend().setOrientation(45);
-        
+    
         this.chart = new_chart;
         return;
     }
@@ -202,13 +195,13 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
      * @param label le nom de la courbe
      * @return
      */
-    public LineDataSet getDataSet(String label) {
+    public LineDataSet getDataSet(String label){
         for (int i = 0; i < dataSets.size(); i++) { //pas de recherche avencer car on aurais au max 4 courbes
             if (dataSets.get(i).getLabel() == label) { //on cherche par rapport au label
                 return dataSets.get(i);
             }
         }
-        
+    
         return null;
         
     }
@@ -271,7 +264,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomIn() {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        
+
         chart.zoom((float) 1.2, (float) 1.2, xValue, yValue);
     }
     
@@ -282,7 +275,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomIn(int scale) {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        chart.zoom((float) 1 + Math.abs(scale), (float) 1 + Math.abs(scale), xValue, yValue);
+        chart.zoom((float) 1+ Math.abs(scale),(float)1+ Math.abs(scale),xValue,yValue);
     }
     
     @Override
@@ -293,7 +286,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
         chart.zoom((float) 1 + Math.abs(scaleW), (float) 1 + Math.abs(scaleH), xValue, yValue);
-        
+
     }
     
     @Override
@@ -305,7 +298,6 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         float yValue = chart.getViewPortHandler().getContentCenter().y;
         chart.zoom((float) .8, (float) .8, xValue, yValue);
         
-        
     }
     
     @Override
@@ -316,7 +308,6 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
         chart.zoom((float) 1 - Math.abs(scale), (float) 1 - Math.abs(scale), xValue, yValue);
-        
     }
     
     @Override
@@ -327,7 +318,6 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
         chart.zoom((float) 1 - Math.abs(scaleW), (float) 1 - Math.abs(scaleH), xValue, yValue);
-        
     }
     
     @Override
@@ -477,17 +467,14 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         dataSets.add(point);
     
         DateValueFormatter format = new DateValueFormatter();
-        
-        
-        //chart.getDescription().setText(String.valueOf(e.getX()));
         chart.getDescription().setText(format.getFormattedValue(e.getX()));
         show();
         
         return;
         
     }
-    
-    
+
+
     private void generate_legend() {
         ArrayList<LegendEntry> legend = new ArrayList<>();
         
@@ -514,31 +501,74 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void setName(String graphName) {
         this.graphName = graphName;
     }
-    
+
     public LineChart getChart() {
         return chart;
     }
-    
-    
+
+
     public float get_startdate() {
         return (float) chart.getXChartMin();
     }
-    
+
     public float get_enddate() {
         return (float) chart.getXChartMax();
     }
-    
-    
+
+
     public ArrayList<String> get_curvelbl() {
         ArrayList<String> labels = new ArrayList<>();
-        
+
         for (int i = 0; i < dataSets.size(); i++) {
             labels.add(dataSets.get(i).getLabel());
         }
         return labels;
     }
-    
-    
+
+    public void setStats(LineDataSet data) {
+        View t = (View)view.getParent();
+        TextView txtMin = (TextView)t.findViewById(R.id.txtMinValue);
+        TextView txtMax = (TextView)t.findViewById(R.id.txtMaxValue);
+        TextView txtMoy = (TextView)t.findViewById(R.id.txtMean);
+        TextView txtEcartType = (TextView)t.findViewById(R.id.txtDeviation);
+
+        txtMin.setText(String.format("%.2f", data.getYMin()));
+        txtMax.setText(String.format("%.2f", data.getYMax()));
+
+        List<Entry> values = data.getValues();
+        System.out.println("----------------");
+        for (Entry i: values) {
+            System.out.print(i.getY() + " - ");
+        }
+        System.out.println("----------------");
+
+        float moy = 0;
+        for (Entry d : values) {
+            moy += d.getY();
+        }
+        moy = moy/data.getEntryCount();
+        txtMoy.setText(String.format("%.2f", moy));
+
+        float ecartType = 0;
+        for (Entry d : values) {
+            ecartType += (d.getY() - moy) * (d.getY() - moy);
+        }
+        ecartType = ecartType/(data.getEntryCount() - 1);
+        txtEcartType.setText(String.format("%.2f", Math.sqrt(ecartType)));
+    }
+
+    public void clearStats() {
+        View t = (View)view.getParent();
+        TextView txtMin = (TextView)t.findViewById(R.id.txtMinValue);
+        TextView txtMax = (TextView)t.findViewById(R.id.txtMaxValue);
+        TextView txtMoy = (TextView)t.findViewById(R.id.txtMean);
+        TextView txtEcartType = (TextView)t.findViewById(R.id.txtDeviation);
+
+        txtMax.setText("");
+        txtMin.setText("");
+        txtMoy.setText("");
+        txtEcartType.setText("");
+    }
 }
     
     

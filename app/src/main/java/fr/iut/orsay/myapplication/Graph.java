@@ -35,6 +35,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         LineChart chart = null;
         private int id;
         private Context context;
+        private View view;
         
         
         private final String popval = "Point";
@@ -69,6 +70,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
             {//creer le cadre et initialiser les valeur du cadre
                 
                 this.context=context;
+                this.view = view;
                 
                 LineChart new_chart = (LineChart) view;
                 

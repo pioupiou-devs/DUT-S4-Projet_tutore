@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -24,84 +25,80 @@ import java.util.List;
 
 
 //OnChartGestureListener
-public class Graph implements GraphInterface, OnChartValueSelectedListener, Serializable
-    {
-        
-        private static int NUM_ID = 0;
-        private final int max_curve = 5;
-        int height = 0, width = 0, initHeight = 0, initWidth = 0;
-        String graphName;
-        ArrayList<LineDataSet> dataSets = new ArrayList<>();
-        LineChart chart = null;
-        private int id;
-        private Context context;
-        private View view;
-        
-        
-        private final String popval = "Point";
-        
-        
-        public Graph(String graphName)
-            {
-                this.graphName = graphName;
-                this.initWidth = width;
-                this.initHeight = height;
-                id = NUM_ID;
-                NUM_ID++;
-            }
-        
-        
-        public Graph(String graphName, ArrayList<LineDataSet> dataSets)
-            {
-                this.graphName = graphName;
-                this.initWidth = width;
-                this.initHeight = height;
-                id = NUM_ID;
-                NUM_ID++;
-                
-                
-                this.dataSets = dataSets;
-                
-                this.chart = null;
-                
-            }
-        
-        public void create_chart(View view, Context context)
-            {//creer le cadre et initialiser les valeur du cadre
-                
-                this.context=context;
-                this.view = view;
-                
-                LineChart new_chart = (LineChart) view;
-                
-                new_chart.setDrawBorders(true); //encadre la graph
-                new_chart.setPinchZoom(true);
-                new_chart.setTouchEnabled(true);
-                
-                new_chart.setNoDataText("Chart loading, please wait");
-                //new_chart.getDescription().setEnabled(false);
-                
-                new_chart.getXAxis().setDrawLabels(false);
-                
-                new_chart.getDescription().setText("");
-                new_chart.getDescription().setTextSize(15f);
-                
-                
-                new_chart.setDragDecelerationEnabled(false);
-                
-                // Formatter to adjust epoch time to readable date
-                //new_chart.getXAxis().setValueFormatter(new LineChartXAxisValueFormatter());
+public class Graph implements GraphInterface, OnChartValueSelectedListener, Serializable {
+
+    private static int NUM_ID = 0;
+    private final int max_curve = 5;
+    int height = 0, width = 0, initHeight = 0, initWidth = 0;
+    String graphName;
+    ArrayList<LineDataSet> dataSets = new ArrayList<>();
+    LineChart chart = null;
+    private int id;
+    private Context context;
+    private View view;
+
+
+    private final String popval = "Point";
+
+
+    public Graph(String graphName) {
+        this.graphName = graphName;
+        this.initWidth = width;
+        this.initHeight = height;
+        id = NUM_ID;
+        NUM_ID++;
+    }
+
+
+    public Graph(String graphName, ArrayList<LineDataSet> dataSets) {
+        this.graphName = graphName;
+        this.initWidth = width;
+        this.initHeight = height;
+        id = NUM_ID;
+        NUM_ID++;
+
+
+        this.dataSets = dataSets;
+
+        this.chart = null;
+
+    }
+
+    public void create_chart(View view, Context context) {//creer le cadre et initialiser les valeur du cadre
+
+        this.context = context;
+        this.view = view;
+
+        LineChart new_chart = (LineChart) view;
+
+        new_chart.setDrawBorders(true); //encadre la graph
+        new_chart.setPinchZoom(true);
+        new_chart.setTouchEnabled(true);
+
+        new_chart.setNoDataText("Chart loading, please wait");
+        //new_chart.getDescription().setEnabled(false);
+
+        new_chart.getXAxis().setDrawLabels(false);
+
+        new_chart.getDescription().setText("");
+        new_chart.getDescription().setTextSize(15f);
+
+
+        new_chart.setDragDecelerationEnabled(false);
+
+        // Formatter to adjust epoch time to readable date
+        //new_chart.getXAxis().setValueFormatter(new LineChartXAxisValueFormatter());
     
                 /*XAxis xAxis = chart.getXAxis();
                 xAxis.setValueFormatter(new DateValueFormatter());*/
 
 
         //new_chart.getLegend().setOrientation(45);
-    
+
         this.chart = new_chart;
         return;
     }
-    
+
     /**
      * is use to set a color for each curve
      *
@@ -132,11 +129,11 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
                 set.setCircleColor(Color.BLACK);
                 set.setColor(Color.BLACK);
                 return set;
-            
+
         }
     }
-    
-    
+
+
     /**
      * methode pour la representation graphique de la courbe
      *
@@ -144,7 +141,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
      * @return la courbe correctement formatter
      */
     private LineDataSet formatting_dataset(LineDataSet set) {
-        
+
         set.setDrawIcons(false);
         set.setLineWidth(1f);
         set.setCircleRadius(3f);
@@ -154,11 +151,11 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
         set.setFormSize(15.f);
         set.setDrawValues(false);
-        
+
         return set;
     }
-    
-    
+
+
     @Override
     /**
      * utiliser pour ajouter la courbe au graph
@@ -168,77 +165,77 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
             System.out.println("max number of data set for " + graphName + " (max is 4)");
             return;
         }
-        
-        
+
+
         dataSets.add(formatting_dataset(new LineDataSet(dataSet, label)));
-        
+
         return;
     }
-    
+
     @Override
     /**
      * utiliser pour retirer la courbe du graph
      */
     public void removeDataSet(String label) {
-        
+
         for (int i = 0; i < dataSets.size(); i++) {
             if (dataSets.get(i).getLabel() == label) { //on cherche par rapport au label
                 dataSets.remove(i);
                 return;
             }
         }
-        
+
         return;
     }
-    
-    
+
+
     /**
      * pour recuperer la courbe a partir du nom
      *
      * @param label le nom de la courbe
      * @return
      */
-    public LineDataSet getDataSet(String label){
+    public LineDataSet getDataSet(String label) {
         for (int i = 0; i < dataSets.size(); i++) { //pas de recherche avencer car on aurais au max 4 courbes
             if (dataSets.get(i).getLabel() == label) { //on cherche par rapport au label
                 return dataSets.get(i);
             }
         }
-    
+
         return null;
-        
+
     }
-    
-    
+
+
     @Override
     /**
      * affiche la courbe avec chaque courbe
      */
     public void show() {
-        
+
         if (dataSets.size() == 0) {
             return;
         }
-        
+
         ArrayList<ILineDataSet> dataSe = new ArrayList<>();
         for (int i = 0; i < dataSets.size(); i++) {
             if (dataSets.get(i).getLabel() != "Point") {
                 dataSets.set(i, set_curve_color(dataSets.get(i), i));
             }
-            
+
             dataSe.add(dataSets.get(i));
         }
-        
+
         LineData data = new LineData(dataSe);
         chart.setOnChartValueSelectedListener(this);
-        
+
         chart.setData(data);
         generate_legend();
-        
+
         return;
-        
+
     }
-    
+
     @Override
     /**
      * affiche une unique courbe
@@ -249,17 +246,17 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
             if (dataSets.get(i).getLabel() == label) {
                 dataSe.add(dataSets.get(i));
             }
-            
+
         }
-        
+
         LineData data = new LineData(dataSe);
-        
+
         chart.setData(data);
-        
-        
+
+
         return;
     }
-    
+
     @Override
     /**
      * zoomer dans le graph
@@ -267,10 +264,10 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomIn() {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        
-        chart.zoom((float)1.2,(float)1.2,xValue,yValue);
+
+        chart.zoom((float) 1.2, (float) 1.2, xValue, yValue);
     }
-    
+
     @Override
     /**
      *  zoomer dans le graph
@@ -278,9 +275,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomIn(int scale) {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        chart.zoom((float) 1+ Math.abs(scale),(float)1+ Math.abs(scale),xValue,yValue);
+        chart.zoom((float) 1 + Math.abs(scale), (float) 1 + Math.abs(scale), xValue, yValue);
     }
-    
+
     @Override
     /**
      *  zoomer dans le graph
@@ -288,10 +285,10 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomIn(int scaleW, int scaleH) {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        chart.zoom((float) 1+ Math.abs(scaleW),(float)1+ Math.abs(scaleH),xValue,yValue);
-        
+        chart.zoom((float) 1 + Math.abs(scaleW), (float) 1 + Math.abs(scaleH), xValue, yValue);
+
     }
-    
+
     @Override
     /**
      *  zoomer dans le graph
@@ -299,11 +296,11 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomOut() {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        chart.zoom((float).8,(float).8,xValue,yValue);
+        chart.zoom((float) .8, (float) .8, xValue, yValue);
 
-        
+
     }
-    
+
     @Override
     /**
      *  zoomer dans le graph
@@ -311,10 +308,10 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomOut(int scale) {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        chart.zoom((float) 1- Math.abs(scale),(float)1- Math.abs(scale),xValue,yValue);
-        
+        chart.zoom((float) 1 - Math.abs(scale), (float) 1 - Math.abs(scale), xValue, yValue);
+
     }
-    
+
     @Override
     /**
      *  zoomer dans le graph
@@ -322,10 +319,10 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void zoomOut(int scaleW, int scaleH) {
         float xValue = chart.getViewPortHandler().getContentCenter().x;
         float yValue = chart.getViewPortHandler().getContentCenter().y;
-        chart.zoom((float) 1- Math.abs(scaleW),(float)1- Math.abs(scaleH),xValue,yValue);
-        
+        chart.zoom((float) 1 - Math.abs(scaleW), (float) 1 - Math.abs(scaleH), xValue, yValue);
+
     }
-    
+
     @Override
     /**
      *  zoomer dans le graph
@@ -334,28 +331,28 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         this.graphName = newLabel;
         return;
     }
-    
-    
+
+
     @Override
     /**
      * affiche les donner du graph dans la console (debug)
      */
     public String print() {
         String out = "";
-        
+
         out += ("Data form graph " + graphName + "\n");
-        
+
         for (int i = 0; i < dataSets.size(); i++) {
             out += printer(dataSets.get(i));
             out += "...\n";
         }
-        
+
         out += ("--------------------------------");
-        
+
         return out;
     }
-    
-    
+
+
     @Override
     /**
      * affiche les valeure d'une courbe, en fonction du nom, dans la console  (debug)
@@ -363,22 +360,22 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public String printDataSet(String label) {
         String out = "";
         boolean found = false;
-        
+
         for (int i = 0; i < dataSets.size(); i++) { //pas de recherche avencer car on aurais au max 4 courbes
             if (dataSets.get(i).getLabel() == label) { //on cherche par rapport au label
                 out += printer(dataSets.get(i));
                 found = true;
             }
         }
-        
+
         if (!found) {
             out += ("No data set found for the search :" + label + "\n");
         }
-        
+
         out += ("--------------------------------");
         return out;
     }
-    
+
     /**
      * transform les donnees en string
      *
@@ -387,21 +384,21 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
      */
     private String printer(ILineDataSet data) {
         String out = "";
-        
+
         out += ("Data set : " + data.getLabel() + "\n");
-        
+
         for (int i = 0; i < data.getEntryCount(); i++) {
             Entry temp = data.getEntryForIndex(i);
-            
+
             out += ("\t - x :" + temp.getX() + "\t y :" + temp.getY() + "\n");
         }
-        
+
         return out;
     }
-    
-    
+
+
     //OnChartValueSelectedListener
-    
+
     @Override
     /**
      * ecouter pour la popup
@@ -409,52 +406,51 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
     public void onValueSelected(Entry e, Highlight h) {
         float f = e.getY();
         System.out.println(f);
-        
+
         for (int i = 0; i < dataSets.size(); i++) {
             //on recupere la courbe selectionner
             if (i == h.getDataSetIndex()) {
                 LineDataSet sel = dataSets.get(i);
                 popup(e, sel);
-                
-                //call stat(sel)
-                
+
+                setStats(sel);
+
                 return;
             }
         }
-        
+
         return;
     }
-    
+
     @Override
     /**
      * ecouteur, en cas de reclick sur le meme point
      */
     public void onNothingSelected() {
         removepopval();
-        
-        //TODO mettre le truc de clear les states
+        clearStats();
     }
-    
-    
+
+
     private void removepopval() {
         removeDataSet(popval);
         chart.getDescription().setText("");
-        
+
         show();
-        
+
         return;
-        
+
     }
-    
-    
+
+
     private void popup(Entry e, LineDataSet h) {
-        
- 
+
+
         removeDataSet(popval);
-        
+
         ArrayList<Entry> val = new ArrayList<>();
         val.add(e.copy());
-        
+
         LineDataSet point = new LineDataSet(val, popval);
         point.setDrawIcons(false);
         point.setColor(h.getColor());
@@ -468,76 +464,114 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         point.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
         point.setFormSize(15.f);
         point.setDrawValues(true);
-        
-        
+
+
         dataSets.add(point);
-        
+
         chart.getDescription().setText(String.valueOf(e.getX()));
-        
+
         show();
-        
+
         return;
-        
+
     }
-    
-    
-    private void generate_legend(){
+
+
+    private void generate_legend() {
         ArrayList<LegendEntry> legend = new ArrayList<>();
-        
+
         for (int i = 0; i < dataSets.size(); i++) {
             //on recupere la courbe selectionner
             if (dataSets.get(i).getLabel() != popval) {
                 legend.add(new LegendEntry(dataSets.get(i).getLabel(), Legend.LegendForm.DEFAULT, Float.NaN, Float.NaN, null, dataSets.get(i).getColor()));
             }
         }
-    
+
         chart.getLegend().setCustom(legend);
-        
+
     }
-    
-    
+
+
     public int getId() {
         return id;
     }
-    
+
     public String getName() {
         return graphName;
     }
-    
+
     public void setName(String graphName) {
         this.graphName = graphName;
     }
-    
-    public LineChart getChart()
-    {
+
+    public LineChart getChart() {
         return chart;
     }
-    
-    
-    
-    
-    public float get_startdate(){
-            return (float) chart.getXChartMin();
+
+
+    public float get_startdate() {
+        return (float) chart.getXChartMin();
     }
-    
-    public float get_enddate(){
+
+    public float get_enddate() {
         return (float) chart.getXChartMax();
     }
-    
-    
-    
-    
-    public ArrayList<String> get_curvelbl(){
+
+
+    public ArrayList<String> get_curvelbl() {
         ArrayList<String> labels = new ArrayList<>();
-        
-        for (int i =0; i< dataSets.size();i++){
+
+        for (int i = 0; i < dataSets.size(); i++) {
             labels.add(dataSets.get(i).getLabel());
         }
         return labels;
     }
-    
-    
+
+    public void setStats(LineDataSet data) {
+        View t = (View)view.getParent();
+        TextView txtMin = (TextView)t.findViewById(R.id.txtMinValue);
+        TextView txtMax = (TextView)t.findViewById(R.id.txtMaxValue);
+        TextView txtMoy = (TextView)t.findViewById(R.id.txtMean);
+        TextView txtEcartType = (TextView)t.findViewById(R.id.txtDeviation);
+
+        txtMin.setText(String.format("%.2f", data.getYMin()));
+        txtMax.setText(String.format("%.2f", data.getYMax()));
+
+        List<Entry> values = data.getValues();
+        System.out.println("----------------");
+        for (Entry i: values) {
+            System.out.print(i.getY() + " - ");
+        }
+        System.out.println("----------------");
+
+        float moy = 0;
+        for (Entry d : values) {
+            moy += d.getY();
+        }
+        moy = moy/data.getEntryCount();
+        txtMoy.setText(String.format("%.2f", moy));
+
+        float ecartType = 0;
+        for (Entry d : values) {
+            ecartType += (d.getY() - moy) * (d.getY() - moy);
+        }
+        ecartType = ecartType/(data.getEntryCount() - 1);
+        txtEcartType.setText(String.format("%.2f", Math.sqrt(ecartType)));
     }
+
+    public void clearStats() {
+        View t = (View)view.getParent();
+        TextView txtMin = (TextView)t.findViewById(R.id.txtMinValue);
+        TextView txtMax = (TextView)t.findViewById(R.id.txtMaxValue);
+        TextView txtMoy = (TextView)t.findViewById(R.id.txtMean);
+        TextView txtEcartType = (TextView)t.findViewById(R.id.txtDeviation);
+
+        txtMax.setText("");
+        txtMin.setText("");
+        txtMoy.setText("");
+        txtEcartType.setText("");
+    }
+}
     
     
    

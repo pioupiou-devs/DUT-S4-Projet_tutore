@@ -409,6 +409,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
             if (i == h.getDataSetIndex()) {
                 LineDataSet sel = dataSets.get(i);
                 popup(e, sel);
+                setStats(sel);
                 
                 //call stat(sel)
                 
@@ -425,6 +426,7 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
      */
     public void onNothingSelected() {
         removepopval();
+        clearStats();
         
         //TODO mettre le truc de clear les states
     }

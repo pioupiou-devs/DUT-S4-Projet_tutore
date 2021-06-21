@@ -19,7 +19,7 @@ import java.util.Arrays;
 public class ListviewAdapter extends BaseAdapter implements ListAdapter
     {
         private final Context context;
-        private ArrayList<Graph> list;
+        private final ArrayList<Graph> list;
         private Graph selectedGraph;
         
         public ListviewAdapter(ArrayList<Graph> list, Context context)
@@ -51,16 +51,16 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                         element = inflater.inflate(R.layout.listview_element, parent, false);
                     }
                 
-                TextView txtName = (TextView) element.findViewById(R.id.txtName);
+                TextView txtName = element.findViewById(R.id.txtName);
                 txtName.setText(list.get(pos).getName());
                 
-                Button btnEdit = (Button) element.findViewById(R.id.btnEdit);
+                Button btnEdit = element.findViewById(R.id.btnEdit);
                 btnEdit.setOnClickListener(view ->
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle(R.string.modalTextBoxTitle);
                     
-                    final EditText input = (EditText) new EditText(builder.getContext());
+                    final EditText input = new EditText(builder.getContext());
                     input.setInputType(InputType.TYPE_CLASS_TEXT);
                     builder.setView(input);
                     
@@ -75,7 +75,7 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                     builder.show();
                 });
                 
-                Button btnDelete = (Button) element.findViewById(R.id.btnDelete);
+                Button btnDelete = element.findViewById(R.id.btnDelete);
                 btnDelete.setOnClickListener(view ->
                 {
                     if (this.list.get(pos) != null)
@@ -83,7 +83,7 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                     notifyDataSetChanged();
                 });
                 
-                ImageButton ibtnSelect = (ImageButton) element.findViewById(R.id.ibtnSelect);
+                ImageButton ibtnSelect = element.findViewById(R.id.ibtnSelect);
                 ibtnSelect.setOnClickListener(view ->
                 {
                     this.selectedGraph = this.list.get(pos);

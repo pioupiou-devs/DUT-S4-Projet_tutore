@@ -1,145 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/startDate"
-        android:layout_width="140dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/startDate"
+            android:layout_width="140dp"
+            android:layout_height="51dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="8dp"
+            android:ems="10"
+            android:inputType="date"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/lblEndDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:text="End date :"
-        app:layout_constraintBottom_toTopOf="@+id/endDate"
-        app:layout_constraintEnd_toEndOf="parent" />
+            android:id="@+id/lblEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="100dp"
+            android:text="End date :"
+            app:layout_constraintBottom_toTopOf="@+id/endDate"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/endDate"
-        android:layout_width="140dp"
-        android:layout_height="51dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent" />
+            android:id="@+id/endDate"
+            android:layout_width="140dp"
+            android:layout_height="51dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
+            android:ems="10"
+            android:inputType="date"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
-        android:orientation="vertical"
-        android:layout_width="125dp"
-        android:layout_height="99dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="34dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            android:id="@+id/radioGroup"
+            android:orientation="vertical"
+            android:layout_width="125dp"
+            android:layout_height="99dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="34dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/radioType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Type"
-            android:onClick="onRadioButtonClicked" />
+                android:id="@+id/radioType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Type"
+                android:onClick="onRadioButtonClicked" />
 
         <RadioButton
-            android:id="@+id/radioSensor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sensor"
-            android:onClick="onRadioButtonClicked" />
+                android:id="@+id/radioSensor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sensor"
+                android:onClick="onRadioButtonClicked" />
     </RadioGroup>
 
     <Spinner
-        android:id="@+id/spnSelector"
-        android:layout_width="173dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+            android:id="@+id/spnSelector"
+            android:layout_width="173dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <TextView
-        android:id="@+id/lblDataList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="124dp"
-        android:text="Data list :"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/lblDataList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="124dp"
+            android:text="Data list :"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/lstCurrentData"
-        android:layout_width="376dp"
-        android:layout_height="229dp"
-        android:layout_marginBottom="17dp"
-        app:layout_constraintBottom_toTopOf="@+id/lblStartDate"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="15dp"></ListView>
+            android:id="@+id/lstCurrentData"
+            android:layout_width="376dp"
+            android:layout_height="229dp"
+            android:layout_marginBottom="17dp"
+            app:layout_constraintBottom_toTopOf="@+id/lblStartDate"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="15dp"></ListView>
 
     <TextView
-        android:id="@+id/lblStartDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="Start date :"
-        app:layout_constraintBottom_toTopOf="@+id/startDate"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/lblStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="Start date :"
+            app:layout_constraintBottom_toTopOf="@+id/startDate"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/lblCurrentData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Current data :"
-        app:layout_constraintBottom_toTopOf="@+id/lstCurrentData"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp" />
+            android:id="@+id/lblCurrentData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current data :"
+            app:layout_constraintBottom_toTopOf="@+id/lstCurrentData"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="16dp" />
 
     <ListView
-        android:id="@+id/lstDataList"
-        android:layout_width="173dp"
-        android:layout_height="157dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblDataList" />
+            android:id="@+id/lstDataList"
+            android:layout_width="173dp"
+            android:layout_height="157dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblDataList" />
 
     <Button
-        android:id="@+id/btnAddData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:onClick="addToCurrentData"
-        android:text="Add to current data"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lstDataList" />
+            android:id="@+id/btnAddData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:onClick="addToCurrentData"
+            android:text="Add to current data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lstDataList" />
 
     <Button
-        android:id="@+id/btnRemoveData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:onClick="removeFromCurrentData"
-        android:text="Remove from current data"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddData" />
+            android:id="@+id/btnRemoveData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:onClick="removeFromCurrentData"
+            android:text="Remove from current data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddData" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"

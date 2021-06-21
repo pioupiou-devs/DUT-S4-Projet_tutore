@@ -19,6 +19,7 @@ import java.util.Objects;
 
 public class SelectionActivity extends AppCompatActivity
     {
+        private Graph selectedGraph;
         
         @Override protected void onCreate(Bundle savedInstanceState)
             {
@@ -33,17 +34,17 @@ public class SelectionActivity extends AppCompatActivity
                 list.add(new Graph("test"));
                 list.add(new Graph("oklm"));
                 list.add(new Graph("jules"));
-                ListView lstCurve = (ListView) findViewById(R.id.lstCurve);
+                ListView lstCurve = findViewById(R.id.lstCurve);
                 lstCurve.setAdapter(new ListviewAdapter(list, this));
-                Graph selectedGraph = ((ListviewAdapter) lstCurve.getAdapter()).getSelectedGraph();
+                selectedGraph = ((ListviewAdapter) lstCurve.getAdapter()).getSelectedGraph();
                 
-                Button btnCreate = (Button) findViewById(R.id.btnCreate);
+                Button btnCreate = findViewById(R.id.btnCreate);
                 btnCreate.setOnClickListener(view ->
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle(R.string.modalTextBoxTitle);
                     
-                    final EditText input = (EditText) new EditText(builder.getContext());
+                    final EditText input = new EditText(builder.getContext());
                     input.setInputType(InputType.TYPE_CLASS_TEXT);
                     builder.setView(input);
                     
@@ -59,7 +60,7 @@ public class SelectionActivity extends AppCompatActivity
                     
                 });
                 
-                Button btnExportPDF = (Button) findViewById(R.id.btnExportPDF);
+                Button btnExportPDF = findViewById(R.id.btnExportPDF);
                 btnExportPDF.setOnClickListener(view ->
                 {
                     System.out.println(selectedGraph);
@@ -79,7 +80,7 @@ public class SelectionActivity extends AppCompatActivity
                         }
                 });
                 
-                Button btnExportPNG = (Button) findViewById(R.id.btnExportPNG);
+                Button btnExportPNG = findViewById(R.id.btnExportPNG);
                 btnExportPNG.setOnClickListener(view ->
                 {
                     if (selectedGraph == null)
@@ -99,7 +100,7 @@ public class SelectionActivity extends AppCompatActivity
                     
                 });
                 
-                Button btnExportCSV = (Button) findViewById(R.id.btnExportCSV);
+                Button btnExportCSV = findViewById(R.id.btnExportCSV);
                 btnExportCSV.setOnClickListener(view ->
                 {
                     if (selectedGraph == null)
@@ -119,7 +120,7 @@ public class SelectionActivity extends AppCompatActivity
                     
                 });
                 
-                BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
                 bottomNav.setOnNavigationItemSelectedListener(navListener);
             }
         
@@ -128,8 +129,9 @@ public class SelectionActivity extends AppCompatActivity
         {
             if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
                 {
-                    Intent intent = new Intent(SelectionActivity.this, SelectionActivity.class);
+                    Intent intent = new Intent(SelectionActivity.this, FilterActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("selectedGraph", selectedGraph);
                     startActivity(intent);
                 }
             else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))

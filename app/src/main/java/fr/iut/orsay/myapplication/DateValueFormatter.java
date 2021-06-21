@@ -16,3 +16,6 @@ public class DateValueFormatter extends ValueFormatter {
         return out;
     }
 }
+        return new Date(new Float(value).longValue()).toString();
+    }
+}

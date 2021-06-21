@@ -8,6 +8,12 @@
             android:icon="@drawable/list_icon"
             android:title="@string/menuList"
             app:showAsAction="ifRoom" />
+        tools:context="fr.iut.orsay.myapplication.CurveActivity">
+    <item
+            android:id="@+id/itemList"
+            android:enabled="true"
+            android:title="@string/menuList"
+            app:showAsAction="ifRoom" />
     <item
             android:id="@+id/itemFilter"
             android:enabled="true"
@@ -18,6 +24,15 @@
             android:id="@+id/itemCurve"
             android:enabled="true"
             android:icon="@drawable/curve_icon"
+            android:title="@string/menuCurve"
+            app:showAsAction="ifRoom" />
+            android:id="@+id/itemFilter"
+            android:enabled="true"
+            android:title="@string/menuFilter"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/itemCurve"
+            android:enabled="true"
             android:title="@string/menuCurve"
             app:showAsAction="ifRoom" />
 </menu>

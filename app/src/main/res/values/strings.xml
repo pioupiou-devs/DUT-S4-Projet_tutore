@@ -7,6 +7,7 @@
     <string name="btnRemoveData">Remove from current data :</string>
     <string name="lblStartDate">Start date :</string>
     <string name="lblEndDate">End date :</string>
+    <string name="datePattern">Date Pattern : dd/MM/yyyy-HH:mm</string>
     <string name="lblCurrentData">Current data:</string>
 
     <!-- activity_selection -->

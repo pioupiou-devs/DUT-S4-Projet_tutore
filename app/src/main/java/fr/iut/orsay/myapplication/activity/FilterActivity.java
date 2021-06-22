@@ -1,6 +1,5 @@
 package fr.iut.orsay.myapplication.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
@@ -17,7 +16,6 @@ import android.widget.Spinner;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -77,8 +75,14 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
     private EditText startDateEditText;
     private EditText endDateEditText;
 
+    /**
+     * check si une string est dans le format demandé
+     * @param date
+     * @return retourne vrai si la date est dans le format demandé, faux sinon
+     */
     public static boolean isValidDate(String date) {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy-HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "dd/MM/yyyy-HH:mm");
         dateFormat.setLenient(false);
         try {
             dateFormat.parse(date.trim());
@@ -88,6 +92,10 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         return true;
     }
 
+    /**
+     * charge la page de filtres
+     * @param savedInstanceState
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,8 +137,10 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         getTypes_ps = null;
         getSensor_ps = null;
         try {
-            getTypes_ps = graphData.getConnection().prepareStatement(FilterActivity.this.getString(R.string.get_types_with_specified_sensor));
-            getSensor_ps = graphData.getConnection().prepareStatement(FilterActivity.this.getString(R.string.get_sensors_with_specified_type));
+            getTypes_ps = graphData.getConnection().prepareStatement(
+                    FilterActivity.this.getString(R.string.get_types_with_specified_sensor));
+            getSensor_ps = graphData.getConnection().prepareStatement(
+                    FilterActivity.this.getString(R.string.get_sensors_with_specified_type));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -141,6 +151,10 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         bottomNav.setOnNavigationItemSelectedListener(navListener);
     }
 
+    /**
+     * est appelé lorsqu'on revient sur la page : récupère les courbes sélectionnées du graph
+     * actuellement sélectionné
+     */
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -155,10 +169,19 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
 
         graphData.setEndDate(null);
         graphData.setStartDate(null);
-        listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, graphData.getConcatenatedCurrentData());
+        listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this,
+                graphData.getConcatenatedCurrentData());
         currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
     }
 
+    /**
+     * est appelé lors d'un click sur l'un des radio buttons : envoie la requete pour obtenir la
+     * liste des capteurs ou la liste des types de données
+     * @param view
+     * @throws SQLException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     @SuppressLint("NonConstantResourceId")
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onRadioButtonClicked(View view) throws SQLException, ExecutionException, InterruptedException {
@@ -167,21 +190,35 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         switch (view.getId()) {
             case R.id.radioSensor:
                 if (checked) {
-                    ArrayList<String> sensors = DatabaseTools.getSensors(graphData.getConnection(), this.getString(R.string.get_sensors));
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(FilterActivity.this, R.layout.support_simple_spinner_dropdown_item, sensors);
+                    ArrayList<String> sensors = DatabaseTools.getSensors(graphData.getConnection(),
+                            this.getString(R.string.get_sensors));
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(FilterActivity.this,
+                            R.layout.support_simple_spinner_dropdown_item,
+                            sensors);
                     spnSelector.setAdapter(adapter);
                 }
                 break;
             case R.id.radioType:
                 if (checked) {
-                    ArrayList<String> types = DatabaseTools.getTypes(graphData.getConnection(), this.getString(R.string.get_types));
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(FilterActivity.this, R.layout.support_simple_spinner_dropdown_item, types);
+                    ArrayList<String> types = DatabaseTools.getTypes(graphData.getConnection(),
+                            this.getString(R.string.get_types));
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(FilterActivity.this,
+                            R.layout.support_simple_spinner_dropdown_item,
+                            types);
                     spnSelector.setAdapter(adapter);
                 }
                 break;
         }
     }
 
+    /**
+     * est appelé lors d'un click sur un élément du spinner : envoie une requête pour récupérer
+     * les données correspondant au type de donnée ou au capteur sélectionné
+     * @param adapterView
+     * @param view
+     * @param i
+     * @param l
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -215,12 +252,17 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
+    /**
+     * ajoute les données sélectionnées dans la list view "current data"
+     * @param view
+     */
     public void addToCurrentData(View view) {
         ArrayList<String> valueToAdd;
         if (radioSensor.isChecked()) {
             ArrayList<String> currentSelectedTypes = listViewFilterAdapterDataList.getSelectedData();
             for (int i = 0; i < currentSelectedTypes.size(); i++) {
-                valueToAdd = new ArrayList<>(Arrays.asList(spnSelector.getSelectedItem().toString(), currentSelectedTypes.get(i)));
+                valueToAdd = new ArrayList<>(Arrays.asList(spnSelector.getSelectedItem().toString(),
+                        currentSelectedTypes.get(i)));
                 ArrayList<ArrayList<String>> currentData = graphData.getGraphsData();
                 if (!currentData.contains(valueToAdd)) {
                     currentData.add(valueToAdd);
@@ -230,7 +272,8 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
         } else if (radioType.isChecked()) {
             ArrayList<String> currentSelectedSensors = listViewFilterAdapterDataList.getSelectedData();
             for (int i = 0; i < currentSelectedSensors.size(); i++) {
-                valueToAdd = new ArrayList<>(Arrays.asList(currentSelectedSensors.get(i), spnSelector.getSelectedItem().toString()));
+                valueToAdd = new ArrayList<>(Arrays.asList(currentSelectedSensors.get(i),
+                        spnSelector.getSelectedItem().toString()));
                 ArrayList<ArrayList<String>> currentData = graphData.getGraphsData();
                 if (!currentData.contains(valueToAdd)) {
                     currentData.add(valueToAdd);
@@ -238,10 +281,15 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
                 }
             }
         }
-        listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, graphData.getConcatenatedCurrentData());
+        listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this,
+                graphData.getConcatenatedCurrentData());
         currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
     }
 
+    /**
+     * supprime les données sélectionnées dans "current data"
+     * @param view
+     */
     public void removeFromCurrentData(View view) {
         ArrayList<String> selectedData = listViewFilterAdapterCurrentData.getSelectedData();
         for (int i = 0; i < selectedData.size(); i++) {
@@ -250,7 +298,8 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
             currentData.remove(new ArrayList<>(Arrays.asList(splitted[0], splitted[1])));
             graphData.setGraphsData(currentData);
         }
-        listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, graphData.getConcatenatedCurrentData());
+        listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this,
+                graphData.getConcatenatedCurrentData());
         currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
     }
 
@@ -262,6 +311,10 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
     }
 
+    /**
+     * récupère dans les chaines de caractère saisies dans les champs de date
+     * @param editable
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void afterTextChanged(Editable editable) {

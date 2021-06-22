@@ -47,8 +47,7 @@ public class SelectionActivity extends AppCompatActivity
                 lstCurve.setAdapter(new ListviewAdapter(list, this));
                 selectedGraph = ((ListviewAdapter) lstCurve.getAdapter()).getSelectedGraph();
                 
-                Button btnCreate = findViewById(R.id.btnCreate);
-                btnCreate.setOnClickListener(view ->
+                findViewById(R.id.btnCreate).setOnClickListener(view ->
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle(R.string.modalTextBoxTitle);
@@ -60,8 +59,9 @@ public class SelectionActivity extends AppCompatActivity
                     builder.setPositiveButton(android.R.string.ok, (dialog, which) ->
                     {
                         dialog.dismiss();
-                        Graph newGraph = new Graph(input.getText().toString());
-                        ((ListviewAdapter) lstCurve.getAdapter()).addGraph(newGraph);
+                        selectedGraph = new Graph(input.getText().toString());
+                        ((ListviewAdapter) lstCurve.getAdapter()).addGraph(selectedGraph);
+                        setToolbarTitle(selectedGraph.getName());
                     });
                     builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
                     
@@ -69,8 +69,7 @@ public class SelectionActivity extends AppCompatActivity
                     
                 });
                 
-                Button btnExportPDF = findViewById(R.id.btnExportPDF);
-                btnExportPDF.setOnClickListener(view ->
+                findViewById(R.id.btnExportPDF).setOnClickListener(view ->
                 {
                     System.out.println(selectedGraph);
                     if (selectedGraph == null)
@@ -89,8 +88,7 @@ public class SelectionActivity extends AppCompatActivity
                         }
                 });
                 
-                Button btnExportPNG = findViewById(R.id.btnExportPNG);
-                btnExportPNG.setOnClickListener(view ->
+                findViewById(R.id.btnExportPNG).setOnClickListener(view ->
                 {
                     if (selectedGraph == null)
                         {
@@ -109,8 +107,7 @@ public class SelectionActivity extends AppCompatActivity
                     
                 });
                 
-                Button btnExportCSV = findViewById(R.id.btnExportCSV);
-                btnExportCSV.setOnClickListener(view ->
+                findViewById(R.id.btnExportCSV).setOnClickListener(view ->
                 {
                     if (selectedGraph == null)
                         {
@@ -129,8 +126,7 @@ public class SelectionActivity extends AppCompatActivity
                     
                 });
                 
-                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-                bottomNav.setOnNavigationItemSelectedListener(navListener);
+                ((BottomNavigationView)findViewById(R.id.bottom_navigation)).setOnNavigationItemSelectedListener(navListener);
             }
         
         
@@ -138,11 +134,12 @@ public class SelectionActivity extends AppCompatActivity
         {
             if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
                 {
-                    if (selectedGraph == null) //TODO : check that we can go to filter with a new graph or a "real" graph + cannot without
+                    if (selectedGraph == null)
                         {
                             Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
                             return false;
                         }
+
                     Intent intent = new Intent(SelectionActivity.this, FilterActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("selectedGraph", selectedGraph);
@@ -150,9 +147,14 @@ public class SelectionActivity extends AppCompatActivity
                 }
             else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
                 {
-                    if (selectedGraph == null) //TODO : check that we can go to filter with a new graph or a "real" graph + cannot without
+                    if (selectedGraph == null)
                         {
                             Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                    else if (selectedGraph.getChart() == null)
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.goToFilter), Toast.LENGTH_SHORT).show();
                             return false;
                         }
                     Intent intent = new Intent(SelectionActivity.this, CurveActivity.class);

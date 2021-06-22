@@ -55,6 +55,13 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                 
                 TextView txtName = element.findViewById(R.id.txtName);
                 txtName.setText(list.get(pos).getName());
+    
+                ImageButton ibtnSelect = element.findViewById(R.id.ibtnSelect);
+                ibtnSelect.setOnClickListener(view ->
+                {
+                    this.selectedGraph = this.list.get(pos);
+                    ((SelectionActivity) context).setToolbarTitle(this.list.get(pos).getName());
+                });
                 
                 Button btnEdit = element.findViewById(R.id.btnEdit);
                 btnEdit.setOnClickListener(view ->
@@ -83,13 +90,6 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                     if (this.list.get(pos) != null)
                         this.list.remove(pos);
                     notifyDataSetChanged();
-                });
-                
-                ImageButton ibtnSelect = element.findViewById(R.id.ibtnSelect);
-                ibtnSelect.setOnClickListener(view ->
-                {
-                    this.selectedGraph = this.list.get(pos);
-                    ((SelectionActivity) context).setToolbarTitle(this.list.get(pos).getName());
                 });
                 
                 return element;

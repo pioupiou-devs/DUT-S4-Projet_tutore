@@ -1,6 +1,5 @@
 package fr.iut.orsay.myapplication.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
@@ -17,7 +16,6 @@ import android.widget.Spinner;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -46,33 +44,7 @@ import fr.iut.orsay.myapplication.R;
         private PreparedStatement getSensor_ps;
         
         private GraphData graphData;
-        private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
-        {
-            System.out.println(item);
-            if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
-                {
-                    Intent intent = new Intent(FilterActivity.this, SelectionActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-            else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
-                {
-                    Intent intent = new Intent(FilterActivity.this, CurveActivity.class);
-                    try
-                        {
-                            intent.putExtra("GraphData", graphData.getData());
-                        }
-                    catch (SQLException | ExecutionException | InterruptedException throwables)
-                        {
-                            throwables.printStackTrace();
-                        }
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-            else
-                return false;
-            return true;
-        };
+        
         //android widget
         private Spinner spnSelector;
         private RadioButton radioType;
@@ -120,17 +92,15 @@ import fr.iut.orsay.myapplication.R;
                 
                 CompletableFuture<Connection> databaseConnecting = CompletableFuture.supplyAsync(() ->
                 {
-                    Connection co = null;
-                    
                     try
                         {
-                            co = DatabaseTools.openConnection(DATABASE_URL);
+                            return DatabaseTools.openConnection(DATABASE_URL);
                         }
                     catch (SQLException | ClassNotFoundException throwables)
                         {
                             throwables.printStackTrace();
                         }
-                    return co;
+                    return null;
                 });
                 
                 try
@@ -159,6 +129,34 @@ import fr.iut.orsay.myapplication.R;
                 BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
                 bottomNav.setOnNavigationItemSelectedListener(navListener);
             }
+        
+        private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
+        {
+            System.out.println(item);
+            if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
+                {
+                    Intent intent = new Intent(FilterActivity.this, SelectionActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
+                {
+                    Intent intent = new Intent(FilterActivity.this, CurveActivity.class);
+                    try
+                        {
+                            intent.putExtra("GraphData", graphData.getData());
+                        }
+                    catch (SQLException | ExecutionException | InterruptedException throwables)
+                        {
+                            throwables.printStackTrace();
+                        }
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            else
+                return false;
+            return true;
+        };
         
         @Override protected void onRestart()
             {

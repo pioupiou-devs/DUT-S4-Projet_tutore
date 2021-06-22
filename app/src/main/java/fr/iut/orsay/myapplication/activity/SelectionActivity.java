@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,6 +26,44 @@ import fr.iut.orsay.myapplication.R;
 public class SelectionActivity extends AppCompatActivity
     {
         private Graph selectedGraph;
+        private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
+        {
+            if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
+                {
+                    if (selectedGraph == null)
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                    
+                    Intent intent = new Intent(SelectionActivity.this, FilterActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("selectedGraph", selectedGraph);
+                    intent.putExtra("graphList", ((ListviewAdapter) ((ListView) findViewById(R.id.lstCurve)).getAdapter()).getList());
+                    startActivity(intent);
+                }
+            else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
+                {
+                    if (selectedGraph == null)
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                    else if (selectedGraph.getChart() == null)
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.goToFilter), Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                    Intent intent = new Intent(SelectionActivity.this, CurveActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("selectedGraph", selectedGraph);
+                    intent.putExtra("graphList", ((ListviewAdapter) ((ListView) findViewById(R.id.lstCurve)).getAdapter()).getList());
+                    startActivity(intent);
+                }
+            else
+                return false;
+            return true;
+        };
         
         @Override protected void onCreate(Bundle savedInstanceState)
             {
@@ -39,13 +76,11 @@ public class SelectionActivity extends AppCompatActivity
                 setSupportActionBar(toolbar);
                 setToolbarTitle("None");
                 
-                ArrayList<Graph> list = new ArrayList<>();
-                list.add(new Graph("test"));
-                list.add(new Graph("oklm"));
-                list.add(new Graph("jules"));
                 ListView lstCurve = findViewById(R.id.lstCurve);
+                ArrayList<Graph> list = (getIntent().getSerializableExtra("graphList") != null) ? (ArrayList<Graph>) getIntent().getSerializableExtra("graphList") : new ArrayList<>();
                 lstCurve.setAdapter(new ListviewAdapter(list, this));
-                selectedGraph = ((ListviewAdapter) lstCurve.getAdapter()).getSelectedGraph();
+                //TODO: Debug the auto select when changing page
+                selectedGraph = (getIntent().getSerializableExtra("selectedGraph") != null) ? (Graph) getIntent().getSerializableExtra("selectedGraph") : ((ListviewAdapter) lstCurve.getAdapter()).getSelectedGraph();
                 
                 findViewById(R.id.btnCreate).setOnClickListener(view ->
                 {
@@ -126,45 +161,8 @@ public class SelectionActivity extends AppCompatActivity
                     
                 });
                 
-                ((BottomNavigationView)findViewById(R.id.bottom_navigation)).setOnNavigationItemSelectedListener(navListener);
+                ((BottomNavigationView) findViewById(R.id.bottom_navigation)).setOnNavigationItemSelectedListener(navListener);
             }
-        
-        
-        private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
-        {
-            if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
-                {
-                    if (selectedGraph == null)
-                        {
-                            Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-                    Intent intent = new Intent(SelectionActivity.this, FilterActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("selectedGraph", selectedGraph);
-                    startActivity(intent);
-                }
-            else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
-                {
-                    if (selectedGraph == null)
-                        {
-                            Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
-                            return false;
-                        }
-                    else if (selectedGraph.getChart() == null)
-                        {
-                            Toast.makeText(this, getResources().getString(R.string.goToFilter), Toast.LENGTH_SHORT).show();
-                            return false;
-                        }
-                    Intent intent = new Intent(SelectionActivity.this, CurveActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-            else
-                return false;
-            return true;
-        };
         
         public void setToolbarTitle(String title)
             {

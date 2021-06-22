@@ -18,6 +18,30 @@ import fr.iut.orsay.myapplication.R;
 public class CurveActivity extends AppCompatActivity
     {
         
+        private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
+        {
+            System.out.println(item);
+            if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
+                {
+                    Intent intent = new Intent(CurveActivity.this, SelectionActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("selectedGraph", getIntent().getSerializableExtra("selectedGraph"));
+                    intent.putExtra("graphList", getIntent().getSerializableExtra("graphList"));
+                    startActivity(intent);
+                }
+            else if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
+                {
+                    Intent intent = new Intent(CurveActivity.this, FilterActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("selectedGraph", getIntent().getSerializableExtra("selectedGraph"));
+                    intent.putExtra("graphList", getIntent().getSerializableExtra("graphList"));
+                    startActivity(intent);
+                }
+            else
+                return false;
+            return true;
+        };
+        
         @Override protected void onCreate(Bundle savedInstanceState)
             {
                 super.onCreate(savedInstanceState);
@@ -108,26 +132,6 @@ public class CurveActivity extends AppCompatActivity
                 bottomNav.setOnNavigationItemSelectedListener(navListener);
                 
             }
-    
-        private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
-        {
-            System.out.println(item);
-            if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
-                {
-                    Intent intent = new Intent(CurveActivity.this, SelectionActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-            else if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
-                {
-                    Intent intent = new Intent(CurveActivity.this, FilterActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-            else
-                return false;
-            return true;
-        };
         
         public void setToolbarTitle(String title)
             {

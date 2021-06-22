@@ -21,13 +21,14 @@ import fr.iut.orsay.myapplication.activity.SelectionActivity;
 public class ListviewAdapter extends BaseAdapter implements ListAdapter
     {
         private final Context context;
-        private final ArrayList<Graph> list;
+        private ArrayList<Graph> list;
         private Graph selectedGraph;
         
         public ListviewAdapter(ArrayList<Graph> list, Context context)
             {
                 this.list = list;
                 this.context = context;
+                System.out.println("here : " + list);
             }
         
         @Override public int getCount()
@@ -55,7 +56,7 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                 
                 TextView txtName = element.findViewById(R.id.txtName);
                 txtName.setText(list.get(pos).getName());
-    
+                
                 ImageButton ibtnSelect = element.findViewById(R.id.ibtnSelect);
                 ibtnSelect.setOnClickListener(view ->
                 {
@@ -104,5 +105,15 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
             {
                 this.list.addAll(Arrays.asList(graphs));
                 notifyDataSetChanged();
+            }
+        
+        public ArrayList<Graph> getList()
+            {
+                return list;
+            }
+        
+        public void setList(ArrayList<Graph> list)
+            {
+                this.list = list;
             }
     }

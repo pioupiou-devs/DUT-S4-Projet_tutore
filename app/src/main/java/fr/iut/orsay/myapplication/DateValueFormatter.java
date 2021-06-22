@@ -12,7 +12,7 @@ public class DateValueFormatter extends ValueFormatter
                 String in = new Date(Float.valueOf(value).longValue()).toString();
                 String[] parts = in.split(" ");
                 
-                out =  parts[2] + " - " + parts[1] + " - " + parts[5] + " --- "+ parts[3]  ;
+                out = parts[2] + " - " + parts[1] + " - " + parts[5] + " --- " + parts[3];
                 
                 return out;
             }

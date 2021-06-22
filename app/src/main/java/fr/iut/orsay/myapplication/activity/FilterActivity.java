@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -38,13 +40,54 @@ import fr.iut.orsay.myapplication.R;
 
 @RequiresApi(api = Build.VERSION_CODES.N) public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher
     {
-        private static final String DATABASE_URL = "jdbc:mariadb://78.116.137.76:3306/pt?user=usr1&password=pt1";
+        private static final String DATABASE_URL = "jdbc:mariadb://192.168.1.81:3306/pt?user=usr1&password=pt1";
         
         private PreparedStatement getTypes_ps;
         private PreparedStatement getSensor_ps;
         
         private GraphData graphData;
-        
+        private Graph selectedGraph;
+        private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
+        {
+            if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
+                {
+                    Intent intent = new Intent(FilterActivity.this, SelectionActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("selectedGraph", getIntent().getSerializableExtra("selectedGraph"));
+                    intent.putExtra("graphList", getIntent().getSerializableExtra("graphList"));
+                    startActivity(intent);
+                }
+            else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
+                {
+                    
+                    if (selectedGraph == null)
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                    else if (selectedGraph.getChart() == null)
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.goToFilter), Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                    Intent intent = new Intent(FilterActivity.this, CurveActivity.class);
+                    try
+                        {
+                            intent.putExtra("GraphData", graphData.getData());
+                        }
+                    catch (SQLException | ExecutionException | InterruptedException throwables)
+                        {
+                            throwables.printStackTrace();
+                        }
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("selectedGraph", getIntent().getSerializableExtra("selectedGraph"));
+                    intent.putExtra("graphList", getIntent().getSerializableExtra("graphList"));
+                    startActivity(intent);
+                }
+            else
+                return false;
+            return true;
+        };
         //android widget
         private Spinner spnSelector;
         private RadioButton radioType;
@@ -75,6 +118,10 @@ import fr.iut.orsay.myapplication.R;
             {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_filter);
+                
+                androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
+                setToolbarTitle(((Graph)getIntent().getSerializableExtra("selectedGraph")).getName());
                 
                 //get widgets references
                 radioType = findViewById(R.id.radioType);
@@ -130,52 +177,24 @@ import fr.iut.orsay.myapplication.R;
                 bottomNav.setOnNavigationItemSelectedListener(navListener);
             }
         
-        private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
+        @Override protected void onRestart() //TODO : never call because we use "new intent" so need to move in onCreate method
         {
-            System.out.println(item);
-            if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
+            super.onRestart();
+            selectedGraph = (Graph) getIntent().getSerializableExtra("selectedGraph");
+            ArrayList<String> currentData = selectedGraph.get_curvelbl();
+            ArrayList<ArrayList<String>> splittedCurrentData = new ArrayList<>();
+            for (int i = 0; i < currentData.size(); i++)
                 {
-                    Intent intent = new Intent(FilterActivity.this, SelectionActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    String[] line = currentData.get(i).split(":");
+                    splittedCurrentData.add(new ArrayList<>(Arrays.asList(line[0], line[1])));
                 }
-            else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
-                {
-                    Intent intent = new Intent(FilterActivity.this, CurveActivity.class);
-                    try
-                        {
-                            intent.putExtra("GraphData", graphData.getData());
-                        }
-                    catch (SQLException | ExecutionException | InterruptedException throwables)
-                        {
-                            throwables.printStackTrace();
-                        }
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-            else
-                return false;
-            return true;
-        };
-        
-        @Override protected void onRestart()
-            {
-                super.onRestart();
-                Graph graph = (Graph) getIntent().getSerializableExtra("selectedGraph");
-                ArrayList<String> currentData = graph.get_curvelbl();
-                ArrayList<ArrayList<String>> splittedCurrentData = new ArrayList<>();
-                for (int i = 0; i < currentData.size(); i++)
-                    {
-                        String[] line = currentData.get(i).split(":");
-                        splittedCurrentData.add(new ArrayList<>(Arrays.asList(line[0], line[1])));
-                    }
-                graphData.setGraphsData(splittedCurrentData);
-                
-                graphData.setEndDate(null);
-                graphData.setStartDate(null);
-                listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, graphData.getConcatenatedCurrentData());
-                currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
-            }
+            graphData.setGraphsData(splittedCurrentData);
+            
+            graphData.setEndDate(null);
+            graphData.setStartDate(null);
+            listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, graphData.getConcatenatedCurrentData());
+            currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
+        }
         
         @SuppressLint("NonConstantResourceId") @RequiresApi(api = Build.VERSION_CODES.N) public void onRadioButtonClicked(View view) throws SQLException, ExecutionException, InterruptedException
             {
@@ -321,5 +340,11 @@ import fr.iut.orsay.myapplication.R;
                                 e.printStackTrace();
                             }
                     }
+            }
+        
+        
+        public void setToolbarTitle(String title)
+            {
+                Objects.requireNonNull(getSupportActionBar()).setTitle("Selected Graph : " + title);
             }
     }

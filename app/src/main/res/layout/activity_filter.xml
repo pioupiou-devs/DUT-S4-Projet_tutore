@@ -21,7 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="100dp"
-            android:text="End date :"
+            android:layout_marginRight="100dp"
+            android:text="@string/lblEndDate"
             app:layout_constraintBottom_toTopOf="@+id/endDate"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -30,6 +31,7 @@
             android:layout_width="140dp"
             android:layout_height="51dp"
             android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
             android:layout_marginBottom="8dp"
             android:ems="10"
             android:inputType="date"
@@ -51,14 +53,14 @@
                 android:id="@+id/radioType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Type"
+                android:text="@string/radioType"
                 android:onClick="onRadioButtonClicked" />
 
         <RadioButton
                 android:id="@+id/radioSensor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sensor"
+                android:text="@string/radioSensor"
                 android:onClick="onRadioButtonClicked" />
     </RadioGroup>
 
@@ -67,6 +69,7 @@
             android:layout_width="173dp"
             android:layout_height="45dp"
             android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
@@ -77,7 +80,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="124dp"
-            android:text="Data list :"
+            android:layout_marginRight="124dp"
+            android:text="@string/lblDataList"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,14 +92,15 @@
             android:layout_marginBottom="17dp"
             app:layout_constraintBottom_toTopOf="@+id/lblStartDate"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="15dp"></ListView>
+            tools:layout_editor_absoluteX="15dp"> </ListView>
 
     <TextView
             android:id="@+id/lblStartDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="Start date :"
+            android:layout_marginLeft="24dp"
+            android:text="@string/lblStartDate"
             app:layout_constraintBottom_toTopOf="@+id/startDate"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -103,7 +108,7 @@
             android:id="@+id/lblCurrentData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Current data :"
+            android:text="@string/lblCurrentData"
             app:layout_constraintBottom_toTopOf="@+id/lstCurrentData"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="16dp" />
@@ -124,7 +129,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:onClick="addToCurrentData"
-            android:text="Add to current data"
+            android:text="@string/btnAddData"
+            app:backgroundTint="@color/prune"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lstDataList" />
@@ -135,7 +141,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:onClick="removeFromCurrentData"
-            android:text="Remove from current data"
+            android:text="@string/btnRemoveData"
+            app:backgroundTint="@color/prune"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,4 +1,4 @@
-package fr.iut.orsay.myapplication;
+package fr.iut.orsay.myapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,28 +12,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import fr.iut.orsay.myapplication.Graph;
+import fr.iut.orsay.myapplication.R;
+
 public class CurveActivity extends AppCompatActivity
     {
-        
-        private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
-        {
-            System.out.println(item);
-            if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
-                {
-                    Intent intent = new Intent(CurveActivity.this, SelectionActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-            else if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
-                {
-                    Intent intent = new Intent(CurveActivity.this, FilterActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-            else
-                return false;
-            return true;
-        };
         
         @Override protected void onCreate(Bundle savedInstanceState)
             {
@@ -125,6 +108,26 @@ public class CurveActivity extends AppCompatActivity
                 bottomNav.setOnNavigationItemSelectedListener(navListener);
                 
             }
+    
+        private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
+        {
+            System.out.println(item);
+            if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
+                {
+                    Intent intent = new Intent(CurveActivity.this, SelectionActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            else if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
+                {
+                    Intent intent = new Intent(CurveActivity.this, FilterActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            else
+                return false;
+            return true;
+        };
         
         public void setToolbarTitle(String title)
             {

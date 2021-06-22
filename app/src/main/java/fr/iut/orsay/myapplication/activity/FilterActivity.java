@@ -1,4 +1,4 @@
-package fr.iut.orsay.myapplication;
+package fr.iut.orsay.myapplication.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -31,6 +31,12 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+
+import fr.iut.orsay.myapplication.DatabaseTools;
+import fr.iut.orsay.myapplication.Graph;
+import fr.iut.orsay.myapplication.GraphData;
+import fr.iut.orsay.myapplication.ListViewFilter;
+import fr.iut.orsay.myapplication.R;
 
 @RequiresApi(api = Build.VERSION_CODES.N) public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher
     {
@@ -111,8 +117,6 @@ import java.util.concurrent.ExecutionException;
                 spnSelector.setOnItemSelectedListener(this);
                 startDateEditText.addTextChangedListener(this);
                 endDateEditText.addTextChangedListener(this);
-                
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 0);
                 
                 CompletableFuture<Connection> databaseConnecting = CompletableFuture.supplyAsync(() ->
                 {

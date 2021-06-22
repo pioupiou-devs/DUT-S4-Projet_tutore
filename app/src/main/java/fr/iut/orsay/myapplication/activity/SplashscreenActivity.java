@@ -1,4 +1,4 @@
-package fr.iut.orsay.myapplication;
+package fr.iut.orsay.myapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import fr.iut.orsay.myapplication.R;
 
 public class SplashscreenActivity extends AppCompatActivity
     {

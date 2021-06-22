@@ -1,5 +1,6 @@
-package fr.iut.orsay.myapplication;
+package fr.iut.orsay.myapplication.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +11,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import fr.iut.orsay.myapplication.ExportGraph;
+import fr.iut.orsay.myapplication.Graph;
+import fr.iut.orsay.myapplication.ListviewAdapter;
+import fr.iut.orsay.myapplication.R;
 
 public class SelectionActivity extends AppCompatActivity
     {
@@ -25,6 +32,8 @@ public class SelectionActivity extends AppCompatActivity
             {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_selection);
+                
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                 
                 androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
@@ -129,6 +138,11 @@ public class SelectionActivity extends AppCompatActivity
         {
             if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
                 {
+                    if (selectedGraph == null) //TODO : check that we can go to filter with a new graph or a "real" graph + cannot without
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
                     Intent intent = new Intent(SelectionActivity.this, FilterActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("selectedGraph", selectedGraph);
@@ -136,6 +150,11 @@ public class SelectionActivity extends AppCompatActivity
                 }
             else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
                 {
+                    if (selectedGraph == null) //TODO : check that we can go to filter with a new graph or a "real" graph + cannot without
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
                     Intent intent = new Intent(SelectionActivity.this, CurveActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);

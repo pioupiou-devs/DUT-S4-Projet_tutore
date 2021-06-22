@@ -17,7 +17,7 @@
             android:theme="@style/Theme.MyApplication"
             tools:ignore="AllowBackup">
         <activity
-                android:name=".SplashscreenActivity"
+                android:name=".activity.SplashscreenActivity"
                 android:label="@string/appName"
                 android:theme="@style/Theme.MyApplication.NoActionBar">
             <intent-filter>
@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-                android:name=".FilterActivity"
+                android:name=".activity.FilterActivity"
                 android:label="Filters"
                 android:theme="@style/Theme.MyApplication.NoActionBar">
             <intent-filter>
@@ -37,7 +37,7 @@
         </activity>
 
         <activity
-                android:name=".SelectionActivity"
+                android:name=".activity.SelectionActivity"
                 android:label="@string/SelectionActivity"
                 android:theme="@style/Theme.MyApplication.NoActionBar">
             <intent-filter>
@@ -47,7 +47,7 @@
         </activity>
 
         <activity
-                android:name=".CurveActivity"
+                android:name=".activity.CurveActivity"
                 android:label="@string/CurveActivity"
                 android:theme="@style/Theme.MyApplication.NoActionBar">
             <intent-filter>

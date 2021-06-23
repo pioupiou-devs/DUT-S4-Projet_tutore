@@ -94,6 +94,12 @@ import fr.iut.orsay.myapplication.R;
         private EditText startDateEditText;
         private EditText endDateEditText;
         
+        /**
+         * check si une string est dans le format demandé
+         *
+         * @param date
+         * @return retourne vrai si la date est dans le format demandé, faux sinon
+         */
         public static boolean isValidDate(String date)
             {
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -109,6 +115,11 @@ import fr.iut.orsay.myapplication.R;
                 return true;
             }
         
+        /**
+         * charge la page de filtres
+         *
+         * @param savedInstanceState
+         */
         @Override protected void onCreate(Bundle savedInstanceState)
             {
                 super.onCreate(savedInstanceState);
@@ -192,6 +203,15 @@ import fr.iut.orsay.myapplication.R;
                 bottomNav.setOnNavigationItemSelectedListener(navListener);
             }
         
+        /**
+         * est appelé lors d'un click sur l'un des radio buttons : envoie la requete pour obtenir la
+         * liste des capteurs ou la liste des types de données
+         *
+         * @param view
+         * @throws SQLException
+         * @throws ExecutionException
+         * @throws InterruptedException
+         */
         @SuppressLint("NonConstantResourceId") public void onRadioButtonClicked(View view) throws SQLException, ExecutionException, InterruptedException
             {
                 boolean checked = ((RadioButton) view).isChecked();
@@ -217,6 +237,15 @@ import fr.iut.orsay.myapplication.R;
                     }
             }
         
+        /**
+         * est appelé lors d'un click sur un élément du spinner : envoie une requête pour récupérer
+         * les données correspondant au type de donnée ou au capteur sélectionné
+         *
+         * @param adapterView
+         * @param view
+         * @param i
+         * @param l
+         */
         @Override public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
                 if (adapterView.getId() == R.id.spnSelector)
@@ -255,8 +284,14 @@ import fr.iut.orsay.myapplication.R;
                     }
             }
         
+        
         @Override public void onNothingSelected(AdapterView<?> adapterView) {}
         
+        /**
+         * ajoute les données sélectionnées dans la list view "current data"
+         *
+         * @param view
+         */
         public void addToCurrentData(View view)
             {
                 ArrayList<String> valueToAdd;
@@ -292,6 +327,11 @@ import fr.iut.orsay.myapplication.R;
                 currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
             }
         
+        /**
+         * supprime les données sélectionnées dans "current data"
+         *
+         * @param view
+         */
         public void removeFromCurrentData(View view)
             {
                 ArrayList<String> selectedData = listViewFilterAdapterCurrentData.getSelectedData();
@@ -310,30 +350,37 @@ import fr.iut.orsay.myapplication.R;
         
         @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         
+        /**
+         * récupère dans les chaines de caractère saisies dans les champs de date
+         *
+         * @param editable
+         */
         @Override public void afterTextChanged(Editable editable)
             {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
-                
-                if (startDateEditText.getText() == editable && isValidDate(editable.toString()))
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy-HH:mm", Locale.FRANCE);
+                if (isValidDate(editable.toString()))
                     {
-                        try
+                        if (startDateEditText.getText() == editable)
                             {
-                                graphData.setStartDate(dateFormat.parse(editable.toString()));
+                                try
+                                    {
+                                        graphData.setStartDate(dateFormat.parse(editable.toString()));
+                                    }
+                                catch (ParseException e)
+                                    {
+                                        e.printStackTrace();
+                                    }
                             }
-                        catch (ParseException e)
+                        else if (endDateEditText.getText() == editable)
                             {
-                                e.printStackTrace();
-                            }
-                    }
-                else if (endDateEditText.getText() == editable && isValidDate(editable.toString()))
-                    {
-                        try
-                            {
-                                graphData.setEndDate(dateFormat.parse(editable.toString()));
-                            }
-                        catch (ParseException e)
-                            {
-                                e.printStackTrace();
+                                try
+                                    {
+                                        graphData.setEndDate(dateFormat.parse(editable.toString()));
+                                    }
+                                catch (ParseException e)
+                                    {
+                                        e.printStackTrace();
+                                    }
                             }
                     }
             }

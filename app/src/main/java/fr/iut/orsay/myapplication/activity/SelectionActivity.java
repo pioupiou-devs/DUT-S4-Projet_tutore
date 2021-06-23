@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -26,8 +28,17 @@ import fr.iut.orsay.myapplication.R;
 public class SelectionActivity extends AppCompatActivity
     {
         private Graph selectedGraph;
+        private final ActivityResultLauncher<Intent> filterActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result ->
+        {
+            assert result.getData() != null;
+            this.selectedGraph = (Graph) result.getData().getSerializableExtra("selectedGraph");
+            System.out.println(result.getData().getExtras());
+        });
+        
         private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
         {
+            
+            
             if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
                 {
                     if (selectedGraph == null)
@@ -36,11 +47,9 @@ public class SelectionActivity extends AppCompatActivity
                             return false;
                         }
                     
-                    Intent intent = new Intent(SelectionActivity.this, FilterActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("selectedGraph", selectedGraph);
-                    intent.putExtra("graphList", ((ListviewAdapter) ((ListView) findViewById(R.id.lstCurve)).getAdapter()).getList());
-                    startActivity(intent);
+                    Intent filterIntent = new Intent(this, FilterActivity.class);
+                    filterIntent.putExtra("selectedGraph", selectedGraph);
+                    filterActivityLauncher.launch(filterIntent);
                 }
             else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
                 {
@@ -54,11 +63,11 @@ public class SelectionActivity extends AppCompatActivity
                             Toast.makeText(this, getResources().getString(R.string.goToFilter), Toast.LENGTH_SHORT).show();
                             return false;
                         }
-                    Intent intent = new Intent(SelectionActivity.this, CurveActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("selectedGraph", selectedGraph);
-                    intent.putExtra("graphList", ((ListviewAdapter) ((ListView) findViewById(R.id.lstCurve)).getAdapter()).getList());
-                    startActivity(intent);
+                    
+                    Intent chartIntent = new Intent(this, CurveActivity.class);
+                    chartIntent.putExtra("selectedGraph", selectedGraph);
+                    startActivity(chartIntent);
+                    //chartActivityLauncher.launch(chartIntent);
                 }
             else
                 return false;
@@ -79,7 +88,6 @@ public class SelectionActivity extends AppCompatActivity
                 ListView lstCurve = findViewById(R.id.lstCurve);
                 ArrayList<Graph> list = (getIntent().getSerializableExtra("graphList") != null) ? (ArrayList<Graph>) getIntent().getSerializableExtra("graphList") : new ArrayList<>();
                 lstCurve.setAdapter(new ListviewAdapter(list, this));
-                //TODO: Debug the auto select when changing page
                 selectedGraph = (getIntent().getSerializableExtra("selectedGraph") != null) ? (Graph) getIntent().getSerializableExtra("selectedGraph") : ((ListviewAdapter) lstCurve.getAdapter()).getSelectedGraph();
                 
                 findViewById(R.id.btnCreate).setOnClickListener(view ->
@@ -106,10 +114,14 @@ public class SelectionActivity extends AppCompatActivity
                 
                 findViewById(R.id.btnExportPDF).setOnClickListener(view ->
                 {
-                    System.out.println(selectedGraph);
                     if (selectedGraph == null)
                         {
                             Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    else if (selectedGraph.getChart() == null)
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.goToFilter), Toast.LENGTH_SHORT).show();
                             return;
                         }
                     try
@@ -130,6 +142,11 @@ public class SelectionActivity extends AppCompatActivity
                             Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
                             return;
                         }
+                    else if (selectedGraph.getChart() == null)
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.goToFilter), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                     try
                         {
                             String path = ExportGraph.exportToPNG(selectedGraph.getChart(), "graph");
@@ -147,6 +164,11 @@ public class SelectionActivity extends AppCompatActivity
                     if (selectedGraph == null)
                         {
                             Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    else if (selectedGraph.getChart() == null)
+                        {
+                            Toast.makeText(this, getResources().getString(R.string.goToFilter), Toast.LENGTH_SHORT).show();
                             return;
                         }
                     try

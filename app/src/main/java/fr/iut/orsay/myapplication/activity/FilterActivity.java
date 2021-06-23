@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.mikephil.charting.data.Entry;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.sql.Connection;
@@ -28,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -51,11 +53,8 @@ import fr.iut.orsay.myapplication.R;
         {
             if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
                 {
-                    Intent intent = new Intent(FilterActivity.this, SelectionActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("selectedGraph", getIntent().getSerializableExtra("selectedGraph"));
-                    intent.putExtra("graphList", getIntent().getSerializableExtra("graphList"));
-                    startActivity(intent);
+                    setResult(0, getIntent().putExtra("selectedGraph", selectedGraph));
+                    finish();
                 }
             else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
                 {
@@ -65,23 +64,19 @@ import fr.iut.orsay.myapplication.R;
                             Toast.makeText(this, getResources().getString(R.string.selected_graph), Toast.LENGTH_SHORT).show();
                             return false;
                         }
-                    else if (selectedGraph.getChart() == null)
-                        {
-                            Toast.makeText(this, getResources().getString(R.string.goToFilter), Toast.LENGTH_SHORT).show();
-                            return false;
-                        }
                     Intent intent = new Intent(FilterActivity.this, CurveActivity.class);
                     try
                         {
-                            intent.putExtra("GraphData", graphData.getData());
+                            for (Map.Entry<String, ArrayList<Entry>> entry : graphData.getData().entrySet())
+                                {
+                                    selectedGraph.addDataSet(entry.getKey(), entry.getValue());
+                                }
                         }
                     catch (SQLException | ExecutionException | InterruptedException throwables)
                         {
                             throwables.printStackTrace();
                         }
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("selectedGraph", getIntent().getSerializableExtra("selectedGraph"));
-                    intent.putExtra("graphList", getIntent().getSerializableExtra("graphList"));
+                    intent.putExtra("selectedGraph", selectedGraph);
                     startActivity(intent);
                 }
             else
@@ -114,14 +109,10 @@ import fr.iut.orsay.myapplication.R;
                 return true;
             }
         
-        @RequiresApi(api = Build.VERSION_CODES.N) @Override protected void onCreate(Bundle savedInstanceState)
+        @Override protected void onCreate(Bundle savedInstanceState)
             {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_filter);
-                
-                androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-                setSupportActionBar(toolbar);
-                setToolbarTitle(((Graph)getIntent().getSerializableExtra("selectedGraph")).getName());
                 
                 //get widgets references
                 radioType = findViewById(R.id.radioType);
@@ -136,6 +127,30 @@ import fr.iut.orsay.myapplication.R;
                 spnSelector.setOnItemSelectedListener(this);
                 startDateEditText.addTextChangedListener(this);
                 endDateEditText.addTextChangedListener(this);
+                
+                selectedGraph = (Graph) getIntent().getSerializableExtra("selectedGraph");
+                
+                androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
+                setToolbarTitle(selectedGraph.getName());
+                
+                if (selectedGraph.getChart() != null)
+                    {
+                        ArrayList<String> currentData = selectedGraph.get_curvelbl();
+                        ArrayList<ArrayList<String>> splittedCurrentData = new ArrayList<>();
+                        for (int i = 0; i < currentData.size(); i++)
+                            {
+                                String[] line = currentData.get(i).split(":");
+                                splittedCurrentData.add(new ArrayList<>(Arrays.asList(line[0], line[1])));
+                            }
+                        graphData.setGraphsData(splittedCurrentData);
+                        
+                        graphData.setEndDate(null);
+                        graphData.setStartDate(null);
+                        listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, graphData.getConcatenatedCurrentData());
+                        currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
+                        
+                    }
                 
                 CompletableFuture<Connection> databaseConnecting = CompletableFuture.supplyAsync(() ->
                 {
@@ -177,26 +192,7 @@ import fr.iut.orsay.myapplication.R;
                 bottomNav.setOnNavigationItemSelectedListener(navListener);
             }
         
-        @Override protected void onRestart() //TODO : never call because we use "new intent" so need to move in onCreate method
-        {
-            super.onRestart();
-            selectedGraph = (Graph) getIntent().getSerializableExtra("selectedGraph");
-            ArrayList<String> currentData = selectedGraph.get_curvelbl();
-            ArrayList<ArrayList<String>> splittedCurrentData = new ArrayList<>();
-            for (int i = 0; i < currentData.size(); i++)
-                {
-                    String[] line = currentData.get(i).split(":");
-                    splittedCurrentData.add(new ArrayList<>(Arrays.asList(line[0], line[1])));
-                }
-            graphData.setGraphsData(splittedCurrentData);
-            
-            graphData.setEndDate(null);
-            graphData.setStartDate(null);
-            listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, graphData.getConcatenatedCurrentData());
-            currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
-        }
-        
-        @SuppressLint("NonConstantResourceId") @RequiresApi(api = Build.VERSION_CODES.N) public void onRadioButtonClicked(View view) throws SQLException, ExecutionException, InterruptedException
+        @SuppressLint("NonConstantResourceId") public void onRadioButtonClicked(View view) throws SQLException, ExecutionException, InterruptedException
             {
                 boolean checked = ((RadioButton) view).isChecked();
                 
@@ -221,7 +217,7 @@ import fr.iut.orsay.myapplication.R;
                     }
             }
         
-        @RequiresApi(api = Build.VERSION_CODES.N) @Override public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+        @Override public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
                 if (adapterView.getId() == R.id.spnSelector)
                     {
@@ -314,7 +310,7 @@ import fr.iut.orsay.myapplication.R;
         
         @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         
-        @RequiresApi(api = Build.VERSION_CODES.O) @Override public void afterTextChanged(Editable editable)
+        @Override public void afterTextChanged(Editable editable)
             {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
                 

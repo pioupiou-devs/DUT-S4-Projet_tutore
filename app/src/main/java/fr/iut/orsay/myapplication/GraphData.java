@@ -73,7 +73,7 @@ public class GraphData
          * @throws ExecutionException
          * @throws InterruptedException
          */
-        @RequiresApi(api = Build.VERSION_CODES.N) public HashMap<String, ArrayList<Entry>> getData() throws SQLException, ExecutionException, InterruptedException
+        public HashMap<String, ArrayList<Entry>> getData() throws SQLException, ExecutionException, InterruptedException
             {
                 HashMap<String, ArrayList<Entry>> data = new HashMap<>();
                 if (startDate != null && endDate != null)

@@ -46,9 +46,9 @@ public class CurveActivity extends AppCompatActivity
                 
                 //Graph test = new Graph("graph de test", 50, 50, 50, 50, this);
                 
-                selectedGraph = (Graph) getIntent().getSerializableExtra("selectedGraph");
-                selectedGraph.create_chart(findViewById(R.id.chart), this);
-                selectedGraph.show();
+                //selectedGraph = (Graph) getIntent().getSerializableExtra("selectedGraph");
+               // selectedGraph.create_chart(findViewById(R.id.chart), this);
+               // selectedGraph.show();
                 
                 Button btnZoomAdd = findViewById(R.id.btnZoomAdd);
                 btnZoomAdd.setOnClickListener(view ->

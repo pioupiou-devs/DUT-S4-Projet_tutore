@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 
+import androidx.annotation.ColorInt;
+
 import java.util.ArrayList;
 
 public class ListViewFilter extends BaseAdapter implements ListAdapter
@@ -74,7 +76,7 @@ public class ListViewFilter extends BaseAdapter implements ListAdapter
                     if (selectedData.contains(data.get(i)))
                         {
                             selectedData.remove(data.get(i));
-                            view1.setBackgroundColor(Color.WHITE); //TODO : fix les couleurs
+                            view1.setBackgroundColor(context.getResources().getColor(R.color.prune)); //TODO : fix les couleurs
                         }
                     else
                         {

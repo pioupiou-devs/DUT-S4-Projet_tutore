@@ -70,13 +70,14 @@ public class ListViewFilter extends BaseAdapter implements ListAdapter
                     }
                 Button txt = view.findViewById(R.id.textView2);
                 txt.setText(data.get(i));
+                txt.setBackgroundColor(context.getResources().getColor(R.color.prune));
                 
                 txt.setOnClickListener(view1 ->
                 {
                     if (selectedData.contains(data.get(i)))
                         {
                             selectedData.remove(data.get(i));
-                            view1.setBackgroundColor(context.getResources().getColor(R.color.prune)); //TODO : fix les couleurs
+                            view1.setBackgroundColor(context.getResources().getColor(R.color.prune));
                         }
                     else
                         {

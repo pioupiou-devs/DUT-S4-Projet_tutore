@@ -140,11 +140,7 @@ import fr.iut.orsay.myapplication.R;
                 endDateEditText.addTextChangedListener(this);
                 
                 selectedGraph = (Graph) getIntent().getSerializableExtra("selectedGraph");
-                
-                androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-                setSupportActionBar(toolbar);
-                setToolbarTitle(selectedGraph.getName());
-                
+    
                 if (selectedGraph.getChart() != null)
                     {
                         ArrayList<String> currentData = selectedGraph.get_curvelbl();
@@ -155,13 +151,16 @@ import fr.iut.orsay.myapplication.R;
                                 splittedCurrentData.add(new ArrayList<>(Arrays.asList(line[0], line[1])));
                             }
                         graphData.setGraphsData(splittedCurrentData);
-                        
+            
                         graphData.setEndDate(null);
                         graphData.setStartDate(null);
                         listViewFilterAdapterCurrentData = new ListViewFilter(FilterActivity.this, graphData.getConcatenatedCurrentData());
                         currentData_lv.setAdapter(listViewFilterAdapterCurrentData);
-                        
                     }
+                
+                androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
+                setToolbarTitle(selectedGraph.getName());
                 
                 CompletableFuture<Connection> databaseConnecting = CompletableFuture.supplyAsync(() ->
                 {

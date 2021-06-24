@@ -20,14 +20,10 @@ public class CurveActivity extends AppCompatActivity
             System.out.println(item);
             if (getResources().getString(R.string.menuList).equalsIgnoreCase((String) item.getTitle()))
                 {
-                    System.out.println(getIntent().getSerializableExtra("selectedGraph"));
-                    //setResult(0,getIntent());
                     finish();
                 }
             else if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
                 {
-                    System.out.println(getIntent().getSerializableExtra("selectedGraph"));
-                    //setResult(0,getIntent());
                     finish();
                 }
             else
@@ -39,16 +35,16 @@ public class CurveActivity extends AppCompatActivity
             {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_curve);
+    
+                selectedGraph = (Graph) getIntent().getSerializableExtra("selectedGraph");
+                selectedGraph.create_chart(findViewById(R.id.chart), this);
+                selectedGraph.show();
                 
                 androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
-                setToolbarTitle("None");
+                setToolbarTitle(selectedGraph.getName());
                 
                 //Graph test = new Graph("graph de test", 50, 50, 50, 50, this);
-                
-                //selectedGraph = (Graph) getIntent().getSerializableExtra("selectedGraph");
-               // selectedGraph.create_chart(findViewById(R.id.chart), this);
-               // selectedGraph.show();
                 
                 Button btnZoomAdd = findViewById(R.id.btnZoomAdd);
                 btnZoomAdd.setOnClickListener(view ->

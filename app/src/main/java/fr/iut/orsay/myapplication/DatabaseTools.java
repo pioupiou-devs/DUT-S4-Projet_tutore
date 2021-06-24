@@ -77,7 +77,7 @@ public class DatabaseTools
                 while (resultSet.next())
                     {
                         //values.add(new Entry(resultSet.getTimestamp(1), Float.parseFloat(resultSet.getString(2))));
-                        values.add(new Entry(Long.valueOf(resultSet.getTimestamp(1).getTime()).floatValue(), Float.parseFloat(resultSet.getString(2)))); //TODO : problème de compatibilité entre les Entry et les DateTime
+                        values.add(new Entry(Long.valueOf(resultSet.getTimestamp(1).getTime()).floatValue(), Float.parseFloat(resultSet.getString(2))));
                     }
                 return values;
             }
@@ -122,7 +122,7 @@ public class DatabaseTools
                 while (resultSet.next())
                     {
                         //values.add(new Entry(resultSet.getTimestamp(1), Float.parseFloat(resultSet.getString(2))));
-                        values.add(new Entry(Long.valueOf(resultSet.getTimestamp(1).getTime()).floatValue(), Float.parseFloat(resultSet.getString(2)))); //TODO : problème de compatibilité entre les Entry et les DateTime
+                        values.add(new Entry(Long.valueOf(resultSet.getTimestamp(1).getTime()).floatValue(), Float.parseFloat(resultSet.getString(2))));
                     }
                 return values;
             }

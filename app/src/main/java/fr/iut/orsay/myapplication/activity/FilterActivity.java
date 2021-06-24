@@ -102,7 +102,7 @@ import fr.iut.orsay.myapplication.R;
          */
         public static boolean isValidDate(String date)
             {
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy-HH:mm");
                 dateFormat.setLenient(false);
                 try
                     {

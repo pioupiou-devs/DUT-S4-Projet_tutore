@@ -43,7 +43,7 @@ import fr.iut.orsay.myapplication.R;
 
 @RequiresApi(api = Build.VERSION_CODES.N) public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher
     {
-        private static final String DATABASE_URL = "jdbc:mariadb://78.116.137.76:3306/pt?user=usr1&password=pt1";
+        private static final String DATABASE_URL = "jdbc:mariadb://192.168.1.81:3306/pt?user=usr1&password=pt1";
         public static Graph selectedGraph;
         private PreparedStatement getTypes_ps;
         private PreparedStatement getSensor_ps;

@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,8 +30,6 @@ public class SelectionActivity extends AppCompatActivity
         public static Graph selectedGraph;
         private final ActivityResultLauncher<Intent> filterActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result ->
         {
-            //assert result.getData() != null;
-            //this.selectedGraph = new Gson().fromJson(result.getData().getStringExtra("myjson"), Graph.class);
         });
         
         private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
@@ -64,7 +61,6 @@ public class SelectionActivity extends AppCompatActivity
                         }
                     
                     Intent chartIntent = new Intent(this, CurveActivity.class);
-                    chartIntent.putExtra("selectedGraph", new Gson().toJson(selectedGraph));
                     startActivity(chartIntent);
                     //chartActivityLauncher.launch(chartIntent);
                 }
@@ -78,7 +74,7 @@ public class SelectionActivity extends AppCompatActivity
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_selection);
                 
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+               ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET ,Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                 
                 androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);

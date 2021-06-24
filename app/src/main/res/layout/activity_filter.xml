@@ -24,7 +24,6 @@
             android:layout_height="50dp"
             android:layout_marginBottom="8dp"
             android:ems="10"
-            android:inputType="date"
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
             app:layout_constraintStart_toStartOf="@+id/lblStartDate" />
 
@@ -44,7 +43,6 @@
             android:layout_height="50dp"
             android:layout_marginBottom="8dp"
             android:ems="10"
-            android:inputType="date"
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
             app:layout_constraintEnd_toEndOf="@+id/lstCurrentData" />
 

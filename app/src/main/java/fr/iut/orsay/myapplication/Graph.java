@@ -145,11 +145,9 @@ public class Graph implements GraphInterface, OnChartValueSelectedListener, Seri
         private LineDataSet formatting_dataset(LineDataSet set)
             {
                 
-                set.setDrawIcons(false);
                 set.setLineWidth(1f);
                 set.setCircleRadius(3f);
                 set.setDrawCircleHole(false);
-                set.setDrawFilled(false);
                 set.setFormLineWidth(1f);
                 set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
                 set.setFormSize(15.f);

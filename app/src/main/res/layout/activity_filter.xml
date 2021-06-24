@@ -65,11 +65,11 @@
                 android:text="@string/radioType" />
 
         <RadioButton
-            android:id="@+id/radioSensor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onRadioButtonClicked"
-            android:text="@string/radioSensor" />
+                android:id="@+id/radioSensor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/radioSensor" />
     </RadioGroup>
 
     <Spinner

@@ -14,7 +14,7 @@ import fr.iut.orsay.myapplication.R;
 
 public class CurveActivity extends AppCompatActivity
     {
-        Graph selectedGraph;
+        public static Graph selectedGraph;
         private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
         {
             System.out.println(item);
@@ -35,16 +35,16 @@ public class CurveActivity extends AppCompatActivity
             {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_curve);
-    
-                selectedGraph = (Graph) getIntent().getSerializableExtra("selectedGraph");
+                
+                //System.out.println("koala rouge : " + new Gson().fromJson(getIntent().getStringExtra("selectedGraph"),Graph.class));
+                //selectedGraph = new Gson().fromJson(getIntent().getStringExtra("selectedGraph"),Graph.class);
+                selectedGraph = FilterActivity.selectedGraph;
                 selectedGraph.create_chart(findViewById(R.id.chart), this);
                 selectedGraph.show();
                 
                 androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
                 setToolbarTitle(selectedGraph.getName());
-                
-                //Graph test = new Graph("graph de test", 50, 50, 50, 50, this);
                 
                 Button btnZoomAdd = findViewById(R.id.btnZoomAdd);
                 btnZoomAdd.setOnClickListener(view ->

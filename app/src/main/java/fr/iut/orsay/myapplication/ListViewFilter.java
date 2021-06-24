@@ -9,8 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 
-import androidx.annotation.ColorInt;
-
 import java.util.ArrayList;
 
 public class ListViewFilter extends BaseAdapter implements ListAdapter

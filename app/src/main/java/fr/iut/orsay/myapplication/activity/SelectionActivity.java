@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,18 +28,15 @@ import fr.iut.orsay.myapplication.R;
 
 public class SelectionActivity extends AppCompatActivity
     {
-        private Graph selectedGraph;
+        public static Graph selectedGraph;
         private final ActivityResultLauncher<Intent> filterActivityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result ->
         {
-            assert result.getData() != null;
-            this.selectedGraph = (Graph) result.getData().getSerializableExtra("selectedGraph");
-            System.out.println(result.getData().getExtras());
+            //assert result.getData() != null;
+            //this.selectedGraph = new Gson().fromJson(result.getData().getStringExtra("myjson"), Graph.class);
         });
         
         private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item ->
         {
-            
-            
             if (getResources().getString(R.string.menuFilter).equalsIgnoreCase((String) item.getTitle()))
                 {
                     if (selectedGraph == null)
@@ -48,7 +46,8 @@ public class SelectionActivity extends AppCompatActivity
                         }
                     
                     Intent filterIntent = new Intent(this, FilterActivity.class);
-                    filterIntent.putExtra("selectedGraph", selectedGraph);
+                    FilterActivity.selectedGraph = selectedGraph;
+                    //filterIntent.putExtra("selectedGraph", new Gson().toJson(selectedGraph));
                     filterActivityLauncher.launch(filterIntent);
                 }
             else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
@@ -65,7 +64,7 @@ public class SelectionActivity extends AppCompatActivity
                         }
                     
                     Intent chartIntent = new Intent(this, CurveActivity.class);
-                    chartIntent.putExtra("selectedGraph", selectedGraph);
+                    chartIntent.putExtra("selectedGraph", new Gson().toJson(selectedGraph));
                     startActivity(chartIntent);
                     //chartActivityLauncher.launch(chartIntent);
                 }
@@ -86,9 +85,8 @@ public class SelectionActivity extends AppCompatActivity
                 setToolbarTitle("None");
                 
                 ListView lstCurve = findViewById(R.id.lstCurve);
-                ArrayList<Graph> list = (getIntent().getSerializableExtra("graphList") != null) ? (ArrayList<Graph>) getIntent().getSerializableExtra("graphList") : new ArrayList<>();
-                lstCurve.setAdapter(new ListviewAdapter(list, this));
-                selectedGraph = (getIntent().getSerializableExtra("selectedGraph") != null) ? (Graph) getIntent().getSerializableExtra("selectedGraph") : ((ListviewAdapter) lstCurve.getAdapter()).getSelectedGraph();
+                lstCurve.setAdapter(new ListviewAdapter(new ArrayList<>(), this));
+                //selectedGraph = (getIntent().getSerializableExtra("selectedGraph") != null) ? (Graph) getIntent().getSerializableExtra("selectedGraph") : ((ListviewAdapter) lstCurve.getAdapter()).getSelectedGraph();
                 
                 findViewById(R.id.btnCreate).setOnClickListener(view ->
                 {
@@ -149,6 +147,7 @@ public class SelectionActivity extends AppCompatActivity
                         }
                     try
                         {
+                            System.out.println(selectedGraph.print());
                             String path = ExportGraph.exportToPNG(selectedGraph.getChart(), "graph");
                             Toast.makeText(this, "File exported at " + path, Toast.LENGTH_SHORT).show();
                         }

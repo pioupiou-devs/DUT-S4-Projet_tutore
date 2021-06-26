@@ -1,4 +1,4 @@
-package fr.iut.orsay.myapplication.activity;
+package fr.iut.orsay.myapplication;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -34,12 +34,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-
-import fr.iut.orsay.myapplication.DatabaseTools;
-import fr.iut.orsay.myapplication.Graph;
-import fr.iut.orsay.myapplication.GraphData;
-import fr.iut.orsay.myapplication.ListViewFilter;
-import fr.iut.orsay.myapplication.R;
 
 @RequiresApi(api = Build.VERSION_CODES.N) public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher
     {

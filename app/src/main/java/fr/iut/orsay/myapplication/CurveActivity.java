@@ -1,4 +1,4 @@
-package fr.iut.orsay.myapplication.activity;
+package fr.iut.orsay.myapplication;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,9 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
-
-import fr.iut.orsay.myapplication.Graph;
-import fr.iut.orsay.myapplication.R;
 
 public class CurveActivity extends AppCompatActivity
     {

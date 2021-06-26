@@ -1,4 +1,4 @@
-package fr.iut.orsay.myapplication.activity;
+package fr.iut.orsay.myapplication;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -19,11 +19,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
-
-import fr.iut.orsay.myapplication.ExportGraph;
-import fr.iut.orsay.myapplication.Graph;
-import fr.iut.orsay.myapplication.ListviewAdapter;
-import fr.iut.orsay.myapplication.R;
 
 public class SelectionActivity extends AppCompatActivity
     {

@@ -44,7 +44,6 @@ public class SelectionActivity extends AppCompatActivity
                     
                     Intent filterIntent = new Intent(this, FilterActivity.class);
                     FilterActivity.selectedGraph = selectedGraph;
-                    //filterIntent.putExtra("selectedGraph", new Gson().toJson(selectedGraph));
                     filterActivityLauncher.launch(filterIntent);
                 }
             else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))

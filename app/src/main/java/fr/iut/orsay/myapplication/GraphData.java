@@ -69,7 +69,7 @@ public class GraphData
         /**
          * execute les requêtes pour chaque données sélectionnées
          *
-         * @return HashMap<String, ArrayList < Entry>> : tableau clé : valeur récupéré donnée à la page ChartActivity
+         * @return HashMap of String and ArrayList of Entry : tableau clé : valeur récupéré donnée à la page ChartActivity
          * @throws SQLException erreur retournée en cas d'erreur d'accès à la bd
          * @throws ExecutionException erreur retournée en cas d'erreur lors de l'exécution de la requête SQL
          * @throws InterruptedException erreur retournée en cas d'erreur lors de l'exécution de la requête SQL

@@ -16,8 +16,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import fr.iut.orsay.myapplication.activity.SelectionActivity;
-
 public class ListviewAdapter extends BaseAdapter implements ListAdapter
     {
         private final Context context;

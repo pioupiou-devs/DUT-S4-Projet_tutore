@@ -27,9 +27,9 @@ public class GraphData
         /**
          * constructeur
          *
-         * @param connection
-         * @param context
-         * @throws SQLException
+         * @param connection  variable Connection permettant l'exécution de requêtes à la bd
+         * @param context variable Context de l'activité filter
+         * @throws SQLException erreur retournée en cas d'erreur d'accès à la bd
          */
         public GraphData(Connection connection, Context context) throws SQLException
             {
@@ -70,9 +70,9 @@ public class GraphData
          * execute les requêtes pour chaque données sélectionnées
          *
          * @return HashMap<String, ArrayList < Entry>> : tableau clé : valeur récupéré donnée à la page ChartActivity
-         * @throws SQLException
-         * @throws ExecutionException
-         * @throws InterruptedException
+         * @throws SQLException erreur retournée en cas d'erreur d'accès à la bd
+         * @throws ExecutionException erreur retournée en cas d'erreur lors de l'exécution de la requête SQL
+         * @throws InterruptedException erreur retournée en cas d'erreur lors de l'exécution de la requête SQL
          */
         @RequiresApi(api = Build.VERSION_CODES.N) public HashMap<String, ArrayList<Entry>> getData() throws SQLException, ExecutionException, InterruptedException
             {

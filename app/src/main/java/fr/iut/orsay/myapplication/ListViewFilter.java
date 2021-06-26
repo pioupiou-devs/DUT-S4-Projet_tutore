@@ -21,8 +21,8 @@ public class ListViewFilter extends BaseAdapter implements ListAdapter
         /**
          * constructeur pour les list view
          *
-         * @param context
-         * @param data
+         * @param context variable Context de l'activité filter
+         * @param data contenu de la ListView (un ArrayList)
          */
         public ListViewFilter(Context context, ArrayList<String> data)
             {
@@ -54,10 +54,10 @@ public class ListViewFilter extends BaseAdapter implements ListAdapter
         /**
          * gère les boutons dans les list view
          *
-         * @param i
-         * @param view
-         * @param viewGroup
-         * @return
+         * @param i indice du bouton sélectionné
+         * @param view le conteneur de notre bouton
+         * @param viewGroup conteneur parent
+         * @return le conteneur de notre bouton
          */
         @Override public View getView(int i, View view, ViewGroup viewGroup)
             {

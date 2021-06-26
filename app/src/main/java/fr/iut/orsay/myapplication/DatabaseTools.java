@@ -24,10 +24,10 @@ public class DatabaseTools
         /**
          * connecte l'application à la base de données
          *
-         * @param url
+         * @param url l'url de connexion à la bd
          * @return l'objet Connection pour ensuite exécuter des requêtes
-         * @throws SQLException
-         * @throws ClassNotFoundException
+         * @throws SQLException erreur retournée en cas d'erreur d'accès à la bd
+         * @throws ClassNotFoundException erreur retournée si le driver mariadb n'est pas trouvable
          */
         public static Connection openConnection(String url) throws SQLException, ClassNotFoundException
             {
@@ -41,15 +41,16 @@ public class DatabaseTools
         /**
          * récupère les valeurs depuis la BD pour un capteur et un type de données donnés
          *
-         * @param numSensor
-         * @param numIPSO
-         * @param preparedStatement
+         * @param numSensor l'id du capteur donné
+         * @param numIPSO l'id du type de données donné
+         * @param preparedStatement le preparedStatement adéquat
          * @return un ArrayList<Entry> pour la classe Graph
-         * @throws SQLException
-         * @throws ExecutionException
-         * @throws InterruptedException
+         * @throws SQLException erreur retournée en cas d'erreur d'accès à la bd
+         * @throws ExecutionException erreur retournée en cas d'erreur lors de la récupération de la valeur retournée par le CompletableFuture
+         * @throws InterruptedException erreur retournée en cas d'erreur lors de la récupération de la valeur retournée par le CompletableFuture
          */
-        @RequiresApi(api = Build.VERSION_CODES.N) public static ArrayList<Entry> getValues(int numSensor, int numIPSO, PreparedStatement preparedStatement) throws SQLException, ExecutionException, InterruptedException
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        public static ArrayList<Entry> getValues(int numSensor, int numIPSO, PreparedStatement preparedStatement) throws SQLException, ExecutionException, InterruptedException
             {
                 //set des paramètres de la méthode dans le preparedStatement
                 preparedStatement.setInt(1, numSensor);
@@ -84,15 +85,15 @@ public class DatabaseTools
         /**
          * surcharge avec la spécification d'une plage de dates
          *
-         * @param numSensor
-         * @param numIPSO
-         * @param preparedStatement
-         * @param dateMin
-         * @param dateMax
+         * @param numSensor l'id du capteur donné
+         * @param numIPSO l'id du type de données donné
+         * @param preparedStatement le preparedStatement adéquat
+         * @param dateMin borne de date minimale du jeu de données récupéré
+         * @param dateMax borne de date maximale du jeu de données récupéré
          * @return un ArrayList<Entry> pour la classe Graph
-         * @throws SQLException
-         * @throws ExecutionException
-         * @throws InterruptedException
+         * @throws SQLException erreur retournée en cas d'erreur d'accès à la bd
+         * @throws ExecutionException erreur retournée en cas d'erreur lors de la récupération de la valeur retournée par le CompletableFuture
+         * @throws InterruptedException erreur retournée en cas d'erreur lors de la récupération de la valeur retournée par le CompletableFuture
          */
         @RequiresApi(api = Build.VERSION_CODES.N) public static ArrayList<Entry> getValues(int numSensor, int numIPSO, PreparedStatement preparedStatement, Date dateMin, Date dateMax) throws SQLException, ExecutionException, InterruptedException
             {
@@ -132,12 +133,12 @@ public class DatabaseTools
         /**
          * méthode appelée pour récupérer la liste des types de données depuis la BD
          *
-         * @param co
-         * @param query
+         * @param co variable Connection permettant l'exécution de requêtes à la bd
+         * @param query chaine de caractère contenant la requête SQL
          * @return ArrayList<String>
-         * @throws SQLException
-         * @throws ExecutionException
-         * @throws InterruptedException
+         * @throws SQLException erreur retournée en cas d'erreur d'accès à la bd
+         * @throws ExecutionException erreur retournée en cas d'erreur lors de la récupération de la valeur retournée par le CompletableFuture
+         * @throws InterruptedException erreur retournée en cas d'erreur lors de la récupération de la valeur retournée par le CompletableFuture
          */
         //call this method when radio button "type" is selected, it returns the list of all types
         @RequiresApi(api = Build.VERSION_CODES.N) public static ArrayList<String> getTypes(Connection co, String query) throws SQLException, ExecutionException, InterruptedException
@@ -174,12 +175,12 @@ public class DatabaseTools
         /**
          * surcharge avec un capteur spécifié
          *
-         * @param numSensor
-         * @param preparedStatement
+         * @param numSensor l'id du capteur donné
+         * @param preparedStatement le preparedStatement adéquat
          * @return ArrayList<String>
-         * @throws SQLException
-         * @throws ExecutionException
-         * @throws InterruptedException
+         * @throws SQLException erreur retournée en cas d'erreur d'accès à la bd
+         * @throws ExecutionException erreur retournée en cas d'erreur lors de la récupération de la valeur retournée par le CompletableFuture
+         * @throws InterruptedException erreur retournée en cas d'erreur lors de la récupération de la valeur retournée par le CompletableFuture
          */
         //call this method to get types from a specified sensor
         @RequiresApi(api = Build.VERSION_CODES.N) public static ArrayList<String> getTypes(int numSensor, PreparedStatement preparedStatement) throws SQLException, ExecutionException, InterruptedException
@@ -217,12 +218,12 @@ public class DatabaseTools
         /**
          * méthode appelée pour récupérer la liste des capteurs depuis la BD
          *
-         * @param co
-         * @param query
+         * @param co variable Connection permettant l'exécution de requêtes à la bd
+         * @param query chaine de caractère contenant la requête SQL
          * @return ArrayList<String>
-         * @throws SQLException
-         * @throws ExecutionException
-         * @throws InterruptedException
+         * @throws SQLException erreur retournée en cas d'erreur d'accès à la bd
+         * @throws ExecutionException erreur retournée en cas d'erreur lors de la récupération de la valeur retournée par le CompletableFuture
+         * @throws InterruptedException erreur retournée en cas d'erreur lors de la récupération de la valeur retournée par le CompletableFuture
          */
         //call this method when radio button "sensor" is selected, it returns the list of all sensors
         @RequiresApi(api = Build.VERSION_CODES.N) public static ArrayList<String> getSensors(Connection co, String query) throws SQLException, ExecutionException, InterruptedException
@@ -266,12 +267,12 @@ public class DatabaseTools
         /**
          * surcharge avec un type de donnée spécifié
          *
-         * @param numIPSO
-         * @param preparedStatement
+         * @param numIPSO l'id du type de données donné
+         * @param preparedStatement le preparedStatement adéquat
          * @return ArrayList<String>
-         * @throws SQLException
-         * @throws ExecutionException
-         * @throws InterruptedException
+         * @throws SQLException erreur retournée en cas d'erreur d'accès à la bd
+         * @throws ExecutionException erreur retournée en cas d'erreur lors de la récupération de la valeur retournée par le CompletableFuture
+         * @throws InterruptedException erreur retournée en cas d'erreur lors de la récupération de la valeur retournée par le CompletableFuture
          */
         //call this method to get sensors with a specified sensor
         @RequiresApi(api = Build.VERSION_CODES.N) public static ArrayList<String> getSensors(int numIPSO, PreparedStatement preparedStatement) throws SQLException, ExecutionException, InterruptedException

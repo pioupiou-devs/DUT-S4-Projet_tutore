@@ -103,7 +103,7 @@ import fr.iut.orsay.myapplication.R;
         /**
          * check si une string est dans le format demandé
          *
-         * @param date
+         * @param date data a checker
          * @return retourne vrai si la date est dans le format demandé, faux sinon
          */
         public static boolean isValidDate(String date)
@@ -215,10 +215,10 @@ import fr.iut.orsay.myapplication.R;
          * est appelé lors d'un click sur l'un des radio buttons : envoie la requete pour obtenir la
          * liste des capteurs ou la liste des types de données
          *
-         * @param view
-         * @throws SQLException
-         * @throws ExecutionException
-         * @throws InterruptedException
+         * @param view conteneur de notre bouton radio
+         * @throws SQLException erreur retournée en cas d'erreur d'accès à la bd
+         * @throws ExecutionException erreur retournée en cas d'erreur lors de l'exécution de la requête SQL
+         * @throws InterruptedException erreur retournée en cas d'erreur lors de l'exécution de la requête SQL
          */
         @SuppressLint("NonConstantResourceId") public void onRadioButtonClicked(View view) throws SQLException, ExecutionException, InterruptedException
             {
@@ -251,10 +251,10 @@ import fr.iut.orsay.myapplication.R;
          * est appelé lors d'un click sur un élément du spinner : envoie une requête pour récupérer
          * les données correspondant au type de donnée ou au capteur sélectionné
          *
-         * @param adapterView
-         * @param view
-         * @param i
-         * @param l
+         * @param adapterView conteneur de l'élément sélectionné, ici l'adapter
+         * @param view conteneur de l'adapter
+         * @param i position de l'élément sélectionné
+         * @param l id de l'élément sélectionné
          */
         @Override public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
@@ -307,7 +307,7 @@ import fr.iut.orsay.myapplication.R;
         /**
          * ajoute les données sélectionnées dans la list view "current data"
          *
-         * @param view
+         * @param view vue (conteneur)
          */
         public void addToCurrentData(View view)
             {
@@ -352,7 +352,7 @@ import fr.iut.orsay.myapplication.R;
         /**
          * supprime les données sélectionnées dans "current data"
          *
-         * @param view
+         * @param view vue (conteneur)
          */
         public void removeFromCurrentData(View view)
             {
@@ -382,7 +382,7 @@ import fr.iut.orsay.myapplication.R;
         /**
          * récupère dans les chaines de caractère saisies dans les champs de date
          *
-         * @param editable
+         * @param editable objet contenant le texte de l'edittext éditée
          */
         @Override public void afterTextChanged(Editable editable)
             {

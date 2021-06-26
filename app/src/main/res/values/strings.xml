@@ -46,4 +46,5 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="goToFilter">Please go to filter page before.</string>
+    <string name="FilterActivity">Filters</string>
 </resources>

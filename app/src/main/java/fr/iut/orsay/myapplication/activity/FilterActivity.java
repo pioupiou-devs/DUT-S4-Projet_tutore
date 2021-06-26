@@ -116,7 +116,7 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
     /**
      * charge la page de filtres
      *
-     * @param savedInstanceState
+     * @param savedInstanceState état de l'instance
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

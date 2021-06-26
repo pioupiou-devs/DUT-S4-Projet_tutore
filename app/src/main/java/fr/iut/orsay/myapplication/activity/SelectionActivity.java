@@ -50,7 +50,7 @@ public class SelectionActivity extends AppCompatActivity
                     FilterActivity.selectedGraph = selectedGraph; //ajouter le graphique séléctionner à la page filter
                     filterActivityLauncher.launch(filterIntent); //démarrer la page filter
                 }
-                //si nous avons clicker sur le bouton Curve
+            //si nous avons clicker sur le bouton Curve
             else if (getResources().getString(R.string.menuCurve).equalsIgnoreCase((String) item.getTitle()))
                 {
                     //si un graphique n'est pas séléctionné
@@ -74,9 +74,10 @@ public class SelectionActivity extends AppCompatActivity
                 return false;
             return true;
         };
-    
+        
         /**
          * A la création de la page selection
+         *
          * @param savedInstanceState état de l'instance
          */
         @Override protected void onCreate(Bundle savedInstanceState)
@@ -85,7 +86,7 @@ public class SelectionActivity extends AppCompatActivity
                 setContentView(R.layout.activity_selection);// créer le lien avec le fichier xml associé
                 
                 //Demande des permission à l'utilisateur
-               ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET ,Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                 
                 androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar); //créer la barre du haut d'écran et le lie à celui de la vue
                 setSupportActionBar(toolbar); //ajouter cette barre à l'activité courante
@@ -103,7 +104,7 @@ public class SelectionActivity extends AppCompatActivity
                     final EditText input = new EditText(builder.getContext()); //création d'un élément de text éditable
                     input.setInputType(InputType.TYPE_CLASS_TEXT); //spécification du type de données
                     builder.setView(input);//ajout de l'élément de text éditable
-    
+                    
                     //si on click sur "OK"
                     builder.setPositiveButton(android.R.string.ok, (dialog, which) ->
                     {
@@ -146,7 +147,7 @@ public class SelectionActivity extends AppCompatActivity
                             e.printStackTrace(); //afficher l'erreur
                         }
                 });
-    
+                
                 //si on click sur le bouton d'export PNG
                 findViewById(R.id.btnExportPNG).setOnClickListener(view ->
                 {
@@ -175,7 +176,7 @@ public class SelectionActivity extends AppCompatActivity
                         }
                     
                 });
-    
+                
                 //si on click sur le bouton d'export CSV
                 findViewById(R.id.btnExportCSV).setOnClickListener(view ->
                 {
@@ -207,9 +208,10 @@ public class SelectionActivity extends AppCompatActivity
                 //ajout de l'évenement de click sur la barre de navigation
                 ((BottomNavigationView) findViewById(R.id.bottom_navigation)).setOnNavigationItemSelectedListener(navListener);
             }
-    
+        
         /**
          * Définit le titre de la barre du haut
+         *
          * @param title titre à insérer
          */
         public void setToolbarTitle(String title)

@@ -12,7 +12,6 @@
 
     <!-- activity_selection -->
     <string name="selected_graph">No Graph Selected</string>
-    <string name="action_settings">Settings</string>
     <string name="btnZoomAdd">+</string>
     <string name="txtZoom">Zoom :</string>
     <string name="btnZoomLess">-</string>
@@ -41,10 +40,6 @@
     <string name="SelectionActivity">Selection Page</string>
     <string name="CurveActivity">Curve Page</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
     <string name="goToFilter">Please go to filter page before.</string>
     <string name="FilterActivity">Filters</string>
 </resources>

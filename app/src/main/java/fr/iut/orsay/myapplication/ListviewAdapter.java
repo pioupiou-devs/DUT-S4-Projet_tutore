@@ -23,10 +23,11 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
         private final Context context;
         private ArrayList<Graph> list;
         private Graph selectedGraph;
-    
+        
         /**
          * Constructeur du listview personnalisé
-         * @param list contient la liste des graphiques à ajouté à l'initialisation
+         *
+         * @param list    contient la liste des graphiques à ajouté à l'initialisation
          * @param context contient le lien vers la page où est situé le listview
          */
         public ListviewAdapter(ArrayList<Graph> list, Context context)
@@ -34,18 +35,20 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                 this.list = list;
                 this.context = context;
             }
-    
+        
         /**
-         *  Récupère le nombre d'élément dans le listview
+         * Récupère le nombre d'élément dans le listview
+         *
          * @return le nombre d'élément dans le listview
          */
         @Override public int getCount()
             {
                 return list.size();
             }
-    
+        
         /**
          * Récupère un élément en fonction de sa position
+         *
          * @param pos représente la position d'un élément
          * @return un élément du listview
          */
@@ -53,9 +56,10 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
             {
                 return list.get(pos);
             }
-    
+        
         /**
          * Recupère l'identifiant d'un élément
+         *
          * @param pos représente la position d'un élément
          * @return l'identifiant de l'élément
          */
@@ -63,12 +67,13 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
             {
                 return list.get(pos).getId();
             }
-    
+        
         /**
          * Construit la répresentation graphique et les intéractions avec l'utilisateur des éléments du listview
-         * @param pos représente la position d'un élément
+         *
+         * @param pos     représente la position d'un élément
          * @param element représente un élément
-         * @param parent représente le parent d'un élément
+         * @param parent  représente le parent d'un élément
          * @return Un object view représentant l'élément dans la vue de l'application
          */
         @Override public View getView(int pos, View element, ViewGroup parent)
@@ -125,9 +130,10 @@ public class ListviewAdapter extends BaseAdapter implements ListAdapter
                 
                 return element;
             }
-    
+        
         /**
          * Permet d'ajouter autant de graphiques que nécéssaire dans le listview
+         *
          * @param graphs var-args des graphiques à insérer dans le listView
          */
         public void addGraph(Graph... graphs)

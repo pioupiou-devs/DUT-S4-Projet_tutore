@@ -37,9 +37,7 @@ import java.util.concurrent.ExecutionException;
 
 @RequiresApi(api = Build.VERSION_CODES.N) public class FilterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TextWatcher
     {
-        
-        private static final String DATABASE_URL = "jdbc:mariadb://78.116.137.76:3306/pt?user=usr1&password=pt1";
-        //private static final String DATABASE_URL = "jdbc:mariadb://192.168.44.18:3306/PT?user=user&password=user"; //TODO: changer l'url
+        private static final String DATABASE_URL = "jdbc:mariadb://192.168.44.18:3306/PT?user=user&password=user";
         public static Graph selectedGraph;
         private PreparedStatement getTypes_ps;
         private PreparedStatement getSensor_ps;
